@@ -1,0 +1,408 @@
+{
+  "run_id": "20260325_023227_748773",
+  "config": {
+    "model": {
+      "provider": "openai",
+      "name": "gpt-5.4-nano",
+      "max_tokens": 1024
+    },
+    "evaluation": {
+      "temperatures": [
+        0.0
+      ],
+      "runs_per_combination": 3,
+      "templates": [
+        "direct_extraction"
+      ]
+    },
+    "quick_mode": {
+      "temperatures": [
+        0.0
+      ],
+      "runs_per_combination": 3,
+      "max_facts": 6,
+      "templates": [
+        "direct_extraction"
+      ]
+    },
+    "scoring": {
+      "embedding_model": "all-MiniLM-L6-v2",
+      "hallucination_tolerance": 0.05,
+      "composite_weights": {
+        "semantic_consistency": 0.3,
+        "factual_consistency": 0.4,
+        "hallucination_rate": 0.3
+      }
+    },
+    "flagging": {
+      "green_threshold": 0.75,
+      "yellow_threshold": 0.5
+    },
+    "checkpoint": {
+      "save_interval": 50,
+      "directory": "results"
+    },
+    "cost": {
+      "avg_input_tokens": 200,
+      "avg_output_tokens": 300,
+      "price_per_1k_input": 0.0002,
+      "price_per_1k_output": 0.00125,
+      "confirmation_threshold": 1.0
+    },
+    "api": {
+      "timeout_seconds": 30,
+      "max_retries": 5,
+      "base_backoff_seconds": 1.0,
+      "max_backoff_seconds": 60.0,
+      "rate_limit_rpm": 50
+    }
+  },
+  "facts": [
+    {
+      "id": "dbs_fy2024_nim",
+      "company": "DBS",
+      "metric": "Net Interest Margin",
+      "metric_abbreviation": "NIM",
+      "period": "FY2024",
+      "value": 2.14,
+      "unit": "percent",
+      "currency": null,
+      "source": "DBS Group Holdings FY2024 Annual Report",
+      "page": 42,
+      "context": "Group NIM for the full year 2024 was 2.14%, compared to 2.16% in 2023.",
+      "difficulty": "easy",
+      "category": "profitability"
+    },
+    {
+      "id": "dbs_fy2024_npl",
+      "company": "DBS",
+      "metric": "Non-Performing Loan Ratio",
+      "metric_abbreviation": "NPL",
+      "period": "FY2024",
+      "value": 1.1,
+      "unit": "percent",
+      "currency": null,
+      "source": "DBS Group Holdings FY2024 Annual Report",
+      "page": 55,
+      "context": "NPL ratio stood at 1.1% as at 31 December 2024.",
+      "difficulty": "easy",
+      "category": "asset_quality"
+    },
+    {
+      "id": "dbs_fy2024_cet1",
+      "company": "DBS",
+      "metric": "Common Equity Tier 1 Ratio",
+      "metric_abbreviation": "CET1",
+      "period": "FY2024",
+      "value": 14.8,
+      "unit": "percent",
+      "currency": null,
+      "source": "DBS Group Holdings FY2024 Annual Report",
+      "page": 63,
+      "context": "CET1 ratio was 14.8%, well above the regulatory minimum.",
+      "difficulty": "easy",
+      "category": "capital"
+    },
+    {
+      "id": "dbs_fy2024_total_income",
+      "company": "DBS",
+      "metric": "Total Income",
+      "metric_abbreviation": null,
+      "period": "FY2024",
+      "value": 22269.0,
+      "unit": "sgd_millions",
+      "currency": "SGD",
+      "source": "DBS Group Holdings FY2024 Annual Report",
+      "page": 28,
+      "context": "Total income rose 10% to SGD 22,269 million in 2024.",
+      "difficulty": "easy",
+      "category": "income"
+    },
+    {
+      "id": "dbs_fy2024_net_profit",
+      "company": "DBS",
+      "metric": "Net Profit",
+      "metric_abbreviation": null,
+      "period": "FY2024",
+      "value": 11289.0,
+      "unit": "sgd_millions",
+      "currency": "SGD",
+      "source": "DBS Group Holdings FY2024 Annual Report",
+      "page": 28,
+      "context": "Net profit reached a record SGD 11,289 million for 2024.",
+      "difficulty": "easy",
+      "category": "income"
+    },
+    {
+      "id": "dbs_fy2024_roe",
+      "company": "DBS",
+      "metric": "Return on Equity",
+      "metric_abbreviation": "ROE",
+      "period": "FY2024",
+      "value": 18.0,
+      "unit": "percent",
+      "currency": null,
+      "source": "DBS Group Holdings FY2024 Annual Report",
+      "page": 30,
+      "context": "Return on equity was 18.0% for the full year 2024.",
+      "difficulty": "easy",
+      "category": "profitability"
+    }
+  ],
+  "n_records": 18,
+  "completed_at": "2026-03-25T02:33:08.639656+00:00",
+  "call_records": [
+    {
+      "fact_id": "dbs_fy2024_nim",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 0,
+      "raw_response": "2.1%",
+      "extracted_value": 2.1,
+      "extracted_unit": "percent",
+      "latency_ms": 1709.7706999920774,
+      "input_tokens": 27,
+      "output_tokens": 7,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:32:30.959186+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_nim",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 1,
+      "raw_response": "2.1%",
+      "extracted_value": 2.1,
+      "extracted_unit": "percent",
+      "latency_ms": 745.2862000209279,
+      "input_tokens": 27,
+      "output_tokens": 7,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:32:32.910294+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_nim",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 2,
+      "raw_response": "2.1%",
+      "extracted_value": 2.1,
+      "extracted_unit": "percent",
+      "latency_ms": 1241.4474000106566,
+      "input_tokens": 27,
+      "output_tokens": 7,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:32:35.356117+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_npl",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 0,
+      "raw_response": "1.6%",
+      "extracted_value": 1.6,
+      "extracted_unit": "percent",
+      "latency_ms": 1177.5767999934033,
+      "input_tokens": 30,
+      "output_tokens": 7,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:32:37.735669+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_npl",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 1,
+      "raw_response": "1.6%",
+      "extracted_value": 1.6,
+      "extracted_unit": "percent",
+      "latency_ms": 724.7532999899704,
+      "input_tokens": 30,
+      "output_tokens": 7,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:32:39.660774+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_npl",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 2,
+      "raw_response": "1.6%",
+      "extracted_value": 1.6,
+      "extracted_unit": "percent",
+      "latency_ms": 1149.5615000021644,
+      "input_tokens": 30,
+      "output_tokens": 7,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:32:42.010964+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_cet1",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 0,
+      "raw_response": "15.6%",
+      "extracted_value": 15.6,
+      "extracted_unit": "percent",
+      "latency_ms": 772.5202000001445,
+      "input_tokens": 30,
+      "output_tokens": 7,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:32:43.977508+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_cet1",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 1,
+      "raw_response": "15.6%",
+      "extracted_value": 15.6,
+      "extracted_unit": "percent",
+      "latency_ms": 821.9712999998592,
+      "input_tokens": 30,
+      "output_tokens": 7,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:32:46.007790+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_cet1",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 2,
+      "raw_response": "15.6%",
+      "extracted_value": 15.6,
+      "extracted_unit": "percent",
+      "latency_ms": 1868.8555999833625,
+      "input_tokens": 30,
+      "output_tokens": 7,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:32:49.075755+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_total_income",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 0,
+      "raw_response": "S$ 10,000 million",
+      "extracted_value": 10000000000.0,
+      "extracted_unit": "millions",
+      "latency_ms": 1053.5514999937732,
+      "input_tokens": 26,
+      "output_tokens": 10,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:32:51.324472+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_total_income",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 1,
+      "raw_response": "S$ 10,000 million",
+      "extracted_value": 10000000000.0,
+      "extracted_unit": "millions",
+      "latency_ms": 844.0030999772716,
+      "input_tokens": 26,
+      "output_tokens": 10,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:32:53.377541+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_total_income",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 2,
+      "raw_response": "S$ 10,000 million",
+      "extracted_value": 10000000000.0,
+      "extracted_unit": "millions",
+      "latency_ms": 1052.903800009517,
+      "input_tokens": 26,
+      "output_tokens": 10,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:32:55.625974+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_net_profit",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 0,
+      "raw_response": "3,000,000,000 SGD",
+      "extracted_value": 3000000000.0,
+      "extracted_unit": null,
+      "latency_ms": 1362.3009000148159,
+      "input_tokens": 26,
+      "output_tokens": 11,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:32:58.191014+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_net_profit",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 1,
+      "raw_response": "3,000,000,000 SGD",
+      "extracted_value": 3000000000.0,
+      "extracted_unit": null,
+      "latency_ms": 956.605799990939,
+      "input_tokens": 26,
+      "output_tokens": 11,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:33:00.339751+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_net_profit",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 2,
+      "raw_response": "3,000,000,000 SGD",
+      "extracted_value": 3000000000.0,
+      "extracted_unit": null,
+      "latency_ms": 875.5699999746867,
+      "input_tokens": 26,
+      "output_tokens": 11,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:33:02.427724+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_roe",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 0,
+      "raw_response": "14.6%",
+      "extracted_value": 14.6,
+      "extracted_unit": "percent",
+      "latency_ms": 915.7981000025757,
+      "input_tokens": 27,
+      "output_tokens": 7,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:33:04.544302+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_roe",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 1,
+      "raw_response": "14.6%",
+      "extracted_value": 14.6,
+      "extracted_unit": "percent",
+      "latency_ms": 843.8429999805521,
+      "input_tokens": 27,
+      "output_tokens": 7,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:33:06.587711+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_roe",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 2,
+      "raw_response": "14.6%",
+      "extracted_value": 14.6,
+      "extracted_unit": "percent",
+      "latency_ms": 844.745000009425,
+      "input_tokens": 27,
+      "output_tokens": 7,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:33:08.635955+00:00"
+    }
+  ]
+}

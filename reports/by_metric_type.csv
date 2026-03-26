@@ -1,0 +1,33 @@
+# Aggregated by Metric Type (Category) — Run: 20260325_024418_284976
+# Generated: 2026-03-26 00:20:18 UTC
+# 
+# Aggregated by: category
+# Each row is the mean of all per-fact scores within that group.
+# 
+# Column Descriptions:
+#   category              — Grouping key
+#   semantic_score         — Mean semantic consistency across group
+#   factual_score          — Mean factual consistency across group
+#   hallucination_rate     — Mean hallucination rate across group
+#   extraction_failure_rate — Mean extraction failure rate across group
+#   composite_stability    — Mean composite stability across group
+#   n_facts                — Number of per-fact rows in this group
+# 
+# Flagging Thresholds (applied to mean composite_stability):
+#   🟢 Green  — >= 0.75
+#   🟡 Yellow — >= 0.5
+#   🔴 Red    — <  0.5
+#
+category,semantic_score,factual_score,hallucination_rate,extraction_failure_rate,composite_stability,n_facts,flag
+asset_quality,0.9277183681726455,0.5206481481481482,0.7066666666666667,0.16333333333333336,0.5745747697110529,60,🟡
+aum,0.9349578142166137,0.44833333333333336,1.0,0.0325,0.45982067759831746,40,🔴
+balance_sheet,0.8778203204274178,0.6061805555555556,1.0,0.2525,0.5058183183504475,40,🟡
+capital,0.9544448633988698,0.5572222222222222,0.6233333333333333,0.008333333333333333,0.6222223479085499,60,🟡
+efficiency,0.9231372535228729,0.5248412698412699,0.665,0.23500000000000001,0.5873776839933698,20,🟡
+income,0.8902654806772868,0.6203747795414462,1.0,0.2727777777777778,0.5152295560197645,180,🟡
+leverage,0.8797999501228333,0.505,0.735,0.43499999999999994,0.54543998503685,20,🟡
+liquidity,0.8755451053380966,0.5589285714285714,0.5650000000000001,0.27999999999999997,0.6167349601728576,20,🟡
+operational,0.891172069311142,0.6155555555555556,1.0,0.26,0.5135738430155647,20,🟡
+profitability,0.9381216291338206,0.5352777777777777,0.603125,0.213125,0.6146100998512573,160,🟡
+revenue,0.8954976916313171,0.5483333333333333,1.0,0.41,0.48798264082272846,20,🔴
+shareholder,0.9192549973726273,0.5045039682539683,0.745,0.03,0.5540780865133754,20,🟡

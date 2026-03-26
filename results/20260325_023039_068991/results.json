@@ -1,0 +1,408 @@
+{
+  "run_id": "20260325_023039_068991",
+  "config": {
+    "model": {
+      "provider": "openai",
+      "name": "gpt-4.1-nano",
+      "max_tokens": 1024
+    },
+    "evaluation": {
+      "temperatures": [
+        0.0
+      ],
+      "runs_per_combination": 3,
+      "templates": [
+        "direct_extraction"
+      ]
+    },
+    "quick_mode": {
+      "temperatures": [
+        0.0
+      ],
+      "runs_per_combination": 3,
+      "max_facts": 6,
+      "templates": [
+        "direct_extraction"
+      ]
+    },
+    "scoring": {
+      "embedding_model": "all-MiniLM-L6-v2",
+      "hallucination_tolerance": 0.05,
+      "composite_weights": {
+        "semantic_consistency": 0.3,
+        "factual_consistency": 0.4,
+        "hallucination_rate": 0.3
+      }
+    },
+    "flagging": {
+      "green_threshold": 0.75,
+      "yellow_threshold": 0.5
+    },
+    "checkpoint": {
+      "save_interval": 50,
+      "directory": "results"
+    },
+    "cost": {
+      "avg_input_tokens": 200,
+      "avg_output_tokens": 300,
+      "price_per_1k_input": 0.0002,
+      "price_per_1k_output": 0.00125,
+      "confirmation_threshold": 1.0
+    },
+    "api": {
+      "timeout_seconds": 30,
+      "max_retries": 5,
+      "base_backoff_seconds": 1.0,
+      "max_backoff_seconds": 60.0,
+      "rate_limit_rpm": 50
+    }
+  },
+  "facts": [
+    {
+      "id": "dbs_fy2024_nim",
+      "company": "DBS",
+      "metric": "Net Interest Margin",
+      "metric_abbreviation": "NIM",
+      "period": "FY2024",
+      "value": 2.14,
+      "unit": "percent",
+      "currency": null,
+      "source": "DBS Group Holdings FY2024 Annual Report",
+      "page": 42,
+      "context": "Group NIM for the full year 2024 was 2.14%, compared to 2.16% in 2023.",
+      "difficulty": "easy",
+      "category": "profitability"
+    },
+    {
+      "id": "dbs_fy2024_npl",
+      "company": "DBS",
+      "metric": "Non-Performing Loan Ratio",
+      "metric_abbreviation": "NPL",
+      "period": "FY2024",
+      "value": 1.1,
+      "unit": "percent",
+      "currency": null,
+      "source": "DBS Group Holdings FY2024 Annual Report",
+      "page": 55,
+      "context": "NPL ratio stood at 1.1% as at 31 December 2024.",
+      "difficulty": "easy",
+      "category": "asset_quality"
+    },
+    {
+      "id": "dbs_fy2024_cet1",
+      "company": "DBS",
+      "metric": "Common Equity Tier 1 Ratio",
+      "metric_abbreviation": "CET1",
+      "period": "FY2024",
+      "value": 14.8,
+      "unit": "percent",
+      "currency": null,
+      "source": "DBS Group Holdings FY2024 Annual Report",
+      "page": 63,
+      "context": "CET1 ratio was 14.8%, well above the regulatory minimum.",
+      "difficulty": "easy",
+      "category": "capital"
+    },
+    {
+      "id": "dbs_fy2024_total_income",
+      "company": "DBS",
+      "metric": "Total Income",
+      "metric_abbreviation": null,
+      "period": "FY2024",
+      "value": 22269.0,
+      "unit": "sgd_millions",
+      "currency": "SGD",
+      "source": "DBS Group Holdings FY2024 Annual Report",
+      "page": 28,
+      "context": "Total income rose 10% to SGD 22,269 million in 2024.",
+      "difficulty": "easy",
+      "category": "income"
+    },
+    {
+      "id": "dbs_fy2024_net_profit",
+      "company": "DBS",
+      "metric": "Net Profit",
+      "metric_abbreviation": null,
+      "period": "FY2024",
+      "value": 11289.0,
+      "unit": "sgd_millions",
+      "currency": "SGD",
+      "source": "DBS Group Holdings FY2024 Annual Report",
+      "page": 28,
+      "context": "Net profit reached a record SGD 11,289 million for 2024.",
+      "difficulty": "easy",
+      "category": "income"
+    },
+    {
+      "id": "dbs_fy2024_roe",
+      "company": "DBS",
+      "metric": "Return on Equity",
+      "metric_abbreviation": "ROE",
+      "period": "FY2024",
+      "value": 18.0,
+      "unit": "percent",
+      "currency": null,
+      "source": "DBS Group Holdings FY2024 Annual Report",
+      "page": 30,
+      "context": "Return on equity was 18.0% for the full year 2024.",
+      "difficulty": "easy",
+      "category": "profitability"
+    }
+  ],
+  "n_records": 18,
+  "completed_at": "2026-03-25T02:31:18.278340+00:00",
+  "call_records": [
+    {
+      "fact_id": "dbs_fy2024_nim",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 0,
+      "raw_response": "I'm sorry, but I don't have information on DBS's Net Interest Margin for FY2024.",
+      "extracted_value": null,
+      "extracted_unit": null,
+      "latency_ms": 1443.2299000036437,
+      "input_tokens": 28,
+      "output_tokens": 19,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:30:41.906855+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_nim",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 1,
+      "raw_response": "I'm sorry, but I don't have information on DBS's Net Interest Margin for FY2024.",
+      "extracted_value": null,
+      "extracted_unit": null,
+      "latency_ms": 1047.513399971649,
+      "input_tokens": 28,
+      "output_tokens": 19,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:30:44.153733+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_nim",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 2,
+      "raw_response": "I'm sorry, but I don't have information on DBS's Net Interest Margin for FY2024.",
+      "extracted_value": null,
+      "extracted_unit": null,
+      "latency_ms": 1458.630200009793,
+      "input_tokens": 28,
+      "output_tokens": 19,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:30:46.811321+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_npl",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 0,
+      "raw_response": "I'm sorry, but I don't have information on DBS's Non-Performing Loan Ratio for FY2024.",
+      "extracted_value": null,
+      "extracted_unit": null,
+      "latency_ms": 1151.005499996245,
+      "input_tokens": 31,
+      "output_tokens": 22,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:30:49.160146+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_npl",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 1,
+      "raw_response": "I'm sorry, but I don't have the information on DBS's Non-Performing Loan Ratio for FY2024.",
+      "extracted_value": null,
+      "extracted_unit": null,
+      "latency_ms": 640.7703000004403,
+      "input_tokens": 31,
+      "output_tokens": 23,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:30:51.003689+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_npl",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 2,
+      "raw_response": "I'm sorry, but I don't have information on DBS's Non-Performing Loan Ratio for FY2024.",
+      "extracted_value": null,
+      "extracted_unit": null,
+      "latency_ms": 1049.1096999903675,
+      "input_tokens": 31,
+      "output_tokens": 22,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:30:53.250955+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_cet1",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 0,
+      "raw_response": "I'm sorry, but I don't have information on DBS's Common Equity Tier 1 Ratio for FY2024.",
+      "extracted_value": 1.0,
+      "extracted_unit": null,
+      "latency_ms": 750.9891999943648,
+      "input_tokens": 31,
+      "output_tokens": 22,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:30:55.204227+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_cet1",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 1,
+      "raw_response": "I'm sorry, but I don't have information on DBS's Common Equity Tier 1 Ratio for FY2024.",
+      "extracted_value": 1.0,
+      "extracted_unit": null,
+      "latency_ms": 1157.1764999825973,
+      "input_tokens": 31,
+      "output_tokens": 22,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:30:57.559076+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_cet1",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 2,
+      "raw_response": "I'm sorry, but I don't have information on DBS's Common Equity Tier 1 Ratio for FY2024.",
+      "extracted_value": 1.0,
+      "extracted_unit": null,
+      "latency_ms": 749.4805000023916,
+      "input_tokens": 31,
+      "output_tokens": 22,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:30:59.512582+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_total_income",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 0,
+      "raw_response": "Sorry, I don't have the information on DBS's Total Income for FY2024.",
+      "extracted_value": null,
+      "extracted_unit": null,
+      "latency_ms": 847.409299982246,
+      "input_tokens": 27,
+      "output_tokens": 17,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:31:01.556071+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_total_income",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 1,
+      "raw_response": "Sorry, I don't have the information on DBS's Total Income for FY2024.",
+      "extracted_value": null,
+      "extracted_unit": null,
+      "latency_ms": 1068.2231999817304,
+      "input_tokens": 27,
+      "output_tokens": 17,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:31:03.824364+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_total_income",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 2,
+      "raw_response": "Sorry, I don't have the information on DBS's Total Income for FY2024.",
+      "extracted_value": null,
+      "extracted_unit": null,
+      "latency_ms": 1143.4507000085432,
+      "input_tokens": 27,
+      "output_tokens": 17,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:31:06.167758+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_net_profit",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 0,
+      "raw_response": "I'm sorry, but I don't have information on DBS's net profit for FY2024.",
+      "extracted_value": null,
+      "extracted_unit": null,
+      "latency_ms": 1044.756299990695,
+      "input_tokens": 27,
+      "output_tokens": 18,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:31:08.413228+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_net_profit",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 1,
+      "raw_response": "I'm sorry, but I don't have information on DBS's net profit for FY2024.",
+      "extracted_value": null,
+      "extracted_unit": null,
+      "latency_ms": 750.8885000133887,
+      "input_tokens": 27,
+      "output_tokens": 18,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:31:10.362385+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_net_profit",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 2,
+      "raw_response": "I'm sorry, but I don't have information on DBS's net profit for FY2024.",
+      "extracted_value": null,
+      "extracted_unit": null,
+      "latency_ms": 842.638000001898,
+      "input_tokens": 27,
+      "output_tokens": 18,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:31:12.409108+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_roe",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 0,
+      "raw_response": "I'm sorry, but I don't have information on DBS's Return on Equity for FY2024.",
+      "extracted_value": null,
+      "extracted_unit": null,
+      "latency_ms": 748.6998999956995,
+      "input_tokens": 28,
+      "output_tokens": 19,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:31:14.360272+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_roe",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 1,
+      "raw_response": "I'm sorry, but I don't have access to data beyond October 2023, so I cannot provide the Return on Equity for DBS for FY2024.",
+      "extracted_value": 2023.0,
+      "extracted_unit": null,
+      "latency_ms": 843.645299988566,
+      "input_tokens": 28,
+      "output_tokens": 31,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:31:16.404310+00:00"
+    },
+    {
+      "fact_id": "dbs_fy2024_roe",
+      "template_name": "direct_extraction",
+      "temperature": 0.0,
+      "run_index": 2,
+      "raw_response": "I'm sorry, but I don't have information on DBS's Return on Equity for FY2024.",
+      "extracted_value": null,
+      "extracted_unit": null,
+      "latency_ms": 671.2918999837711,
+      "input_tokens": 28,
+      "output_tokens": 19,
+      "finish_reason": "end_turn",
+      "timestamp": "2026-03-25T02:31:18.275612+00:00"
+    }
+  ]
+}

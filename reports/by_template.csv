@@ -1,0 +1,25 @@
+# Aggregated by Template — Run: 20260325_024418_284976
+# Generated: 2026-03-26 00:20:18 UTC
+# 
+# Aggregated by: template
+# Each row is the mean of all per-fact scores within that group.
+# 
+# Column Descriptions:
+#   template              — Grouping key
+#   semantic_score         — Mean semantic consistency across group
+#   factual_score          — Mean factual consistency across group
+#   hallucination_rate     — Mean hallucination rate across group
+#   extraction_failure_rate — Mean extraction failure rate across group
+#   composite_stability    — Mean composite stability across group
+#   n_facts                — Number of per-fact rows in this group
+# 
+# Flagging Thresholds (applied to mean composite_stability):
+#   🟢 Green  — >= 0.75
+#   🟡 Yellow — >= 0.5
+#   🔴 Red    — <  0.5
+#
+template,semantic_score,factual_score,hallucination_rate,extraction_failure_rate,composite_stability,n_facts,flag
+comparative,0.9151532993172155,0.3992736892736892,0.9127272727272727,0.4909090909090909,0.4604372836864585,165,🔴
+contextual_extraction,0.9886027281934565,0.9975757575757576,0.48484848484848486,0.0,0.8501565760337945,165,🟢
+direct_extraction,0.8441192847309691,0.3724627224627225,0.9121212121212121,0.01818181818181818,0.42858451076801607,165,🔴
+qualitative,0.9095568562998916,0.4689177489177489,0.9054545454545455,0.32666666666666666,0.4887977928207034,165,🔴

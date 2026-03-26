@@ -1,0 +1,64 @@
+# LLM Financial Stability Bench — Configuration
+
+# Model Configuration
+# To use Claude Haiku: provider: "anthropic", name: "claude-haiku-4-5-20251001"
+# To use ChatGPT:      provider: "openai",    name: "gpt-5.4-nano"
+model:
+  provider: "openai"
+  name: "gpt-5.4-nano"
+  max_tokens: 1024
+
+# Evaluation Parameters
+evaluation:
+  temperatures: [0.0, 0.3, 0.5, 0.7, 1.0]
+  runs_per_combination: 10
+  templates:
+    - "direct_extraction"
+    - "contextual_extraction"
+    - "comparative"
+    - "qualitative"
+
+# Quick Mode Overrides (--quick flag)
+quick_mode:
+  temperatures: [0.0]
+  runs_per_combination: 3
+  max_facts: 6
+  templates:
+    - "direct_extraction"
+
+# Scoring Configuration
+scoring:
+  embedding_model: "all-MiniLM-L6-v2"
+  hallucination_tolerance: 0.05
+  composite_weights:
+    semantic_consistency: 0.30
+    factual_consistency: 0.40
+    hallucination_rate: 0.30
+
+# Flagging Thresholds
+flagging:
+  green_threshold: 0.75
+  yellow_threshold: 0.50
+
+# Checkpointing
+checkpoint:
+  save_interval: 50
+  directory: "results"
+
+# API Cost Estimation
+# Claude Haiku 4.5:    price_per_1k_input: 0.0008,  price_per_1k_output: 0.004
+# OpenAI gpt-5.4-nano: price_per_1k_input: 0.0002,  price_per_1k_output: 0.00125
+cost:
+  avg_input_tokens: 200
+  avg_output_tokens: 300
+  price_per_1k_input: 0.0002
+  price_per_1k_output: 0.00125
+  confirmation_threshold: 1.0
+
+# API Resilience
+api:
+  timeout_seconds: 30
+  max_retries: 5
+  base_backoff_seconds: 1.0
+  max_backoff_seconds: 60.0
+  rate_limit_rpm: 50

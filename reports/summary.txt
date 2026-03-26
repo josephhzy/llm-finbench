@@ -1,0 +1,70 @@
+========================================================================
+  LLM Financial Stability Bench — Evaluation Summary
+========================================================================
+Run ID:    20260325_024418_284976
+Generated: 2026-03-26 00:20:18 UTC
+
+------------------------------------------------------------------------
+  METHODOLOGY
+------------------------------------------------------------------------
+Model:                openai/gpt-5.4-nano
+Temperature range:    [0.0, 0.3, 0.5, 0.7, 1.0]
+Runs per combination: 10
+Templates:            ['direct_extraction', 'contextual_extraction', 'comparative', 'qualitative']
+Embedding model:      all-MiniLM-L6-v2
+Hallucination tol.:   0.05 (5% relative)
+Composite weights:    {'semantic_consistency': 0.3, 'factual_consistency': 0.4, 'hallucination_rate': 0.3}
+Scoring method:       Modal value for factual consistency, cosine similarity for semantic consistency
+
+------------------------------------------------------------------------
+  OVERALL STATISTICS
+------------------------------------------------------------------------
+Total evaluation groups: 660
+Mean composite stability:   0.5570
+Median composite stability: 0.5016
+Std dev:                    0.2377
+Range:                      [0.1707, 1.0000]
+
+Flag distribution:
+  🟢 Green  (>= 0.75):   97 ( 14.7%)
+  🟡 Yellow (>= 0.5):  234 ( 35.5%)
+  🔴 Red    (<  0.5):  329 ( 49.8%)
+
+Mean scores across all groups:
+  semantic_score                 0.9144
+  factual_score                  0.5596
+  hallucination_rate             0.8038
+  extraction_failure_rate        0.2089
+  composite_stability            0.5570
+
+------------------------------------------------------------------------
+  TOP 5 MOST STABLE FACTS
+------------------------------------------------------------------------
+  1. 🟡 ocbc_fy2024_roe                          OCBC         Return on Equity               stability=0.7235
+  2. 🟡 ocbc_fy2024_nim                          OCBC         Net Interest Margin            stability=0.7088
+  3. 🟡 uob_fy2024_nim                           UOB          Net Interest Margin            stability=0.6896
+  4. 🟡 dbs_fy2024_cet1                          DBS          Common Equity Tier 1 Ratio     stability=0.6483
+  5. 🟡 dbs_fy2024_nim                           DBS          Net Interest Margin            stability=0.6220
+
+------------------------------------------------------------------------
+  TOP 5 LEAST STABLE FACTS
+------------------------------------------------------------------------
+  1. 🔴 capitaland_fy2024_aum                    CapitaLand   Assets Under Management        stability=0.4476
+  2. 🔴 singtel_fy2024_net_profit                Singtel      Net Profit                     stability=0.4593
+  3. 🔴 capitaland_fy2024_fum                    CapitaLand   Funds Under Management         stability=0.4721
+  4. 🔴 singtel_fy2024_revenue                   Singtel      Revenue                        stability=0.4880
+  5. 🔴 capitaland_fy2024_total_assets           CapitaLand   Total Assets                   stability=0.4906
+
+------------------------------------------------------------------------
+  KEY FINDINGS (auto-generated)
+------------------------------------------------------------------------
+  * Temperature sensitivity: best stability at T=0.0 (0.6821), worst at T=1.0 (0.4935), spread=0.1887.
+  * Template sensitivity: 'contextual_extraction' most stable (0.8502), 'direct_extraction' least stable (0.4286).
+  * Company variance: 'OCBC' has highest mean stability (0.6087), 'CapitaLand' has lowest (0.4995). Spread of 0.1091 — investigate whether this reflects model familiarity or metric complexity.
+  * Hallucination hotspots: 536/660 groups have >50% hallucination rate. Worst offenders: ['dbs_fy2024_total_income', 'ocbc_fy2024_ldr', 'dbs_fy2024_total_income'].
+  * Extraction issues: mean extraction failure rate is 20.9% — review prompt templates to encourage more parseable numeric responses.
+  * Overall assessment: mean stability 0.5570 is in the yellow zone. Model is moderately consistent but has room for improvement.
+
+========================================================================
+  End of Summary
+========================================================================
