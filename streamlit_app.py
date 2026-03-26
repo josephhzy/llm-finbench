@@ -91,8 +91,8 @@ st.markdown("""
 
   /* Formula box — must override the !important wildcard above */
   .formula-box, .formula-box * {
-    color: #f0f0f0 !important;
-    background-color: #1e2a3a !important;
+    color: #1a1a1a !important;
+    background-color: #eef2f7 !important;
   }
 
   /* Tab labels — dark theme makes them white on light bg */
@@ -676,7 +676,7 @@ with col_m1:
     st.markdown("**Composite Stability Formula**")
     st.markdown(
         '<div class="formula-box" style="border-radius:6px;padding:12px 16px;font-family:monospace;'
-        'font-size:13px;line-height:1.7;margin:8px 0 12px;">'
+        'font-size:13px;line-height:1.7;margin:8px 0 12px;border:1px solid #d0d7e3;">'
         'stability = 0.3 × semantic_score<br>'
         '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ 0.4 × factual_score<br>'
         '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ 0.3 × (1 − hallucination_rate)'
