@@ -4,6 +4,8 @@ A research-grade evaluation harness that measures LLM consistency and hallucinat
 
 This is a measurement tool, not a demo app. Precision, reproducibility, and statistical rigour are the priorities.
 
+Live Dashboard: https://llm-finbench.streamlit.app/
+
 ---
 
 ## Table of Contents
