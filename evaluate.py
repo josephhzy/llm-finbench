@@ -118,6 +118,24 @@ def _parse_args() -> argparse.Namespace:
         metavar="RUN_ID",
         help="Resume a previous run by its run_id",
     )
+    parser.add_argument(
+        "--verbose", "-v",
+        action="store_true",
+        help="Set logging to DEBUG level for detailed output",
+    )
+    parser.add_argument(
+        "--template",
+        default=None,
+        metavar="TEMPLATE_NAME",
+        help="Run only one specific template (e.g. direct_extraction)",
+    )
+    parser.add_argument(
+        "--temperature",
+        type=float,
+        default=None,
+        metavar="TEMP",
+        help="Run only one specific temperature (e.g. 0.0)",
+    )
 
     return parser.parse_args()
 
@@ -166,13 +184,13 @@ def _load_facts(path: str) -> list[dict]:
 
 def main() -> None:
     """Main entry point for the evaluation CLI."""
+    args = _parse_args()
+
     logging.basicConfig(
-        level=logging.INFO,
+        level=logging.DEBUG if args.verbose else logging.INFO,
         format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
-
-    args = _parse_args()
 
     # --- 1. Load configuration ---
     try:
@@ -199,6 +217,46 @@ def main() -> None:
                 templates=config.evaluation.templates,
             ),
         )
+
+    # --- 3b. Filter to a single template if --template provided ---
+    if args.template is not None:
+        if args.template not in config.evaluation.templates:
+            available = config.evaluation.templates
+            print(
+                f"Error: template '{args.template}' not in configured templates. "
+                f"Available: {available}",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+        config = replace(
+            config,
+            evaluation=EvaluationConfig(
+                temperatures=config.evaluation.temperatures,
+                runs_per_combination=config.evaluation.runs_per_combination,
+                templates=[args.template],
+            ),
+        )
+        print(f"Template filter: running only '{args.template}'")
+
+    # --- 3c. Filter to a single temperature if --temperature provided ---
+    if args.temperature is not None:
+        if args.temperature not in config.evaluation.temperatures:
+            available = config.evaluation.temperatures
+            print(
+                f"Error: temperature {args.temperature} not in configured temperatures. "
+                f"Available: {available}",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+        config = replace(
+            config,
+            evaluation=EvaluationConfig(
+                temperatures=[args.temperature],
+                runs_per_combination=config.evaluation.runs_per_combination,
+                templates=config.evaluation.templates,
+            ),
+        )
+        print(f"Temperature filter: running only T={args.temperature}")
 
     # --- 4. Load ground-truth facts ---
     facts_path = "ground_truth/facts.json"
@@ -240,20 +298,19 @@ def main() -> None:
 
     print(f"Loaded {len(facts)} facts from {facts_path}")
 
-    # --- 4. Create engine ---
+    # --- 5. Create engine ---
     try:
         engine = EvaluationEngine(config, facts)
     except Exception as exc:
         print(f"Engine initialisation error: {exc}", file=sys.stderr)
         sys.exit(1)
 
-    # --- 5. Run the evaluation ---
+    # --- 6. Run the evaluation ---
     # engine.run() prints a full evaluation plan (calls, cost, model, etc.)
     # before making any API calls — no need to duplicate it here.
     try:
         run_id = engine.run(
             dry_run=args.dry_run,
-            company_filter=None,  # Already applied above, before max_facts slice
             resume_run_id=args.resume,
         )
     except KeyboardInterrupt:
@@ -263,7 +320,7 @@ def main() -> None:
         print(f"Evaluation error: {exc}", file=sys.stderr)
         sys.exit(1)
 
-    # --- 6. Print results location and next steps ---
+    # --- 7. Print results location and next steps ---
     print(f"Results saved to results/{run_id}/")
 
     if not args.dry_run:

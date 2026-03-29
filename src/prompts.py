@@ -160,7 +160,7 @@ def generate_all_prompts(
             # Check required fields *before* rendering so we can give a
             # clear skip-warning rather than a cryptic KeyError.
             missing = [
-                f for f in template.required_fields if f not in fact
+                f for f in template.required_fields if f not in fact or fact.get(f) is None
             ]
             if missing:
                 logger.warning(

@@ -36,6 +36,11 @@ from src.config import AppConfig, snapshot_config
 from src.extractor import extract_numeric
 from src.prompts import generate_all_prompts
 
+try:
+    from tqdm import tqdm
+except ImportError:
+    tqdm = None  # type: ignore[assignment]
+
 logger = logging.getLogger(__name__)
 
 
@@ -361,7 +366,6 @@ class EvaluationEngine:
     def run(
         self,
         dry_run: bool = False,
-        company_filter: Optional[str] = None,
         resume_run_id: Optional[str] = None,
     ) -> str:
         """Execute the full evaluation sweep.
@@ -372,10 +376,6 @@ class EvaluationEngine:
             If True, prints estimated calls, cost, and sample prompts, but
             makes zero API calls. Use this to verify the pipeline before
             committing spend.
-        company_filter : str, optional
-            If provided, only evaluate facts whose "company" field matches
-            this string (case-insensitive). Useful for scoping a run to a
-            single entity (e.g. "DBS").
         resume_run_id : str, optional
             If provided, resume a previous run instead of starting fresh.
             The engine loads the checkpoint, skips completed calls, and
@@ -386,32 +386,15 @@ class EvaluationEngine:
         str
             The run_id, which identifies the results directory:
             ``results/{run_id}/``.
-        """
-        # ----- 1. Filter facts if requested -----
-        facts = self._facts
-        if company_filter:
-            filter_lower = company_filter.lower()
-            facts = [
-                f for f in facts
-                if f.get("company", "").lower() == filter_lower
-            ]
-            if not facts:
-                logger.error(
-                    "No facts match company filter '%s'. Available companies: %s",
-                    company_filter,
-                    sorted(set(f.get("company", "?") for f in self._facts)),
-                )
-                raise ValueError(
-                    f"No facts match company filter '{company_filter}'."
-                )
-            logger.info(
-                "Company filter '%s': %d/%d facts selected.",
-                company_filter,
-                len(facts),
-                len(self._facts),
-            )
 
-        # ----- 2. Generate all prompts -----
+        Note
+        ----
+        Company filtering is handled by the caller (evaluate.py) before
+        engine construction. The engine evaluates all facts it was given.
+        """
+        facts = self._facts
+
+        # ----- 1. Generate all prompts -----
         prompts = generate_all_prompts(
             facts,
             list(self._config.evaluation.templates),
@@ -429,7 +412,7 @@ class EvaluationEngine:
         total_calls = len(prompts) * len(temperatures) * n_runs
         estimated_cost = self.estimate_cost(facts=facts)
 
-        # ----- 3. Print cost estimate -----
+        # ----- 2. Print cost estimate -----
         print(f"\n{'=' * 60}")
         print(f"  LLM Financial Stability Bench — Evaluation Plan")
         print(f"{'=' * 60}")
@@ -444,7 +427,7 @@ class EvaluationEngine:
         print(f"  Save interval: every {self._save_interval} calls")
         print(f"{'=' * 60}\n")
 
-        # ----- 4. Dry run: show samples and exit -----
+        # ----- 3. Dry run: show samples and exit -----
         if dry_run:
             n_samples = min(3, len(prompts))
             print(f"DRY RUN — showing {n_samples} sample prompt(s):\n")
@@ -459,7 +442,7 @@ class EvaluationEngine:
             run_id = resume_run_id or self._generate_run_id()
             return run_id
 
-        # ----- 5. Cost confirmation gate -----
+        # ----- 4. Cost confirmation gate -----
         threshold = self._config.cost.confirmation_threshold
         if estimated_cost > threshold:
             print(
@@ -475,21 +458,31 @@ class EvaluationEngine:
                 logger.info("Run aborted: user declined cost confirmation.")
                 raise KeyboardInterrupt("User declined cost confirmation.")
 
-        # ----- 6. Generate or reuse run_id -----
+        # ----- 5. Generate or reuse run_id -----
         run_id = resume_run_id or self._generate_run_id()
 
-        # ----- 7. Save config snapshot -----
+        # ----- 6. Save config snapshot -----
         self._save_config_snapshot(run_id)
 
-        # ----- 8. Load checkpoint if resuming -----
+        # ----- 7. Load checkpoint if resuming -----
         records, completed_keys = self._load_checkpoint(run_id)
         calls_since_checkpoint = 0
         completed_count = len(records)
 
-        # ----- 9. Execute the sweep -----
+        # ----- 8. Execute the sweep -----
         logger.info("Starting evaluation run %s (%d total calls).", run_id, total_calls)
         start_wall = time.monotonic()
         errors_count = 0
+
+        # Progress bar: only shown in non-dry-run mode and when tqdm is installed.
+        progress_bar = None
+        if tqdm is not None and not dry_run:
+            progress_bar = tqdm(
+                total=total_calls,
+                initial=completed_count,
+                desc="Evaluating",
+                unit="call",
+            )
 
         for prompt_entry in prompts:
             fact_id = prompt_entry["fact_id"]
@@ -573,17 +566,25 @@ class EvaluationEngine:
                         call_suffix,
                     )
 
+                    # --- Update progress bar ---
+                    if progress_bar is not None:
+                        progress_bar.update(1)
+
                     # --- Checkpoint ---
                     if calls_since_checkpoint >= self._save_interval:
                         self._save_checkpoint(run_id, records, completed_keys)
                         calls_since_checkpoint = 0
 
-        # ----- 10. Final save -----
+        # Close progress bar
+        if progress_bar is not None:
+            progress_bar.close()
+
+        # ----- 9. Final save -----
         elapsed_s = time.monotonic() - start_wall
         self._save_checkpoint(run_id, records, completed_keys)
         self._save_final_results(run_id, records, evaluated_facts=facts)
 
-        # ----- 11. Summary -----
+        # ----- 10. Summary -----
         extraction_failures = sum(
             1 for r in records
             if r.extracted_value is None and r.finish_reason != "error"

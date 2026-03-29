@@ -9,11 +9,14 @@ from __future__ import annotations
 
 import pytest
 
+from unittest.mock import patch
+
 from src.scorer import (
     compute_composite_stability,
     compute_factual_consistency,
     compute_hallucination_rate,
     compute_semantic_consistency,
+    score_fact,
 )
 
 # Check whether sentence_transformers is available for semantic consistency tests
@@ -317,3 +320,88 @@ class TestSemanticConsistency:
         score_identical = compute_semantic_consistency(identical, "all-MiniLM-L6-v2")
         score_diverse = compute_semantic_consistency(diverse, "all-MiniLM-L6-v2")
         assert score_identical > score_diverse
+
+
+# ===========================================================================
+# score_fact integration (mocks sentence-transformers to avoid dependency)
+# ===========================================================================
+
+
+class TestScoreFact:
+    """Test the score_fact() integrated pipeline with mocked semantic consistency."""
+
+    @pytest.fixture
+    def default_weights(self):
+        return {
+            "semantic_consistency": 0.30,
+            "factual_consistency": 0.40,
+            "hallucination_rate": 0.30,
+        }
+
+    @patch("src.scorer.compute_semantic_consistency", return_value=0.95)
+    def test_score_fact_basic(self, mock_semantic, default_weights):
+        """score_fact returns a FactScores with correct composite calculation."""
+        responses = ["The NIM was 2.14%."] * 5
+        result = score_fact(
+            fact_id="dbs_fy2024_nim",
+            template="direct_extraction",
+            temperature=0.0,
+            response_texts=responses,
+            ground_truth_value=2.14,
+            expected_unit="percent",
+            embedding_model_name="all-MiniLM-L6-v2",
+            hallucination_tolerance=0.05,
+            composite_weights=default_weights,
+        )
+        assert result.fact_id == "dbs_fy2024_nim"
+        assert result.template == "direct_extraction"
+        assert result.temperature == 0.0
+        assert result.n_runs == 5
+        assert result.semantic_consistency == pytest.approx(0.95)
+        # All extractions should produce 2.14
+        assert result.factual_consistency == pytest.approx(1.0)
+        assert result.hallucination_rate == pytest.approx(0.0)
+        assert result.modal_value == pytest.approx(2.14)
+        assert result.extraction_failure_rate == pytest.approx(0.0)
+        assert result.ground_truth == pytest.approx(2.14)
+        # composite = 0.95*0.3 + 1.0*0.4 + (1-0.0)*0.3 = 0.285 + 0.4 + 0.3 = 0.985
+        assert result.composite_stability == pytest.approx(0.985)
+        assert 0.0 <= result.composite_stability <= 1.0
+
+    @patch("src.scorer.compute_semantic_consistency", return_value=1.0)
+    def test_score_fact_all_hallucinated(self, mock_semantic, default_weights):
+        """score_fact correctly flags all-wrong responses as hallucinations."""
+        responses = ["The value was 99.99%."] * 3
+        result = score_fact(
+            fact_id="test_fact",
+            template="direct_extraction",
+            temperature=0.5,
+            response_texts=responses,
+            ground_truth_value=2.14,
+            expected_unit="percent",
+            embedding_model_name="all-MiniLM-L6-v2",
+            hallucination_tolerance=0.05,
+            composite_weights=default_weights,
+        )
+        assert result.hallucination_rate == pytest.approx(1.0)
+        assert result.factual_consistency == pytest.approx(1.0)  # all same wrong value
+        # composite = 1.0*0.3 + 1.0*0.4 + (1-1.0)*0.3 = 0.3 + 0.4 + 0.0 = 0.7
+        assert result.composite_stability == pytest.approx(0.7)
+
+    @patch("src.scorer.compute_semantic_consistency", return_value=0.8)
+    def test_score_fact_preserves_raw_data(self, mock_semantic, default_weights):
+        """score_fact stores response_texts and extracted_values for reproducibility."""
+        responses = ["Revenue was 10.5 billion.", "Revenue was 10.5 billion."]
+        result = score_fact(
+            fact_id="test_fact",
+            template="direct_extraction",
+            temperature=0.0,
+            response_texts=responses,
+            ground_truth_value=10.5,
+            expected_unit="billions",
+            embedding_model_name="all-MiniLM-L6-v2",
+            hallucination_tolerance=0.05,
+            composite_weights=default_weights,
+        )
+        assert result.response_texts == responses
+        assert len(result.extracted_values) == 2

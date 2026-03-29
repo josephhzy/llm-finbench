@@ -116,6 +116,7 @@ def _create_mock_results(results_dir: str, run_id: str) -> None:
                 "company": "DBS",
                 "metric": "Net Interest Margin",
                 "category": "profitability",
+                "difficulty": "easy",
                 "value": 2.14,
                 "unit": "percent",
             },
@@ -123,10 +124,10 @@ def _create_mock_results(results_dir: str, run_id: str) -> None:
         "call_records": [
             {
                 "fact_id": "dbs_fy2024_nim",
-                "template": "direct_extraction",
+                "template_name": "direct_extraction",
                 "temperature": 0.0,
                 "run_index": i,
-                "response_text": "The net interest margin was 2.14%.",
+                "raw_response": "The net interest margin was 2.14%.",
             }
             for i in range(3)
         ],
@@ -150,6 +151,7 @@ def _fake_score_all_groups(groups, facts_lookup, config):
             "company": fact.get("company", "unknown"),
             "metric": fact.get("metric", "unknown"),
             "category": fact.get("category", "unknown"),
+            "difficulty": fact.get("difficulty", "unknown"),
             "template": template,
             "temperature": temperature,
             "n_runs": len(records),
@@ -209,6 +211,7 @@ class TestReportGeneration:
             "by_company",
             "by_temperature",
             "by_template",
+            "by_difficulty",
             "summary",
         ]
         for key in expected_keys:

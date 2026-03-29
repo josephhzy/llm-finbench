@@ -48,6 +48,7 @@ _DETAIL_COLUMNS = [
     "company",
     "metric",
     "category",
+    "difficulty",
     "template",
     "temperature",
     "n_runs",
@@ -172,6 +173,7 @@ def _score_all_groups(
                 "company": fact.get("company", "unknown"),
                 "metric": fact.get("metric", "unknown"),
                 "category": fact.get("category", "unknown"),
+                "difficulty": fact.get("difficulty", "unknown"),
                 "template": template,
                 "temperature": temperature,
                 "n_runs": len(records),
@@ -241,6 +243,7 @@ def _score_all_groups(
             "company": fact.get("company", "unknown"),
             "metric": fact.get("metric", "unknown"),
             "category": fact.get("category", "unknown"),
+            "difficulty": fact.get("difficulty", "unknown"),
             "template": template,
             "temperature": temperature,
             "n_runs": len(records),
@@ -291,6 +294,7 @@ def _detail_csv_header(config: AppConfig, run_id: str) -> List[str]:
         "  company                — Company name (DBS, OCBC, UOB, Singtel, CapitaLand)",
         "  metric                 — Financial metric being tested",
         "  category               — Metric category (profitability, capital, etc.)",
+        "  difficulty             — Fact difficulty level (easy, medium, hard)",
         "  template               — Prompt template used for this evaluation group",
         "  temperature            — Sampling temperature used",
         "  n_runs                 — Number of API calls in this evaluation group",
@@ -710,6 +714,7 @@ def generate_report(
       - by_company.csv        — aggregated by company
       - by_temperature.csv    — aggregated by temperature
       - by_template.csv       — aggregated by template
+      - by_difficulty.csv     — aggregated by fact difficulty (easy/medium/hard)
       - summary.txt           — human-readable overview with methodology
 
     Parameters
@@ -736,7 +741,7 @@ def generate_report(
     dict
         A mapping from report name to the absolute file path written.
         Keys: "per_fact_detail", "by_metric_type", "by_company",
-        "by_temperature", "by_template", "summary".
+        "by_temperature", "by_template", "by_difficulty", "summary".
 
     Raises
     ------
@@ -899,7 +904,26 @@ def generate_report(
     generated_files["by_template"] = os.path.abspath(by_tpl_file)
     logger.info("Wrote by-template: %s", by_tpl_file)
 
-    # 6. Summary text (always generated, regardless of output_format)
+    # 6. Aggregated by difficulty (easy/medium/hard)
+    by_diff_df = _aggregate_by(detail_df, "difficulty", config)
+    by_diff_file = str(out_path / f"by_difficulty.{output_format}")
+    if output_format == "json":
+        by_diff_df.to_json(by_diff_file, orient="records", indent=2)
+    else:
+        _write_csv_with_header(
+            by_diff_df,
+            by_diff_file,
+            _aggregated_csv_header(
+                "Aggregated by Difficulty",
+                "difficulty",
+                config,
+                run_id,
+            ),
+        )
+    generated_files["by_difficulty"] = os.path.abspath(by_diff_file)
+    logger.info("Wrote by-difficulty: %s", by_diff_file)
+
+    # 7. Summary text (always generated, regardless of output_format)
     summary_text = _generate_summary(detail_df, config, run_id, results_data)
     summary_file = str(out_path / "summary.txt")
     with open(summary_file, "w", encoding="utf-8") as fh:

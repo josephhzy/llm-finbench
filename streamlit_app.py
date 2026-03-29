@@ -6,6 +6,7 @@ All data is pre-computed from the evaluation run (20260325_024418_284976).
 
 import os
 import io
+from typing import Optional
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -183,7 +184,7 @@ def load_by_category() -> pd.DataFrame:
 
 
 @st.cache_data
-def load_per_fact() -> pd.DataFrame | None:
+def load_per_fact() -> Optional[pd.DataFrame]:
     path = os.path.join(REPORTS_DIR, "per_fact_report.csv")
     if not os.path.exists(path):
         return None

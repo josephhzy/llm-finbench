@@ -50,8 +50,8 @@ class TestLoadConfig:
 
     def test_model_section(self):
         config = load_config(CONFIG_PATH)
-        assert config.model.provider == "anthropic"
-        assert config.model.name == "claude-sonnet-4-20250514"
+        assert config.model.provider == "openai"
+        assert config.model.name == "gpt-5.4-nano"
         assert config.model.max_tokens == 1024
 
     def test_evaluation_section(self):
@@ -424,12 +424,12 @@ class TestSnapshotConfig:
         snap = snapshot_config(config)
         snap["model"]["provider"] = "mutated"
         # Original config should be unaffected (and is frozen anyway)
-        assert config.model.provider == "anthropic"
+        assert config.model.provider == "openai"
 
     def test_snapshot_preserves_values(self):
         config = load_config(CONFIG_PATH)
         snap = snapshot_config(config)
-        assert snap["model"]["name"] == "claude-sonnet-4-20250514"
+        assert snap["model"]["name"] == "gpt-5.4-nano"
         assert snap["evaluation"]["runs_per_combination"] == 10
         assert snap["scoring"]["hallucination_tolerance"] == 0.05
 
