@@ -498,10 +498,10 @@ with tab1:
         st.markdown("""
 | Template | Prompt style |
 |---|---|
-| `contextual_extraction` | Gives the model surrounding context before asking for a number |
-| `qualitative` | Asks for a descriptive / framing answer |
-| `comparative` | Asks the model to compare vs a peer or benchmark |
-| `direct_extraction` | Bare question, no context, no framing |
+| contextual_extraction | Gives the model surrounding context before asking for a number |
+| qualitative | Asks for a descriptive / framing answer |
+| comparative | Asks the model to compare vs a peer or benchmark |
+| direct_extraction | Bare question, no context, no framing |
 """)
 
 
