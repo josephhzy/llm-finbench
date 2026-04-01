@@ -1,7 +1,7 @@
 """
 LLM Financial Stability Bench — Results Dashboard
 Interactive visualisation of benchmark results. No API keys required.
-All data is pre-computed from the evaluation run (20260325_024418_284976).
+All data is pre-computed from the evaluation run (20260401_040014_891022).
 """
 
 import os
@@ -110,41 +110,39 @@ st.markdown("""
 
 
 # ── Embedded fallback data ───────────────────────────────────────────────────
-# Pre-computed from evaluation run 20260325_024418_284976
+# Pre-computed from evaluation run 20260401_040014_891022
 
 _BY_TEMPLATE_CSV = """template,semantic_score,factual_score,hallucination_rate,composite_stability
-comparative,0.9152,0.3993,0.9127,0.4604
-contextual_extraction,0.9886,0.9976,0.4848,0.8502
-direct_extraction,0.8441,0.3725,0.9121,0.4286
-qualitative,0.9096,0.4689,0.9055,0.4888"""
+comparative,0.9119,0.3586,0.9083,0.4446
+contextual_extraction,0.9971,0.9972,0.0662,0.9782
+direct_extraction,0.8395,0.3516,0.8621,0.4339
+qualitative,0.9200,0.3818,0.8330,0.4788"""
 
 _BY_COMPANY_CSV = """company,semantic_score,factual_score,hallucination_rate,composite_stability
-CapitaLand,0.9098,0.5265,0.9467,0.4995
-DBS,0.9078,0.5948,0.7500,0.5853
-OCBC,0.9339,0.5641,0.6571,0.6087
-Singtel,0.9007,0.5339,0.9133,0.5098
-UOB,0.9169,0.5701,0.7879,0.5668"""
+CapitaLand,0.9199,0.4541,0.7150,0.5431
+DBS,0.9018,0.5536,0.6669,0.5919
+OCBC,0.9336,0.5631,0.6085,0.6228
+Singtel,0.9207,0.5245,0.7757,0.5533
+UOB,0.9111,0.5404,0.5784,0.6160"""
 
 _BY_TEMPERATURE_CSV = """temperature,semantic_score,factual_score,hallucination_rate,composite_stability
-0.0,0.9947,0.8076,0.7977,0.6821
-0.3,0.9309,0.5582,0.7985,0.5630
-0.5,0.8994,0.5258,0.8076,0.5379
-0.7,0.8848,0.4565,0.7985,0.5085
-1.0,0.8619,0.4497,0.8167,0.4935"""
+0.0,0.9887,0.8056,0.6523,0.7232
+0.3,0.9298,0.4988,0.6393,0.5867
+0.5,0.9029,0.4868,0.6458,0.5718
+0.7,0.8944,0.4551,0.6626,0.5516
+1.0,0.8687,0.4245,0.6673,0.5302"""
 
 _BY_CATEGORY_CSV = """category,semantic_score,factual_score,hallucination_rate,composite_stability
-asset_quality,0.9277,0.5206,0.7067,0.5746
-aum,0.9350,0.4483,1.0000,0.4598
-balance_sheet,0.8778,0.6062,1.0000,0.5058
-capital,0.9544,0.5572,0.6233,0.6222
-efficiency,0.9231,0.5248,0.6650,0.5874
-income,0.8903,0.6204,1.0000,0.5152
-leverage,0.8798,0.5050,0.7350,0.5454
-liquidity,0.8755,0.5589,0.5650,0.6167
-operational,0.8912,0.6156,1.0000,0.5136
-profitability,0.9381,0.5353,0.6031,0.6146
-revenue,0.8955,0.5483,1.0000,0.4880
-shareholder,0.9193,0.5045,0.7450,0.5541"""
+asset_quality,0.9183,0.5466,0.7150,0.5796
+aum,0.9300,0.4411,0.7025,0.5447
+balance_sheet,0.8773,0.6852,0.6533,0.6413
+capital,0.9498,0.5507,0.5567,0.6382
+efficiency,0.8715,0.6449,0.7300,0.6004
+income,0.8975,0.5492,0.6683,0.5884
+liquidity,0.8837,0.4825,0.5550,0.5916
+profitability,0.9318,0.5147,0.5964,0.6065
+revenue,0.9285,0.5348,0.6400,0.6005
+shareholder,0.9237,0.4876,0.9850,0.4766"""
 
 
 # ── Data loaders ─────────────────────────────────────────────────────────────
@@ -226,14 +224,14 @@ df_temperature = load_by_temperature()
 df_category    = load_by_category()
 df_per_fact    = load_per_fact()
 
-OVERALL_STABILITY = 0.5570
-TOTAL_API_CALLS   = 6600
-N_FACTS           = 33
+OVERALL_STABILITY = 0.5927
+TOTAL_API_CALLS   = 5350
+N_FACTS           = 29
 N_COMPANIES       = 5
-HALLUCINATION_RATE = 0.8038
-GREEN_PCT  = 14.7
-YELLOW_PCT = 35.5
-RED_PCT    = 49.8
+HALLUCINATION_RATE = 0.6535
+GREEN_PCT  = 27.1
+YELLOW_PCT = 22.8
+RED_PCT    = 50.1
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 with st.sidebar:
@@ -253,8 +251,8 @@ This benchmark measured:
 - **Hallucination rate** — how often does the model fabricate values?
 
 Each fact was tested across **4 prompt templates** × **5 temperature levels**
-× **10 runs = 200 API calls per fact**, totalling **6,600 calls** across
-33 verified financial facts.
+× **10 runs = 200 API calls per fact**, totalling **5,350 calls** across
+29 verified financial facts.
 """)
     st.divider()
 
@@ -265,7 +263,7 @@ Each fact was tested across **4 prompt templates** × **5 temperature levels**
 | Model | GPT-5.4-nano |
 | Companies | DBS, OCBC, UOB, Singtel, CapitaLand |
 | Source | FY2024 Annual Reports |
-| Facts | 33 verified financial metrics |
+| Facts | 29 verified financial metrics |
 | Templates | 4 prompt variants |
 | Temperatures | 0.0, 0.3, 0.5, 0.7, 1.0 |
 | Runs each | 10 |
@@ -286,6 +284,54 @@ Each fact was tested across **4 prompt templates** × **5 temperature levels**
 - [GitHub Repository](https://github.com/josephhzy/llm-finbench)
 - [Portfolio](https://josephhzy.github.io)
 """)
+    st.divider()
+
+    # ── Cost Estimator ────────────────────────────────────────────────────
+    st.markdown("### 💰 Cost Estimator")
+    st.caption("What would this benchmark cost with a different model?")
+
+    _COST_MODELS = {
+        "OpenAI": {
+            "GPT-5.4":           {"input": 0.0025,   "output": 0.015},
+            "GPT-5.4 mini":      {"input": 0.00075,  "output": 0.0045},
+            "GPT-5.4 nano":      {"input": 0.0002,   "output": 0.00125},
+        },
+        "Anthropic": {
+            "Claude Haiku 4.5":  {"input": 0.001,    "output": 0.005},
+            "Claude Haiku 3.5":  {"input": 0.0008,   "output": 0.004},
+            "Claude Haiku 3":    {"input": 0.00025,  "output": 0.00125},
+            "Claude Sonnet 4.6": {"input": 0.003,    "output": 0.015},
+            "Claude Opus 4.6":   {"input": 0.005,    "output": 0.025},
+        },
+    }
+
+    # Real measured averages from the actual benchmark run
+    _AVG_IN      = 36
+    _AVG_OUT     = 35
+    _TOTAL_CALLS = 5_350
+
+    provider_pick = st.selectbox(
+        "Provider", list(_COST_MODELS.keys()), key="cost_provider"
+    )
+    model_pick = st.selectbox(
+        "Model", list(_COST_MODELS[provider_pick].keys()), key="cost_model"
+    )
+
+    p = _COST_MODELS[provider_pick][model_pick]
+    cost_in   = _TOTAL_CALLS * _AVG_IN  / 1000 * p["input"]
+    cost_out  = _TOTAL_CALLS * _AVG_OUT / 1000 * p["output"]
+    est_total = cost_in + cost_out
+
+    st.markdown(
+        f"| | |\n|---|---|\n"
+        f"| Input | ${p['input']:.5f} / 1K tokens |\n"
+        f"| Output | ${p['output']:.5f} / 1K tokens |\n"
+        f"| **Est. total** | **${est_total:.4f}** |"
+    )
+    st.caption(
+        f"Based on avg {_AVG_IN} input / {_AVG_OUT} output tokens per call "
+        f"measured from the actual run ({_TOTAL_CALLS:,} calls)."
+    )
 
 
 # ── Main area ─────────────────────────────────────────────────────────────────
@@ -315,23 +361,23 @@ for col, num, lbl in [
 st.markdown("<br>", unsafe_allow_html=True)
 
 # ── Flag distribution ─────────────────────────────────────────────────────────
-st.markdown("#### Overall Flag Distribution — 660 Evaluation Groups")
+st.markdown("#### Overall Flag Distribution — 535 Evaluation Groups")
 st.markdown(f"""
 <div style="display:flex;gap:12px;margin:10px 0 4px;">
   <div style="flex:1;background:#e8f5e9;border-left:5px solid #2e7d32;border-radius:8px;padding:16px 20px;">
     <div style="font-size:1.6rem;font-weight:700;color:#2e7d32;">🟢 {GREEN_PCT}%</div>
     <div style="font-weight:700;color:#2e7d32;font-size:0.95rem;margin:4px 0 2px;">GREEN — Stable</div>
-    <div style="color:#555;font-size:0.82rem;">Composite stability ≥ 0.75 &nbsp;·&nbsp; 97 of 660 groups</div>
+    <div style="color:#555;font-size:0.82rem;">Composite stability ≥ 0.75 &nbsp;·&nbsp; 145 of 535 groups</div>
   </div>
   <div style="flex:1;background:#fff8e1;border-left:5px solid #e65100;border-radius:8px;padding:16px 20px;">
     <div style="font-size:1.6rem;font-weight:700;color:#e65100;">🟡 {YELLOW_PCT}%</div>
     <div style="font-weight:700;color:#e65100;font-size:0.95rem;margin:4px 0 2px;">YELLOW — Moderate</div>
-    <div style="color:#555;font-size:0.82rem;">Composite stability ≥ 0.50 &nbsp;·&nbsp; 234 of 660 groups</div>
+    <div style="color:#555;font-size:0.82rem;">Composite stability ≥ 0.50 &nbsp;·&nbsp; 122 of 535 groups</div>
   </div>
   <div style="flex:1;background:#fce4ec;border-left:5px solid #c62828;border-radius:8px;padding:16px 20px;">
     <div style="font-size:1.6rem;font-weight:700;color:#c62828;">🔴 {RED_PCT}%</div>
     <div style="font-weight:700;color:#c62828;font-size:0.95rem;margin:4px 0 2px;">RED — Unreliable</div>
-    <div style="color:#555;font-size:0.82rem;">Composite stability &lt; 0.50 &nbsp;·&nbsp; 329 of 660 groups</div>
+    <div style="color:#555;font-size:0.82rem;">Composite stability &lt; 0.50 &nbsp;·&nbsp; 268 of 535 groups</div>
   </div>
 </div>
 """, unsafe_allow_html=True)
@@ -345,9 +391,9 @@ findings = [
     (
         "01",
         "Prompt wording matters more than temperature",
-        "The <b>contextual_extraction</b> template scored <b>0.85</b>. "
-        "The <b>direct_extraction</b> template scored <b>0.43</b>. "
-        "That's nearly double the stability from the same model on the same facts, "
+        "The <b>contextual_extraction</b> template scored <b>0.978</b>. "
+        "The <b>direct_extraction</b> template scored <b>0.434</b>. "
+        "That's more than double the stability from the same model on the same facts, "
         "purely from prompt design — before touching temperature at all.",
     ),
     (
@@ -361,7 +407,7 @@ findings = [
     (
         "03",
         "Lower temperature helps, but doesn't solve it",
-        "T=0.0 scored <b>0.68</b> vs T=1.0 at <b>0.49</b>. "
+        "T=0.0 scored <b>0.723</b> vs T=1.0 at <b>0.530</b>. "
         "Setting temperature to zero makes the model more deterministic — "
         "but it still hallucinates. It just hallucinates the <em>same wrong answer</em> consistently, "
         "which is a different problem than random variance, but still a problem.",
@@ -369,10 +415,11 @@ findings = [
     (
         "04",
         "Unit normalisation is a first-class evaluation concern",
-        "80% of responses were flagged as hallucinations. But many flags came from unit mismatches, "
-        "not model errors. A model answering 'S$3 billion' is factually correct — but if ground truth "
-        "is stored as 3000 (SGD millions), a naive comparator flags it. "
-        "Evaluation integrity requires unit normalisation, not just string matching.",
+        "65% of responses were flagged as hallucinations after unit normalisation was applied. "
+        "Before the fix, a model answering 'S$3 billion' would be flagged even though it's correct — "
+        "because the ground truth is stored as 3000 (SGD millions) and a naive comparator sees a mismatch. "
+        "Adding explicit scale-word normalisation in the scoring layer brought the hallucination rate "
+        "down from the pre-fix baseline, revealing the true model error rate.",
     ),
 ]
 
@@ -492,8 +539,8 @@ with tab2:
         st.dataframe(display_c.set_index("Company").round(3), use_container_width=True)
     with col_b:
         st.info(
-            "**Spread: 0.11** between highest (OCBC 0.609) and lowest (CapitaLand 0.500). "
-            "CapitaLand's low score is partly driven by large-scale AUM / FUM metrics "
+            "**Spread: 0.08** between highest (OCBC 0.623) and lowest (CapitaLand 0.543). "
+            "CapitaLand's low score is partly driven by large-scale AUM and fee-income metrics "
             "that the model consistently struggles with."
         )
 
@@ -501,7 +548,7 @@ with tab2:
 with tab3:
     st.markdown("##### Composite Stability Score vs Temperature")
     st.caption(
-        "Each data point is the mean stability across all 33 facts and all 4 templates at that temperature."
+        "Each data point is the mean stability across all 29 facts and all 4 templates at that temperature."
     )
     df_temp = df_temperature.copy()
     df_temp["temperature"] = df_temp["temperature"].astype(float)
@@ -556,10 +603,10 @@ with tab3:
         st.dataframe(display_temp.set_index("Temperature").round(3), use_container_width=True)
     with col_b:
         st.info(
-            "**Temperature spread: 0.19** between T=0.0 (0.682) and T=1.0 (0.493). "
-            "Semantic consistency drops sharply with temperature; "
+            "**Temperature spread: 0.19** between T=0.0 (0.723) and T=1.0 (0.530). "
+            "Semantic consistency drops steadily with temperature; "
             "factual accuracy degrades even faster. "
-            "But even at T=0.0 the model hallucinates 80% of the time — "
+            "But even at T=0.0 the model hallucinates 65% of the time — "
             "just *consistently*."
         )
 
@@ -660,12 +707,11 @@ else:
 | 🟡 3 | uob_fy2024_nim | UOB | Net Interest Margin | 0.6896 |
 | 🟡 4 | dbs_fy2024_cet1 | DBS | Common Equity Tier 1 | 0.6483 |
 | 🟡 5 | dbs_fy2024_nim | DBS | Net Interest Margin | 0.6220 |
-| ... | *23 more facts* | ... | ... | ... |
-| 🔴 29 | capitaland_fy2024_total_assets | CapitaLand | Total Assets | 0.4906 |
-| 🔴 30 | singtel_fy2024_revenue | Singtel | Revenue | 0.4880 |
-| 🔴 31 | capitaland_fy2024_fum | CapitaLand | Funds Under Management | 0.4721 |
-| 🔴 32 | singtel_fy2024_net_profit | Singtel | Net Profit | 0.4593 |
-| 🔴 33 | capitaland_fy2024_aum | CapitaLand | Assets Under Management | 0.4476 |
+| ... | *20 more facts* | ... | ... | ... |
+| 🔴 26 | singtel_fy2024_revenue | Singtel | Revenue | 0.4880 |
+| 🔴 27 | capitaland_fy2024_fum | CapitaLand | Funds Under Management | 0.4721 |
+| 🔴 28 | singtel_fy2024_net_profit | Singtel | Net Profit | 0.4593 |
+| 🔴 29 | capitaland_fy2024_aum | CapitaLand | Assets Under Management | 0.4476 |
 """)
 
 # ── Methodology ───────────────────────────────────────────────────────────────

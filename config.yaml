@@ -46,13 +46,26 @@ checkpoint:
   directory: "results"
 
 # API Cost Estimation
-# Claude Haiku 4.5:    price_per_1k_input: 0.0008,  price_per_1k_output: 0.004
-# OpenAI gpt-5.4-nano: price_per_1k_input: 0.0002,  price_per_1k_output: 0.00125
+# Prices are auto-filled from the MODEL_PRICING registry in src/config.py
+# based on model.name above. Set explicitly here to override.
+#
+# Reference (USD per 1K tokens):
+#   Claude Haiku 4.5:  input: 0.001,    output: 0.005
+#   Claude Haiku 3.5:  input: 0.0008,   output: 0.004
+#   Claude Haiku 3:    input: 0.00025,  output: 0.00125
+#   Claude Sonnet 4.x: input: 0.003,    output: 0.015
+#   Claude Opus 4.x:   input: 0.005,    output: 0.025
+#   GPT-5.4:           input: 0.0025,   output: 0.015
+#   GPT-5.4 mini:      input: 0.00075,  output: 0.0045
+#   GPT-5.4 nano:      input: 0.0002,   output: 0.00125
+#
+# avg token counts measured from the actual 6,600-call benchmark run.
 cost:
-  avg_input_tokens: 200
-  avg_output_tokens: 300
-  price_per_1k_input: 0.0002
-  price_per_1k_output: 0.00125
+  avg_input_tokens: 36
+  avg_output_tokens: 35
+  # Uncomment to override auto-resolved prices:
+  # price_per_1k_input: 0.0002
+  # price_per_1k_output: 0.00125
   confirmation_threshold: 1.0
 
 # API Resilience

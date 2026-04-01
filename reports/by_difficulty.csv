@@ -1,11 +1,11 @@
-# Aggregated by Template — Run: 20260401_040014_891022
+# Aggregated by Difficulty — Run: 20260401_040014_891022
 # Generated: 2026-04-01 07:33:56 UTC
 # 
-# Aggregated by: template
+# Aggregated by: difficulty
 # Each row is the mean of all per-fact scores within that group.
 # 
 # Column Descriptions:
-#   template              — Grouping key
+#   difficulty              — Grouping key
 #   semantic_score         — Mean semantic consistency across group
 #   factual_score          — Mean factual consistency across group
 #   hallucination_rate     — Mean hallucination rate across group
@@ -18,8 +18,6 @@
 #   🟡 Yellow — >= 0.5
 #   🔴 Red    — <  0.5
 #
-template,semantic_score,factual_score,hallucination_rate,extraction_failure_rate,composite_stability,n_facts,flag
-comparative,0.9119482948862273,0.3586234263820471,0.9082758620689655,0.45655172413793105,0.4445511003979974,145,🔴
-contextual_extraction,0.997111883656732,0.9972413793103447,0.06620689655172414,0.0,0.9781680478556404,145,🟢
-direct_extraction,0.8395206632285283,0.35164477285166945,0.8620689655172413,0.018620689655172416,0.43389341845405377,145,🔴
-qualitative,0.9199505496025085,0.3817579365079365,0.833,0.215,0.4787883394839272,100,🔴
+difficulty,semantic_score,factual_score,hallucination_rate,extraction_failure_rate,composite_stability,n_facts,flag
+easy,0.9168171430456227,0.545995256340084,0.6340229885057471,0.18068965517241378,0.6032363488979963,435,🟡
+medium,0.9172381979227066,0.48256746031746034,0.738,0.11800000000000001,0.5467984435037961,100,🟡

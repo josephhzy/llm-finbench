@@ -26,6 +26,68 @@ import yaml
 
 
 # ---------------------------------------------------------------------------
+# Model Pricing Registry
+# ---------------------------------------------------------------------------
+# Prices in USD per 1,000 tokens.
+# Sources:
+#   Anthropic — https://docs.anthropic.com/en/docs/about-claude/models
+#   OpenAI    — https://openai.com/api/pricing/
+#
+# Keys use the model name prefix so date-suffixed variants like
+# "claude-haiku-4-5-20251001" match "claude-haiku-4-5" automatically.
+
+MODEL_PRICING: Dict[str, Dict[str, float]] = {
+    # ── Anthropic Claude ──────────────────────────────────────────────────
+    "claude-opus-4-6":   {"input": 0.005,    "output": 0.025},   # $5/$25 per MTok
+    "claude-opus-4-5":   {"input": 0.005,    "output": 0.025},
+    "claude-opus-4-1":   {"input": 0.015,    "output": 0.075},   # $15/$75 per MTok
+    "claude-opus-4":     {"input": 0.015,    "output": 0.075},
+    "claude-opus-3":     {"input": 0.015,    "output": 0.075},
+    "claude-sonnet-4-6": {"input": 0.003,    "output": 0.015},   # $3/$15 per MTok
+    "claude-sonnet-4-5": {"input": 0.003,    "output": 0.015},
+    "claude-sonnet-4":   {"input": 0.003,    "output": 0.015},
+    "claude-sonnet-3-7": {"input": 0.003,    "output": 0.015},
+    "claude-haiku-4-5":  {"input": 0.001,    "output": 0.005},   # $1/$5 per MTok
+    "claude-haiku-3-5":  {"input": 0.0008,   "output": 0.004},   # $0.80/$4 per MTok
+    "claude-haiku-3":    {"input": 0.00025,  "output": 0.00125}, # $0.25/$1.25 per MTok
+    # ── OpenAI ───────────────────────────────────────────────────────────
+    "gpt-5.4":           {"input": 0.0025,   "output": 0.015},   # $2.50/$15 per MTok
+    "gpt-5.4-mini":      {"input": 0.00075,  "output": 0.0045},  # $0.75/$4.50 per MTok
+    "gpt-5.4-nano":      {"input": 0.0002,   "output": 0.00125}, # $0.20/$1.25 per MTok
+}
+
+
+def pricing_for_model(model_name: str) -> Dict[str, float]:
+    """Look up per-1K-token pricing for a given model name.
+
+    Matches by prefix so date-suffixed variants like
+    ``claude-haiku-4-5-20251001`` resolve to ``claude-haiku-4-5``.
+
+    Returns
+    -------
+    dict with ``"input"`` and ``"output"`` keys (USD per 1K tokens).
+
+    Raises
+    ------
+    ValueError
+        If no matching entry is found in MODEL_PRICING.
+    """
+    model_lower = model_name.lower()
+    # Exact match first
+    if model_lower in MODEL_PRICING:
+        return MODEL_PRICING[model_lower]
+    # Prefix match — handles date suffixes (e.g. -20251001)
+    for key, pricing in MODEL_PRICING.items():
+        if model_lower.startswith(key):
+            return pricing
+    raise ValueError(
+        f"No pricing found for model {model_name!r}. "
+        f"Add it to MODEL_PRICING in src/config.py, or set explicit "
+        f"price_per_1k_input / price_per_1k_output in config.yaml."
+    )
+
+
+# ---------------------------------------------------------------------------
 # Config section dataclasses (all frozen for immutability)
 # ---------------------------------------------------------------------------
 
@@ -112,10 +174,13 @@ class CheckpointConfig:
 class CostConfig:
     """API cost estimation parameters.
 
-    Token counts are rough averages — the real cost depends on prompt length
-    and response verbosity. These defaults are calibrated for typical
-    financial extraction prompts (~200 input tokens including the question
-    and a short context snippet, ~300 output tokens for a detailed answer).
+    Token counts are calibrated from the actual benchmark run (6,600 calls):
+      avg_input_tokens  ≈ 36  (short factual question, no context padding)
+      avg_output_tokens ≈ 35  (model returns a number, not a paragraph)
+
+    Prices are auto-filled from MODEL_PRICING based on model.name if
+    price_per_1k_input / price_per_1k_output are absent or zero in
+    config.yaml. Set them explicitly in config.yaml to override.
     """
     avg_input_tokens: int
     avg_output_tokens: int
@@ -202,12 +267,25 @@ def _build_checkpoint(raw: Dict[str, Any]) -> CheckpointConfig:
     )
 
 
-def _build_cost(raw: Dict[str, Any]) -> CostConfig:
+def _build_cost(raw: Dict[str, Any], model_name: str) -> CostConfig:
+    """Build CostConfig, auto-filling prices from MODEL_PRICING if not set.
+
+    If ``price_per_1k_input`` or ``price_per_1k_output`` are absent, zero,
+    or the string ``"auto"`` in config.yaml, their values are looked up from
+    the MODEL_PRICING registry using ``model_name``.
+    """
+    def _resolve(key: str, field: str) -> float:
+        val = raw.get(key)
+        if val is None or str(val).strip().lower() == "auto":
+            return pricing_for_model(model_name)[field]
+        val = float(val)
+        return pricing_for_model(model_name)[field] if val == 0.0 else val
+
     return CostConfig(
         avg_input_tokens=int(raw["avg_input_tokens"]),
         avg_output_tokens=int(raw["avg_output_tokens"]),
-        price_per_1k_input=float(raw["price_per_1k_input"]),
-        price_per_1k_output=float(raw["price_per_1k_output"]),
+        price_per_1k_input=_resolve("price_per_1k_input", "input"),
+        price_per_1k_output=_resolve("price_per_1k_output", "output"),
         confirmation_threshold=float(raw["confirmation_threshold"]),
     )
 
@@ -290,7 +368,7 @@ def load_config(path: str = "config.yaml", quick: bool = False) -> AppConfig:
         scoring=_build_scoring(raw["scoring"]),
         flagging=_build_flagging(raw["flagging"]),
         checkpoint=_build_checkpoint(raw["checkpoint"]),
-        cost=_build_cost(raw["cost"]),
+        cost=_build_cost(raw["cost"], model_name=raw["model"]["name"]),
         api=_build_api(raw["api"]),
     )
 

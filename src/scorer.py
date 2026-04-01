@@ -47,6 +47,47 @@ logger = logging.getLogger(__name__)
 
 
 # ---------------------------------------------------------------------------
+# Unit normalisation
+# ---------------------------------------------------------------------------
+
+# facts.json stores monetary values in relative units (e.g. 22297 for
+# "SGD 22,297 million"). The extractor always multiplies out to absolute
+# values ("22,297 million" → 22_297_000_000). Without this table the
+# hallucination comparison becomes 22_297_000_000 vs 22_297 and every
+# monetary fact is flagged as a hallucination regardless of model quality.
+_UNIT_DIVISORS: dict = {
+    "sgd_millions": 1_000_000,
+    "usd_millions": 1_000_000,
+    "hkd_millions": 1_000_000,
+    "myr_millions": 1_000_000,
+    "sgd_billions": 1_000_000_000,
+    "usd_billions": 1_000_000_000,
+    "hkd_billions": 1_000_000_000,
+}
+
+
+def _normalise_to_facts_scale(
+    value: Optional[float],
+    expected_unit: Optional[str],
+) -> Optional[float]:
+    """Divide an extracted absolute value back to the scale used in facts.json.
+
+    Examples
+    --------
+    "SGD 22,297 million" is extracted as 22_297_000_000 (absolute).
+    With expected_unit="sgd_millions" this returns 22_297.0, which matches
+    the ground truth stored in facts.json directly.
+
+    Percent, ratio, and plain-dollar facts have no entry in _UNIT_DIVISORS
+    so they pass through unchanged (divisor = 1.0).
+    """
+    if value is None or not expected_unit:
+        return value
+    divisor = _UNIT_DIVISORS.get(expected_unit.lower().strip(), 1.0)
+    return value / divisor
+
+
+# ---------------------------------------------------------------------------
 # Lazy-loaded embedding model
 # ---------------------------------------------------------------------------
 # Sentence-transformers models are large (~80 MB for MiniLM).  We load once
@@ -431,6 +472,15 @@ def score_fact(
                 "Extraction failed for fact=%s template=%s temp=%.1f run=%d",
                 fact_id, template, temperature, i,
             )
+
+    # Step 1b: Normalise extracted absolute values to the same scale as
+    # facts.json. The extractor expands scale words to absolute values
+    # ("22,297 million" → 22_297_000_000) but facts.json stores relative
+    # values (22297.0 in sgd_millions). Dividing by the unit's scale factor
+    # brings both sides to the same denominator before any comparison.
+    extracted_values = [
+        _normalise_to_facts_scale(v, expected_unit) for v in extracted_values
+    ]
 
     # Step 2: Compute semantic consistency
     semantic_consistency = compute_semantic_consistency(

@@ -1,7 +1,12 @@
 {
-  "version": "1.0",
+  "version": "gold-1.0",
   "last_verified": "2026-03-31",
-  "notes": "Values sourced from FY2024 annual reports of five SGX-listed companies. Exact table values are used where available in preference to rounded headline figures. Facts not clearly supported by the source reports have been excluded.",
+  "notes": "Gold evaluation dataset built conservatively from FY2024 annual reports uploaded in this conversation. Values use exact table values where available rather than rounded headline figures. Ambiguous or insufficiently supported fields were excluded.",
+  "basis_policy": {
+    "precision": "Prefer exact annual-report table values over rounded headline values.",
+    "capital_ratios": "Use the explicitly stated basis in context; if basis differs across disclosures, context notes this.",
+    "exclusions": "Remove metrics not clearly supported by the uploaded annual reports."
+  },
   "facts": [
     {
       "id": "dbs_fy2024_nim",
@@ -380,7 +385,7 @@
     },
     {
       "id": "capitaland_fy2024_aum",
-      "company": "CapitaLand",
+      "company": "CapitaLand Investment",
       "metric": "Assets Under Management",
       "metric_abbreviation": "AUM",
       "period": "FY2024",
@@ -395,7 +400,7 @@
     },
     {
       "id": "capitaland_fy2024_fee_income",
-      "company": "CapitaLand",
+      "company": "CapitaLand Investment",
       "metric": "Fee Income-related Business Revenue",
       "metric_abbreviation": "FRB Revenue",
       "period": "FY2024",
@@ -410,7 +415,7 @@
     },
     {
       "id": "capitaland_fy2024_net_profit",
-      "company": "CapitaLand",
+      "company": "CapitaLand Investment",
       "metric": "Total PATMI",
       "metric_abbreviation": "PATMI",
       "period": "FY2024",
@@ -425,7 +430,7 @@
     },
     {
       "id": "capitaland_fy2024_fum",
-      "company": "CapitaLand",
+      "company": "CapitaLand Investment",
       "metric": "Funds Under Management",
       "metric_abbreviation": "FUM",
       "period": "FY2024",
