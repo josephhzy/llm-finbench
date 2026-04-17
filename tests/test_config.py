@@ -6,11 +6,9 @@ validation error detection, and config snapshot serialisation.
 
 from __future__ import annotations
 
-import copy
 import json
 import math
 import os
-import tempfile
 
 import pytest
 import yaml
@@ -31,9 +29,7 @@ from src.config import (
 )
 
 # Path to the real config.yaml
-CONFIG_PATH = os.path.join(
-    os.path.dirname(__file__), os.pardir, "config.yaml"
-)
+CONFIG_PATH = os.path.join(os.path.dirname(__file__), os.pardir, "config.yaml")
 
 
 # ===========================================================================
@@ -155,11 +151,15 @@ class TestValidateWeights:
         return AppConfig(
             model=ModelConfig(provider="test", name="test-model", max_tokens=512),
             evaluation=EvaluationConfig(
-                temperatures=[0.0], runs_per_combination=3, templates=["direct_extraction"]
+                temperatures=[0.0],
+                runs_per_combination=3,
+                templates=["direct_extraction"],
             ),
             quick_mode=QuickModeConfig(
-                temperatures=[0.0], runs_per_combination=3, max_facts=5,
-                templates=["direct_extraction"]
+                temperatures=[0.0],
+                runs_per_combination=3,
+                max_facts=5,
+                templates=["direct_extraction"],
             ),
             scoring=ScoringConfig(
                 embedding_model="all-MiniLM-L6-v2",
@@ -169,13 +169,18 @@ class TestValidateWeights:
             flagging=FlaggingConfig(green_threshold=0.75, yellow_threshold=0.50),
             checkpoint=CheckpointConfig(save_interval=50, directory="results"),
             cost=CostConfig(
-                avg_input_tokens=200, avg_output_tokens=300,
-                price_per_1k_input=0.003, price_per_1k_output=0.015,
+                avg_input_tokens=200,
+                avg_output_tokens=300,
+                price_per_1k_input=0.003,
+                price_per_1k_output=0.015,
                 confirmation_threshold=1.0,
             ),
             api=ApiConfig(
-                timeout_seconds=30, max_retries=5, base_backoff_seconds=1.0,
-                max_backoff_seconds=60.0, rate_limit_rpm=50,
+                timeout_seconds=30,
+                max_retries=5,
+                base_backoff_seconds=1.0,
+                max_backoff_seconds=60.0,
+                rate_limit_rpm=50,
             ),
         )
 
@@ -198,11 +203,15 @@ class TestValidateWeights:
         config = AppConfig(
             model=ModelConfig(provider="test", name="test-model", max_tokens=512),
             evaluation=EvaluationConfig(
-                temperatures=[0.0], runs_per_combination=3, templates=["direct_extraction"]
+                temperatures=[0.0],
+                runs_per_combination=3,
+                templates=["direct_extraction"],
             ),
             quick_mode=QuickModeConfig(
-                temperatures=[0.0], runs_per_combination=3, max_facts=5,
-                templates=["direct_extraction"]
+                temperatures=[0.0],
+                runs_per_combination=3,
+                max_facts=5,
+                templates=["direct_extraction"],
             ),
             scoring=ScoringConfig(
                 embedding_model="all-MiniLM-L6-v2",
@@ -216,13 +225,18 @@ class TestValidateWeights:
             flagging=FlaggingConfig(green_threshold=0.75, yellow_threshold=0.50),
             checkpoint=CheckpointConfig(save_interval=50, directory="results"),
             cost=CostConfig(
-                avg_input_tokens=200, avg_output_tokens=300,
-                price_per_1k_input=0.003, price_per_1k_output=0.015,
+                avg_input_tokens=200,
+                avg_output_tokens=300,
+                price_per_1k_input=0.003,
+                price_per_1k_output=0.015,
                 confirmation_threshold=1.0,
             ),
             api=ApiConfig(
-                timeout_seconds=30, max_retries=5, base_backoff_seconds=1.0,
-                max_backoff_seconds=60.0, rate_limit_rpm=50,
+                timeout_seconds=30,
+                max_retries=5,
+                base_backoff_seconds=1.0,
+                max_backoff_seconds=60.0,
+                rate_limit_rpm=50,
             ),
         )
         with pytest.raises(ValueError, match="keys must be"):
@@ -247,7 +261,9 @@ class TestValidateTemperatures:
                 templates=["direct_extraction"],
             ),
             quick_mode=QuickModeConfig(
-                temperatures=[0.0], runs_per_combination=3, max_facts=5,
+                temperatures=[0.0],
+                runs_per_combination=3,
+                max_facts=5,
                 templates=["direct_extraction"],
             ),
             scoring=ScoringConfig(
@@ -262,13 +278,18 @@ class TestValidateTemperatures:
             flagging=FlaggingConfig(green_threshold=0.75, yellow_threshold=0.50),
             checkpoint=CheckpointConfig(save_interval=50, directory="results"),
             cost=CostConfig(
-                avg_input_tokens=200, avg_output_tokens=300,
-                price_per_1k_input=0.003, price_per_1k_output=0.015,
+                avg_input_tokens=200,
+                avg_output_tokens=300,
+                price_per_1k_input=0.003,
+                price_per_1k_output=0.015,
                 confirmation_threshold=1.0,
             ),
             api=ApiConfig(
-                timeout_seconds=30, max_retries=5, base_backoff_seconds=1.0,
-                max_backoff_seconds=60.0, rate_limit_rpm=50,
+                timeout_seconds=30,
+                max_retries=5,
+                base_backoff_seconds=1.0,
+                max_backoff_seconds=60.0,
+                rate_limit_rpm=50,
             ),
         )
         with pytest.raises(ValueError, match="2.5"):
@@ -283,7 +304,9 @@ class TestValidateTemperatures:
                 templates=["direct_extraction"],
             ),
             quick_mode=QuickModeConfig(
-                temperatures=[0.0], runs_per_combination=3, max_facts=5,
+                temperatures=[0.0],
+                runs_per_combination=3,
+                max_facts=5,
                 templates=["direct_extraction"],
             ),
             scoring=ScoringConfig(
@@ -298,13 +321,18 @@ class TestValidateTemperatures:
             flagging=FlaggingConfig(green_threshold=0.75, yellow_threshold=0.50),
             checkpoint=CheckpointConfig(save_interval=50, directory="results"),
             cost=CostConfig(
-                avg_input_tokens=200, avg_output_tokens=300,
-                price_per_1k_input=0.003, price_per_1k_output=0.015,
+                avg_input_tokens=200,
+                avg_output_tokens=300,
+                price_per_1k_input=0.003,
+                price_per_1k_output=0.015,
                 confirmation_threshold=1.0,
             ),
             api=ApiConfig(
-                timeout_seconds=30, max_retries=5, base_backoff_seconds=1.0,
-                max_backoff_seconds=60.0, rate_limit_rpm=50,
+                timeout_seconds=30,
+                max_retries=5,
+                base_backoff_seconds=1.0,
+                max_backoff_seconds=60.0,
+                rate_limit_rpm=50,
             ),
         )
         with pytest.raises(ValueError, match="-0.1"):
@@ -323,11 +351,15 @@ class TestValidateThresholds:
         config = AppConfig(
             model=ModelConfig(provider="test", name="test-model", max_tokens=512),
             evaluation=EvaluationConfig(
-                temperatures=[0.0], runs_per_combination=3, templates=["direct_extraction"]
+                temperatures=[0.0],
+                runs_per_combination=3,
+                templates=["direct_extraction"],
             ),
             quick_mode=QuickModeConfig(
-                temperatures=[0.0], runs_per_combination=3, max_facts=5,
-                templates=["direct_extraction"]
+                temperatures=[0.0],
+                runs_per_combination=3,
+                max_facts=5,
+                templates=["direct_extraction"],
             ),
             scoring=ScoringConfig(
                 embedding_model="all-MiniLM-L6-v2",
@@ -341,13 +373,18 @@ class TestValidateThresholds:
             flagging=FlaggingConfig(green_threshold=0.50, yellow_threshold=0.50),
             checkpoint=CheckpointConfig(save_interval=50, directory="results"),
             cost=CostConfig(
-                avg_input_tokens=200, avg_output_tokens=300,
-                price_per_1k_input=0.003, price_per_1k_output=0.015,
+                avg_input_tokens=200,
+                avg_output_tokens=300,
+                price_per_1k_input=0.003,
+                price_per_1k_output=0.015,
                 confirmation_threshold=1.0,
             ),
             api=ApiConfig(
-                timeout_seconds=30, max_retries=5, base_backoff_seconds=1.0,
-                max_backoff_seconds=60.0, rate_limit_rpm=50,
+                timeout_seconds=30,
+                max_retries=5,
+                base_backoff_seconds=1.0,
+                max_backoff_seconds=60.0,
+                rate_limit_rpm=50,
             ),
         )
         with pytest.raises(ValueError, match="strictly greater"):
@@ -357,11 +394,15 @@ class TestValidateThresholds:
         config = AppConfig(
             model=ModelConfig(provider="test", name="test-model", max_tokens=512),
             evaluation=EvaluationConfig(
-                temperatures=[0.0], runs_per_combination=3, templates=["direct_extraction"]
+                temperatures=[0.0],
+                runs_per_combination=3,
+                templates=["direct_extraction"],
             ),
             quick_mode=QuickModeConfig(
-                temperatures=[0.0], runs_per_combination=3, max_facts=5,
-                templates=["direct_extraction"]
+                temperatures=[0.0],
+                runs_per_combination=3,
+                max_facts=5,
+                templates=["direct_extraction"],
             ),
             scoring=ScoringConfig(
                 embedding_model="all-MiniLM-L6-v2",
@@ -375,13 +416,18 @@ class TestValidateThresholds:
             flagging=FlaggingConfig(green_threshold=0.40, yellow_threshold=0.50),
             checkpoint=CheckpointConfig(save_interval=50, directory="results"),
             cost=CostConfig(
-                avg_input_tokens=200, avg_output_tokens=300,
-                price_per_1k_input=0.003, price_per_1k_output=0.015,
+                avg_input_tokens=200,
+                avg_output_tokens=300,
+                price_per_1k_input=0.003,
+                price_per_1k_output=0.015,
                 confirmation_threshold=1.0,
             ),
             api=ApiConfig(
-                timeout_seconds=30, max_retries=5, base_backoff_seconds=1.0,
-                max_backoff_seconds=60.0, rate_limit_rpm=50,
+                timeout_seconds=30,
+                max_retries=5,
+                base_backoff_seconds=1.0,
+                max_backoff_seconds=60.0,
+                rate_limit_rpm=50,
             ),
         )
         with pytest.raises(ValueError, match="strictly greater"):
@@ -412,8 +458,14 @@ class TestSnapshotConfig:
         config = load_config(CONFIG_PATH)
         snap = snapshot_config(config)
         expected_keys = [
-            "model", "evaluation", "quick_mode", "scoring",
-            "flagging", "checkpoint", "cost", "api",
+            "model",
+            "evaluation",
+            "quick_mode",
+            "scoring",
+            "flagging",
+            "checkpoint",
+            "cost",
+            "api",
         ]
         for key in expected_keys:
             assert key in snap, f"Missing section: {key}"
@@ -452,6 +504,8 @@ class TestMalformedConfig:
     def test_missing_section_raises(self, tmp_path):
         """YAML missing a required section should raise KeyError."""
         config_file = tmp_path / "partial.yaml"
-        config_file.write_text(yaml.dump({"model": {"provider": "test", "name": "x", "max_tokens": 512}}))
+        config_file.write_text(
+            yaml.dump({"model": {"provider": "test", "name": "x", "max_tokens": 512}})
+        )
         with pytest.raises(KeyError, match="Missing required"):
             load_config(str(config_file))

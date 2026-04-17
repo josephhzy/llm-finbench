@@ -119,7 +119,8 @@ def _parse_args() -> argparse.Namespace:
         help="Resume a previous run by its run_id",
     )
     parser.add_argument(
-        "--verbose", "-v",
+        "--verbose",
+        "-v",
         action="store_true",
         help="Set logging to DEBUG level for detailed output",
     )
@@ -286,7 +287,9 @@ def main() -> None:
                 file=sys.stderr,
             )
             sys.exit(1)
-        print(f"Company filter '{args.company}': {len(facts)}/{len(all_facts)} facts selected")
+        print(
+            f"Company filter '{args.company}': {len(facts)}/{len(all_facts)} facts selected"
+        )
 
     # Apply max_facts limit in quick mode (after company filter).
     if args.quick:

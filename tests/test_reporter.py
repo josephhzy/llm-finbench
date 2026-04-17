@@ -20,9 +20,7 @@ from src.config import load_config
 from src.reporter import _flag_from_score, generate_report
 
 # Path to real config for loading AppConfig
-CONFIG_PATH = os.path.join(
-    os.path.dirname(__file__), os.pardir, "config.yaml"
-)
+CONFIG_PATH = os.path.join(os.path.dirname(__file__), os.pardir, "config.yaml")
 
 
 # ===========================================================================
@@ -146,24 +144,26 @@ def _fake_score_all_groups(groups, facts_lookup, config):
     rows = []
     for (fact_id, template, temperature), records in sorted(groups.items()):
         fact = facts_lookup.get(fact_id, {})
-        rows.append({
-            "fact_id": fact_id,
-            "company": fact.get("company", "unknown"),
-            "metric": fact.get("metric", "unknown"),
-            "category": fact.get("category", "unknown"),
-            "difficulty": fact.get("difficulty", "unknown"),
-            "template": template,
-            "temperature": temperature,
-            "n_runs": len(records),
-            "semantic_score": 0.95,
-            "factual_score": 1.0,
-            "hallucination_rate": 0.0,
-            "extraction_failure_rate": 0.0,
-            "modal_value": 2.14,
-            "ground_truth": fact.get("value"),
-            "composite_stability": 0.85,
-            "flag": "\U0001f7e2",
-        })
+        rows.append(
+            {
+                "fact_id": fact_id,
+                "company": fact.get("company", "unknown"),
+                "metric": fact.get("metric", "unknown"),
+                "category": fact.get("category", "unknown"),
+                "difficulty": fact.get("difficulty", "unknown"),
+                "template": template,
+                "temperature": temperature,
+                "n_runs": len(records),
+                "semantic_score": 0.95,
+                "factual_score": 1.0,
+                "hallucination_rate": 0.0,
+                "extraction_failure_rate": 0.0,
+                "modal_value": 2.14,
+                "ground_truth": fact.get("value"),
+                "composite_stability": 0.85,
+                "flag": "\U0001f7e2",
+            }
+        )
     return rows
 
 
@@ -235,8 +235,8 @@ class TestReportGeneration:
             lines = fh.readlines()
 
         # Should have comment header lines (starting with #) plus CSV data
-        comment_lines = [l for l in lines if l.startswith("#")]
-        data_lines = [l for l in lines if not l.startswith("#")]
+        comment_lines = [line for line in lines if line.startswith("#")]
+        data_lines = [line for line in lines if not line.startswith("#")]
         assert len(comment_lines) > 0, "Missing comment header in CSV"
         # At least a header row and one data row
         assert len(data_lines) >= 2, "CSV should have header + data rows"
@@ -323,4 +323,4 @@ class TestReportGeneration:
 
         # Should document the thresholds in the header
         assert "0.75" in content  # green threshold
-        assert "0.5" in content   # yellow threshold
+        assert "0.5" in content  # yellow threshold

@@ -9,7 +9,6 @@ import io
 from typing import Optional
 import streamlit as st
 import pandas as pd
-import plotly.express as px
 import plotly.graph_objects as go
 
 # ── Page config ─────────────────────────────────────────────────────────────
@@ -21,7 +20,8 @@ st.set_page_config(
 )
 
 # ── Custom CSS ───────────────────────────────────────────────────────────────
-st.markdown("""
+st.markdown(
+    """
 <style>
   .stApp { background-color: #f8f9fb; }
 
@@ -106,7 +106,9 @@ st.markdown("""
   #MainMenu { visibility: hidden; }
   footer     { visibility: hidden; }
 </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
 
 # ── Embedded fallback data ───────────────────────────────────────────────────
@@ -218,20 +220,20 @@ def flag_emoji(val: float) -> str:
 
 
 # ── Load data ─────────────────────────────────────────────────────────────────
-df_template    = load_by_template()
-df_company     = load_by_company()
+df_template = load_by_template()
+df_company = load_by_company()
 df_temperature = load_by_temperature()
-df_category    = load_by_category()
-df_per_fact    = load_per_fact()
+df_category = load_by_category()
+df_per_fact = load_per_fact()
 
 OVERALL_STABILITY = 0.5927
-TOTAL_API_CALLS   = 5350
-N_FACTS           = 29
-N_COMPANIES       = 5
+TOTAL_API_CALLS = 5350
+N_FACTS = 29
+N_COMPANIES = 5
 HALLUCINATION_RATE = 0.6535
-GREEN_PCT  = 27.1
+GREEN_PCT = 27.1
 YELLOW_PCT = 22.8
-RED_PCT    = 50.1
+RED_PCT = 50.1
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 with st.sidebar:
@@ -273,11 +275,14 @@ the FY2024 annual reports.
     st.divider()
 
     st.markdown("### Stability Scale")
-    st.markdown("""
+    st.markdown(
+        """
 <span style='color:#2e7d32;font-weight:700'>🟢 GREEN ≥ 0.75</span> — Reliable
 <span style='color:#e65100;font-weight:700'>🟡 YELLOW ≥ 0.50</span> — Moderate
 <span style='color:#c62828;font-weight:700'>🔴 RED < 0.50</span> — Unreliable
-""", unsafe_allow_html=True)
+""",
+        unsafe_allow_html=True,
+    )
     st.divider()
 
     st.markdown("### Links")
@@ -294,28 +299,30 @@ the FY2024 annual reports.
     # Default to the model actually used so the displayed cost matches the real spend.
     _COST_MODELS = {
         "OpenAI": {
-            "GPT-5 nano (actual)": {"input": 0.0002,   "output": 0.00125},
-            "GPT-5 mini":          {"input": 0.00075,  "output": 0.0045},
-            "GPT-5":               {"input": 0.0025,   "output": 0.015},
+            "GPT-5 nano (actual)": {"input": 0.0002, "output": 0.00125},
+            "GPT-5 mini": {"input": 0.00075, "output": 0.0045},
+            "GPT-5": {"input": 0.0025, "output": 0.015},
         },
     }
 
     # Real measured averages from the actual benchmark run
-    _AVG_IN      = 36
-    _AVG_OUT     = 35
+    _AVG_IN = 36
+    _AVG_OUT = 35
     _TOTAL_CALLS = 5_350
 
     provider_pick = st.selectbox(
         "Provider", list(_COST_MODELS.keys()), key="cost_provider"
     )
     model_pick = st.selectbox(
-        "Model", list(_COST_MODELS[provider_pick].keys()), key="cost_model",
+        "Model",
+        list(_COST_MODELS[provider_pick].keys()),
+        key="cost_model",
         index=0,
     )
 
     p = _COST_MODELS[provider_pick][model_pick]
-    cost_in   = _TOTAL_CALLS * _AVG_IN  / 1000 * p["input"]
-    cost_out  = _TOTAL_CALLS * _AVG_OUT / 1000 * p["output"]
+    cost_in = _TOTAL_CALLS * _AVG_IN / 1000 * p["input"]
+    cost_out = _TOTAL_CALLS * _AVG_OUT / 1000 * p["output"]
     est_total = cost_in + cost_out
 
     st.markdown(
@@ -341,8 +348,8 @@ st.markdown(
 c1, c2, c3, c4, c5 = st.columns(5)
 for col, num, lbl in [
     (c1, f"{TOTAL_API_CALLS:,}", "API Calls Made"),
-    (c2, str(N_FACTS),           "Facts Tested"),
-    (c3, str(N_COMPANIES),       "Companies"),
+    (c2, str(N_FACTS), "Facts Tested"),
+    (c3, str(N_COMPANIES), "Companies"),
     (c4, f"{OVERALL_STABILITY:.3f}", "Mean Stability (🟡 Yellow)"),
     (c5, f"{HALLUCINATION_RATE:.0%}", "Hallucination Rate"),
 ]:
@@ -350,7 +357,7 @@ for col, num, lbl in [
         f'<div class="stat-box">'
         f'<div class="stat-num">{num}</div>'
         f'<div class="stat-label">{lbl}</div>'
-        f'</div>',
+        f"</div>",
         unsafe_allow_html=True,
     )
 
@@ -358,7 +365,8 @@ st.markdown("<br>", unsafe_allow_html=True)
 
 # ── Flag distribution ─────────────────────────────────────────────────────────
 st.markdown("#### Overall Flag Distribution — 535 Evaluation Groups")
-st.markdown(f"""
+st.markdown(
+    f"""
 <div style="display:flex;gap:12px;margin:10px 0 4px;">
   <div style="flex:1;background:#e8f5e9;border-left:5px solid #2e7d32;border-radius:8px;padding:16px 20px;">
     <div style="font-size:1.6rem;font-weight:700;color:#2e7d32;">🟢 {GREEN_PCT}%</div>
@@ -376,7 +384,9 @@ st.markdown(f"""
     <div style="color:#555;font-size:0.82rem;">Composite stability &lt; 0.50 &nbsp;·&nbsp; 268 of 535 groups</div>
   </div>
 </div>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
 st.divider()
 
@@ -425,7 +435,7 @@ for num, title, body in findings:
         f'<div class="finding-num">Finding {num}</div>'
         f'<div class="finding-title">{title}</div>'
         f'<div class="finding-body">{body}</div>'
-        f'</div>',
+        f"</div>",
         unsafe_allow_html=True,
     )
 
@@ -434,16 +444,23 @@ st.divider()
 
 # ── Charts ────────────────────────────────────────────────────────────────────
 st.markdown("## Results by Dimension")
-tab1, tab2, tab3, tab4 = st.tabs([
-    "📋 By Template",
-    "🏢 By Company",
-    "🌡️ By Temperature",
-    "📂 By Metric Category",
-])
+tab1, tab2, tab3, tab4 = st.tabs(
+    [
+        "📋 By Template",
+        "🏢 By Company",
+        "🌡️ By Temperature",
+        "📂 By Metric Category",
+    ]
+)
 
 CHART_H = 380
 TICK_FONT = dict(size=12, color="#1a1a1a")
-AXIS_STYLE = dict(showgrid=True, gridcolor="#eeeeee", tickfont=dict(color="#1a1a1a"), title_font=dict(color="#1a1a1a"))
+AXIS_STYLE = dict(
+    showgrid=True,
+    gridcolor="#eeeeee",
+    tickfont=dict(color="#1a1a1a"),
+    title_font=dict(color="#1a1a1a"),
+)
 CHART_FONT = dict(color="#1a1a1a")
 
 
@@ -458,24 +475,41 @@ with tab1:
         "comparative (vs benchmark), and qualitative (descriptive framing)."
     )
     df_t = df_template.sort_values("composite_stability")
-    fig = go.Figure(go.Bar(
-        x=df_t["composite_stability"],
-        y=df_t["template"],
-        orientation="h",
-        marker_color=_chart_colors(df_t),
-        text=[f"{v:.3f}" for v in df_t["composite_stability"]],
-        textposition="outside",
-        width=0.5,
-    ))
-    fig.add_vline(x=0.75, line_dash="dash", line_color="#2e7d32", annotation_text="Green threshold",
-                  annotation_position="top right")
-    fig.add_vline(x=0.50, line_dash="dash", line_color="#e65100", annotation_text="Yellow threshold",
-                  annotation_position="top right")
+    fig = go.Figure(
+        go.Bar(
+            x=df_t["composite_stability"],
+            y=df_t["template"],
+            orientation="h",
+            marker_color=_chart_colors(df_t),
+            text=[f"{v:.3f}" for v in df_t["composite_stability"]],
+            textposition="outside",
+            width=0.5,
+        )
+    )
+    fig.add_vline(
+        x=0.75,
+        line_dash="dash",
+        line_color="#2e7d32",
+        annotation_text="Green threshold",
+        annotation_position="top right",
+    )
+    fig.add_vline(
+        x=0.50,
+        line_dash="dash",
+        line_color="#e65100",
+        annotation_text="Yellow threshold",
+        annotation_position="top right",
+    )
     fig.update_layout(
-        height=CHART_H, xaxis=dict(range=[0, 1.05], **AXIS_STYLE), yaxis=AXIS_STYLE,
-        plot_bgcolor="#f8f9fb", paper_bgcolor="#f8f9fb",
-        margin=dict(l=0, r=60, t=20, b=20), showlegend=False,
-        xaxis_title="Composite Stability", yaxis_title=None,
+        height=CHART_H,
+        xaxis=dict(range=[0, 1.05], **AXIS_STYLE),
+        yaxis=AXIS_STYLE,
+        plot_bgcolor="#f8f9fb",
+        paper_bgcolor="#f8f9fb",
+        margin=dict(l=0, r=60, t=20, b=20),
+        showlegend=False,
+        xaxis_title="Composite Stability",
+        yaxis_title=None,
         font=CHART_FONT,
     )
     st.plotly_chart(fig, use_container_width=True, config={"staticPlot": True})
@@ -483,10 +517,22 @@ with tab1:
     col_a, col_b = st.columns(2)
     with col_a:
         st.markdown("**Detailed scores by template**")
-        display_t = df_template[["template", "composite_stability", "factual_score",
-                                  "semantic_score", "hallucination_rate"]].copy()
-        display_t.columns = ["Template", "Stability", "Factual Score",
-                              "Semantic Score", "Hallucination Rate"]
+        display_t = df_template[
+            [
+                "template",
+                "composite_stability",
+                "factual_score",
+                "semantic_score",
+                "hallucination_rate",
+            ]
+        ].copy()
+        display_t.columns = [
+            "Template",
+            "Stability",
+            "Factual Score",
+            "Semantic Score",
+            "Hallucination Rate",
+        ]
         display_t["Flag"] = display_t["Stability"].apply(flag_emoji)
         st.dataframe(display_t.set_index("Template").round(3), use_container_width=True)
     with col_b:
@@ -507,30 +553,43 @@ with tab2:
         "Stability is averaged across all facts, templates, and temperatures for each company."
     )
     df_c = df_company.sort_values("composite_stability")
-    fig = go.Figure(go.Bar(
-        x=df_c["composite_stability"],
-        y=df_c["company"],
-        orientation="h",
-        marker_color=_chart_colors(df_c),
-        text=[f"{v:.3f}" for v in df_c["composite_stability"]],
-        textposition="outside",
-        width=0.5,
-    ))
+    fig = go.Figure(
+        go.Bar(
+            x=df_c["composite_stability"],
+            y=df_c["company"],
+            orientation="h",
+            marker_color=_chart_colors(df_c),
+            text=[f"{v:.3f}" for v in df_c["composite_stability"]],
+            textposition="outside",
+            width=0.5,
+        )
+    )
     fig.add_vline(x=0.50, line_dash="dash", line_color="#e65100")
     fig.update_layout(
-        height=CHART_H, xaxis=dict(range=[0, 0.75], **AXIS_STYLE), yaxis=AXIS_STYLE,
-        plot_bgcolor="#f8f9fb", paper_bgcolor="#f8f9fb",
-        margin=dict(l=0, r=60, t=20, b=20), showlegend=False,
-        xaxis_title="Composite Stability", yaxis_title=None,
+        height=CHART_H,
+        xaxis=dict(range=[0, 0.75], **AXIS_STYLE),
+        yaxis=AXIS_STYLE,
+        plot_bgcolor="#f8f9fb",
+        paper_bgcolor="#f8f9fb",
+        margin=dict(l=0, r=60, t=20, b=20),
+        showlegend=False,
+        xaxis_title="Composite Stability",
+        yaxis_title=None,
         font=CHART_FONT,
     )
     st.plotly_chart(fig, use_container_width=True, config={"staticPlot": True})
 
     col_a, col_b = st.columns(2)
     with col_a:
-        display_c = df_company[["company", "composite_stability", "factual_score",
-                                 "hallucination_rate"]].copy()
-        display_c.columns = ["Company", "Stability", "Factual Score", "Hallucination Rate"]
+        display_c = df_company[
+            ["company", "composite_stability", "factual_score", "hallucination_rate"]
+        ].copy()
+        display_c.columns = [
+            "Company",
+            "Stability",
+            "Factual Score",
+            "Hallucination Rate",
+        ]
         display_c["Flag"] = display_c["Stability"].apply(flag_emoji)
         st.dataframe(display_c.set_index("Company").round(3), use_container_width=True)
     with col_b:
@@ -551,39 +610,74 @@ with tab3:
     df_temp = df_temp.sort_values("temperature")
 
     fig = go.Figure()
-    fig.add_trace(go.Scatter(
-        x=df_temp["temperature"], y=df_temp["composite_stability"],
-        mode="lines+markers+text",
-        line=dict(color="#149ddd", width=2),
-        marker=dict(size=10, color=[stability_color(v) for v in df_temp["composite_stability"]]),
-        text=[f"{v:.3f}" for v in df_temp["composite_stability"]],
-        textposition="top center",
-        name="Composite Stability",
-    ))
-    fig.add_trace(go.Scatter(
-        x=df_temp["temperature"], y=df_temp["factual_score"],
-        mode="lines+markers",
-        line=dict(color="#9c27b0", width=2, dash="dot"),
-        marker=dict(size=8, color="#9c27b0"),
-        name="Factual Score",
-    ))
-    fig.add_trace(go.Scatter(
-        x=df_temp["temperature"], y=df_temp["semantic_score"],
-        mode="lines+markers",
-        line=dict(color="#4caf50", width=2, dash="dash"),
-        marker=dict(size=8, color="#4caf50"),
-        name="Semantic Consistency",
-    ))
-    fig.add_hrect(y0=0.75, y1=1.0, fillcolor="#2e7d32", opacity=0.05, line_width=0,
-                  annotation_text="Green zone", annotation_position="right")
-    fig.add_hrect(y0=0.5, y1=0.75, fillcolor="#e65100", opacity=0.05, line_width=0,
-                  annotation_text="Yellow zone", annotation_position="right")
-    fig.add_hrect(y0=0, y1=0.5, fillcolor="#c62828", opacity=0.05, line_width=0,
-                  annotation_text="Red zone", annotation_position="right")
+    fig.add_trace(
+        go.Scatter(
+            x=df_temp["temperature"],
+            y=df_temp["composite_stability"],
+            mode="lines+markers+text",
+            line=dict(color="#149ddd", width=2),
+            marker=dict(
+                size=10,
+                color=[stability_color(v) for v in df_temp["composite_stability"]],
+            ),
+            text=[f"{v:.3f}" for v in df_temp["composite_stability"]],
+            textposition="top center",
+            name="Composite Stability",
+        )
+    )
+    fig.add_trace(
+        go.Scatter(
+            x=df_temp["temperature"],
+            y=df_temp["factual_score"],
+            mode="lines+markers",
+            line=dict(color="#9c27b0", width=2, dash="dot"),
+            marker=dict(size=8, color="#9c27b0"),
+            name="Factual Score",
+        )
+    )
+    fig.add_trace(
+        go.Scatter(
+            x=df_temp["temperature"],
+            y=df_temp["semantic_score"],
+            mode="lines+markers",
+            line=dict(color="#4caf50", width=2, dash="dash"),
+            marker=dict(size=8, color="#4caf50"),
+            name="Semantic Consistency",
+        )
+    )
+    fig.add_hrect(
+        y0=0.75,
+        y1=1.0,
+        fillcolor="#2e7d32",
+        opacity=0.05,
+        line_width=0,
+        annotation_text="Green zone",
+        annotation_position="right",
+    )
+    fig.add_hrect(
+        y0=0.5,
+        y1=0.75,
+        fillcolor="#e65100",
+        opacity=0.05,
+        line_width=0,
+        annotation_text="Yellow zone",
+        annotation_position="right",
+    )
+    fig.add_hrect(
+        y0=0,
+        y1=0.5,
+        fillcolor="#c62828",
+        opacity=0.05,
+        line_width=0,
+        annotation_text="Red zone",
+        annotation_position="right",
+    )
     fig.update_layout(
-        height=CHART_H, xaxis=dict(title="Temperature", **AXIS_STYLE),
+        height=CHART_H,
+        xaxis=dict(title="Temperature", **AXIS_STYLE),
         yaxis=dict(title="Score", range=[0.3, 1.05], **AXIS_STYLE),
-        plot_bgcolor="#f8f9fb", paper_bgcolor="#f8f9fb",
+        plot_bgcolor="#f8f9fb",
+        paper_bgcolor="#f8f9fb",
         margin=dict(l=0, r=80, t=20, b=20),
         legend=dict(x=0.75, y=1.0, font=dict(color="#1a1a1a")),
         font=CHART_FONT,
@@ -592,11 +686,25 @@ with tab3:
 
     col_a, col_b = st.columns(2)
     with col_a:
-        display_temp = df_temp[["temperature", "composite_stability", "factual_score",
-                                 "semantic_score", "hallucination_rate"]].copy()
-        display_temp.columns = ["Temperature", "Stability", "Factual Score",
-                                 "Semantic Score", "Hallucination Rate"]
-        st.dataframe(display_temp.set_index("Temperature").round(3), use_container_width=True)
+        display_temp = df_temp[
+            [
+                "temperature",
+                "composite_stability",
+                "factual_score",
+                "semantic_score",
+                "hallucination_rate",
+            ]
+        ].copy()
+        display_temp.columns = [
+            "Temperature",
+            "Stability",
+            "Factual Score",
+            "Semantic Score",
+            "Hallucination Rate",
+        ]
+        st.dataframe(
+            display_temp.set_index("Temperature").round(3), use_container_width=True
+        )
     with col_b:
         st.info(
             "**Temperature spread: 0.19** between T=0.0 (0.723) and T=1.0 (0.530). "
@@ -614,22 +722,29 @@ with tab4:
         "show the lowest stability, while capital ratios and liquidity metrics are most reliable."
     )
     df_cat = df_category.sort_values("composite_stability")
-    fig = go.Figure(go.Bar(
-        x=df_cat["composite_stability"],
-        y=df_cat["category"].str.replace("_", " ").str.title(),
-        orientation="h",
-        marker_color=_chart_colors(df_cat),
-        text=[f"{v:.3f}" for v in df_cat["composite_stability"]],
-        textposition="outside",
-        width=0.55,
-    ))
+    fig = go.Figure(
+        go.Bar(
+            x=df_cat["composite_stability"],
+            y=df_cat["category"].str.replace("_", " ").str.title(),
+            orientation="h",
+            marker_color=_chart_colors(df_cat),
+            text=[f"{v:.3f}" for v in df_cat["composite_stability"]],
+            textposition="outside",
+            width=0.55,
+        )
+    )
     fig.add_vline(x=0.75, line_dash="dash", line_color="#2e7d32")
     fig.add_vline(x=0.50, line_dash="dash", line_color="#e65100")
     fig.update_layout(
-        height=480, xaxis=dict(range=[0, 0.85], **AXIS_STYLE), yaxis=AXIS_STYLE,
-        plot_bgcolor="#f8f9fb", paper_bgcolor="#f8f9fb",
-        margin=dict(l=0, r=60, t=20, b=20), showlegend=False,
-        xaxis_title="Composite Stability", yaxis_title=None,
+        height=480,
+        xaxis=dict(range=[0, 0.85], **AXIS_STYLE),
+        yaxis=AXIS_STYLE,
+        plot_bgcolor="#f8f9fb",
+        paper_bgcolor="#f8f9fb",
+        margin=dict(l=0, r=60, t=20, b=20),
+        showlegend=False,
+        xaxis_title="Composite Stability",
+        yaxis_title=None,
         font=CHART_FONT,
     )
     st.plotly_chart(fig, use_container_width=True, config={"staticPlot": True})
@@ -666,24 +781,35 @@ if df_per_fact is not None:
         filtered = filtered[filtered["category"].isin(cat_filter)]
 
     filtered["flag"] = filtered["composite_stability"].apply(flag_emoji)
-    display_pf = filtered[[
-        "flag", "company", "metric", "category",
-        "composite_stability", "factual_score", "hallucination_rate",
-    ]].rename(columns={
-        "flag": "",
-        "company": "Company",
-        "metric": "Metric",
-        "category": "Category",
-        "composite_stability": "Stability",
-        "factual_score": "Factual Score",
-        "hallucination_rate": "Hallucination Rate",
-    })
+    display_pf = filtered[
+        [
+            "flag",
+            "company",
+            "metric",
+            "category",
+            "composite_stability",
+            "factual_score",
+            "hallucination_rate",
+        ]
+    ].rename(
+        columns={
+            "flag": "",
+            "company": "Company",
+            "metric": "Metric",
+            "category": "Category",
+            "composite_stability": "Stability",
+            "factual_score": "Factual Score",
+            "hallucination_rate": "Hallucination Rate",
+        }
+    )
     st.dataframe(
-        display_pf.set_index("").style.format({
-            "Stability": "{:.3f}",
-            "Factual Score": "{:.3f}",
-            "Hallucination Rate": "{:.1%}",
-        }),
+        display_pf.set_index("").style.format(
+            {
+                "Stability": "{:.3f}",
+                "Factual Score": "{:.3f}",
+                "Hallucination Rate": "{:.1%}",
+            }
+        ),
         use_container_width=True,
         height=420,
     )
@@ -720,13 +846,15 @@ with col_m1:
     st.markdown(
         '<div class="formula-box" style="border-radius:6px;padding:12px 16px;font-family:monospace;'
         'font-size:13px;line-height:1.7;margin:8px 0 12px;border:1px solid #d0d7e3;">'
-        'stability = 0.3 × semantic_score<br>'
-        '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ 0.4 × factual_score<br>'
-        '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ 0.3 × (1 − hallucination_rate)'
-        '</div>',
+        "stability = 0.3 × semantic_score<br>"
+        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ 0.4 × factual_score<br>"
+        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ 0.3 × (1 − hallucination_rate)"
+        "</div>",
         unsafe_allow_html=True,
     )
-    st.markdown("Factual score is weighted highest because exact number reproduction is the core task.")
+    st.markdown(
+        "Factual score is weighted highest because exact number reproduction is the core task."
+    )
 with col_m2:
     st.markdown("""
 **Factual Accuracy**

@@ -130,7 +130,9 @@ class OpenAIAdapter(BaseAdapter):
                     output_tokens=response.usage.completion_tokens,
                     finish_reason=finish_reason,
                     latency_ms=elapsed_ms,
-                    raw_response=response.model_dump() if hasattr(response, "model_dump") else None,
+                    raw_response=response.model_dump()
+                    if hasattr(response, "model_dump")
+                    else None,
                 )
 
             except (
@@ -143,7 +145,7 @@ class OpenAIAdapter(BaseAdapter):
 
                 if attempt < max_retries:
                     backoff = min(
-                        base_backoff * (2 ** attempt),
+                        base_backoff * (2**attempt),
                         max_backoff,
                     )
                     logger.warning(

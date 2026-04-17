@@ -36,7 +36,7 @@ from __future__ import annotations
 
 import logging
 from collections import Counter
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Dict, List, Optional, Tuple
 
 import numpy as np
@@ -178,7 +178,7 @@ def _get_embedding_model(model_name: str):
     if _is_hf_transformer_model(model_name):
         # Load via transformers — FinBERT is not a native sentence-transformer.
         from transformers import AutoModel, AutoTokenizer
-        import torch
+
         logger.info("Loading HF transformer model (FinBERT-style): %s", model_name)
         tokenizer = AutoTokenizer.from_pretrained(model_name)
         model = AutoModel.from_pretrained(model_name)
@@ -190,6 +190,7 @@ def _get_embedding_model(model_name: str):
         return (model, tokenizer)
 
     from sentence_transformers import SentenceTransformer
+
     logger.info("Loading sentence-transformers model: %s", model_name)
     _embedding_model = SentenceTransformer(model_name)
     _hf_tokenizer = None
@@ -198,9 +199,7 @@ def _get_embedding_model(model_name: str):
     return _embedding_model
 
 
-def _encode_with_hf_transformer(
-    texts: List[str], model, tokenizer
-) -> np.ndarray:
+def _encode_with_hf_transformer(texts: List[str], model, tokenizer) -> np.ndarray:
     """Mean-pool last-hidden-state embeddings from an HF transformer.
 
     FinBERT exposes a BertModel but is not trained as a sentence encoder.
@@ -232,9 +231,9 @@ def _encode_with_hf_transformer(
     # out.last_hidden_state: (batch, seq_len, hidden_dim)
     last = out.last_hidden_state
     mask = enc["attention_mask"].unsqueeze(-1).float()  # (batch, seq_len, 1)
-    summed = (last * mask).sum(dim=1)                    # (batch, hidden_dim)
-    counts = mask.sum(dim=1).clamp(min=1e-9)             # avoid div-by-zero
-    pooled = summed / counts                             # (batch, hidden_dim)
+    summed = (last * mask).sum(dim=1)  # (batch, hidden_dim)
+    counts = mask.sum(dim=1).clamp(min=1e-9)  # avoid div-by-zero
+    pooled = summed / counts  # (batch, hidden_dim)
     # L2-normalise per row so dot product == cosine similarity
     norms = pooled.norm(dim=1, keepdim=True).clamp(min=1e-9)
     pooled = pooled / norms
@@ -244,6 +243,7 @@ def _encode_with_hf_transformer(
 # ---------------------------------------------------------------------------
 # Data class
 # ---------------------------------------------------------------------------
+
 
 @dataclass
 class FactScores:
@@ -284,6 +284,7 @@ class FactScores:
         The original LLM response texts. Preserved for reproducibility — you
         can re-run scoring from these without making new API calls.
     """
+
     fact_id: str
     template: str
     temperature: float
@@ -302,6 +303,7 @@ class FactScores:
 # ---------------------------------------------------------------------------
 # Scoring functions
 # ---------------------------------------------------------------------------
+
 
 def compute_semantic_consistency(responses: List[str], model_name: str) -> float:
     """Compute semantic consistency as mean pairwise cosine similarity.
@@ -532,6 +534,7 @@ def compute_composite_stability(
 # Full scoring pipeline
 # ---------------------------------------------------------------------------
 
+
 def score_fact(
     fact_id: str,
     template: str,
@@ -590,7 +593,10 @@ def score_fact(
         if result.value is None:
             logger.debug(
                 "Extraction failed for fact=%s template=%s temp=%.1f run=%d",
-                fact_id, template, temperature, i,
+                fact_id,
+                template,
+                temperature,
+                i,
             )
 
     # Step 1b: Normalise extracted absolute values to the same scale as
@@ -619,7 +625,9 @@ def score_fact(
 
     # Step 5: Compute composite stability
     composite_stability = compute_composite_stability(
-        semantic_consistency, factual_consistency, hallucination_rate,
+        semantic_consistency,
+        factual_consistency,
+        hallucination_rate,
         composite_weights,
     )
 
@@ -627,10 +635,16 @@ def score_fact(
         "Scored fact=%s template=%s temp=%.1f: "
         "semantic=%.3f factual=%.3f hallucination=%.3f composite=%.3f "
         "(modal=%s, extraction_failures=%d/%d)",
-        fact_id, template, temperature,
-        semantic_consistency, factual_consistency, hallucination_rate,
+        fact_id,
+        template,
+        temperature,
+        semantic_consistency,
+        factual_consistency,
+        hallucination_rate,
         composite_stability,
-        modal_value, int(extraction_failure_rate * n_runs), n_runs,
+        modal_value,
+        int(extraction_failure_rate * n_runs),
+        n_runs,
     )
 
     return FactScores(

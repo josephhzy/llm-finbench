@@ -33,6 +33,7 @@ from typing import List, Optional
 # Data structures
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class RunSummary:
     """Summary statistics for one evaluation run.
@@ -66,6 +67,7 @@ class RunSummary:
     n_red : int
         Count of groups flagged red.
     """
+
     label: str
     model_name: str
     composite_stability: float
@@ -99,6 +101,7 @@ class MetricComparison:
     higher_is_better : bool
         Whether a higher value means better performance for this metric.
     """
+
     metric_name: str
     value_a: float
     value_b: float
@@ -130,6 +133,7 @@ class ComparisonReport:
     recommendation : str
         Human-readable recommendation text.
     """
+
     label_a: str
     label_b: str
     metric_comparisons: List[MetricComparison] = field(default_factory=list)
@@ -214,11 +218,31 @@ def compare_runs(
     lb = label_b or run_b_summary.label
 
     metrics_to_compare = [
-        ("composite_stability", run_a_summary.composite_stability, run_b_summary.composite_stability),
-        ("factual_consistency", run_a_summary.factual_consistency, run_b_summary.factual_consistency),
-        ("semantic_consistency", run_a_summary.semantic_consistency, run_b_summary.semantic_consistency),
-        ("hallucination_rate", run_a_summary.hallucination_rate, run_b_summary.hallucination_rate),
-        ("extraction_failure_rate", run_a_summary.extraction_failure_rate, run_b_summary.extraction_failure_rate),
+        (
+            "composite_stability",
+            run_a_summary.composite_stability,
+            run_b_summary.composite_stability,
+        ),
+        (
+            "factual_consistency",
+            run_a_summary.factual_consistency,
+            run_b_summary.factual_consistency,
+        ),
+        (
+            "semantic_consistency",
+            run_a_summary.semantic_consistency,
+            run_b_summary.semantic_consistency,
+        ),
+        (
+            "hallucination_rate",
+            run_a_summary.hallucination_rate,
+            run_b_summary.hallucination_rate,
+        ),
+        (
+            "extraction_failure_rate",
+            run_a_summary.extraction_failure_rate,
+            run_b_summary.extraction_failure_rate,
+        ),
     ]
 
     comparisons: List[MetricComparison] = []
@@ -245,7 +269,12 @@ def compare_runs(
         overall_winner = "tie"
 
     recommendation = _generate_recommendation(
-        la, lb, comparisons, overall_winner, run_a_summary, run_b_summary,
+        la,
+        lb,
+        comparisons,
+        overall_winner,
+        run_a_summary,
+        run_b_summary,
     )
 
     return ComparisonReport(
@@ -313,6 +342,7 @@ def _generate_recommendation(
 # Report formatting
 # ---------------------------------------------------------------------------
 
+
 def format_comparison_report(report: ComparisonReport) -> str:
     """Format a ComparisonReport as a human-readable text report.
 
@@ -340,9 +370,7 @@ def format_comparison_report(report: ComparisonReport) -> str:
     lines.append("-" * w)
     lines.append("  METRIC COMPARISON")
     lines.append("-" * w)
-    lines.append(
-        f"  {'Metric':<28s} {'A':>8s} {'B':>8s} {'Delta':>8s}  Winner"
-    )
+    lines.append(f"  {'Metric':<28s} {'A':>8s} {'B':>8s} {'Delta':>8s}  Winner")
     lines.append(f"  {'-' * 66}")
 
     for mc in report.metric_comparisons:

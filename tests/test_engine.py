@@ -8,8 +8,6 @@ so no real API calls are made.
 from __future__ import annotations
 
 import json
-import os
-from dataclasses import replace
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
@@ -279,10 +277,16 @@ class TestCheckpointing:
 
         records = [
             CallRecord(
-                fact_id="f1", template_name="t", temperature=0.0,
-                run_index=0, raw_response="x", extracted_value=1.0,
-                extracted_unit="percent", latency_ms=10.0,
-                input_tokens=5, output_tokens=3,
+                fact_id="f1",
+                template_name="t",
+                temperature=0.0,
+                run_index=0,
+                raw_response="x",
+                extracted_value=1.0,
+                extracted_unit="percent",
+                latency_ms=10.0,
+                input_tokens=5,
+                output_tokens=3,
                 finish_reason="end_turn",
                 timestamp="2026-01-01T00:00:00+00:00",
             ),
@@ -459,8 +463,18 @@ class TestCostEstimation:
     @patch("src.engine.generate_all_prompts")
     def test_estimate_total_calls(self, mock_prompts, tmp_path):
         mock_prompts.return_value = [
-            {"fact_id": "f1", "template_name": "t1", "rendered_prompt": "p", "fact": {}},
-            {"fact_id": "f1", "template_name": "t2", "rendered_prompt": "p", "fact": {}},
+            {
+                "fact_id": "f1",
+                "template_name": "t1",
+                "rendered_prompt": "p",
+                "fact": {},
+            },
+            {
+                "fact_id": "f1",
+                "template_name": "t2",
+                "rendered_prompt": "p",
+                "fact": {},
+            },
         ]
 
         config = _make_test_config(tmp_path)
@@ -472,7 +486,12 @@ class TestCostEstimation:
     @patch("src.engine.generate_all_prompts")
     def test_estimate_cost_scales_with_calls(self, mock_prompts, tmp_path):
         mock_prompts.return_value = [
-            {"fact_id": f"f{i}", "template_name": "t", "rendered_prompt": "p", "fact": {}}
+            {
+                "fact_id": f"f{i}",
+                "template_name": "t",
+                "rendered_prompt": "p",
+                "fact": {},
+            }
             for i in range(10)
         ]
 

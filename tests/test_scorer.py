@@ -22,6 +22,7 @@ from src.scorer import (
 # Check whether sentence_transformers is available for semantic consistency tests
 try:
     import sentence_transformers  # noqa: F401
+
     HAS_SENTENCE_TRANSFORMERS = True
 except ImportError:
     HAS_SENTENCE_TRANSFORMERS = False

@@ -38,6 +38,7 @@ Design notes
   is small and not worth the code complexity.
 - Seeded RNG via --seed so results are reproducible.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -191,35 +192,51 @@ def run(args: argparse.Namespace) -> int:
     print(f"Bootstrap iter     : {args.bootstrap}")
     print(f"Random seed        : {args.seed}")
     print(f"Alpha (two-sided)  : {args.alpha}")
-    print(f"Resampling unit    : fact (primary) and group (secondary)")
+    print("Resampling unit    : fact (primary) and group (secondary)")
     print("")
 
     out_rows: List[Dict[str, object]] = []
     for metric in metrics:
         fact_point, fact_lo, fact_hi, n_facts = bootstrap_fact_level(
-            df, metric, args.bootstrap, args.alpha, rng,
+            df,
+            metric,
+            args.bootstrap,
+            args.alpha,
+            rng,
         )
         grp_point, grp_lo, grp_hi, n_groups = bootstrap_group_level(
-            df, metric, args.bootstrap, args.alpha, rng,
+            df,
+            metric,
+            args.bootstrap,
+            args.alpha,
+            rng,
         )
         print(
             _format_row(
                 metric,
-                fact_point, fact_lo, fact_hi, n_facts,
-                grp_point, grp_lo, grp_hi, n_groups,
+                fact_point,
+                fact_lo,
+                fact_hi,
+                n_facts,
+                grp_point,
+                grp_lo,
+                grp_hi,
+                n_groups,
             )
         )
-        out_rows.append({
-            "metric": metric,
-            "fact_point": round(fact_point, 6),
-            "fact_ci_lower": round(fact_lo, 6),
-            "fact_ci_upper": round(fact_hi, 6),
-            "n_facts": n_facts,
-            "group_point": round(grp_point, 6),
-            "group_ci_lower": round(grp_lo, 6),
-            "group_ci_upper": round(grp_hi, 6),
-            "n_groups": n_groups,
-        })
+        out_rows.append(
+            {
+                "metric": metric,
+                "fact_point": round(fact_point, 6),
+                "fact_ci_lower": round(fact_lo, 6),
+                "fact_ci_upper": round(fact_hi, 6),
+                "n_facts": n_facts,
+                "group_point": round(grp_point, 6),
+                "group_ci_lower": round(grp_lo, 6),
+                "group_ci_upper": round(grp_hi, 6),
+                "n_groups": n_groups,
+            }
+        )
 
     if args.output:
         out_path = Path(args.output)
@@ -255,23 +272,33 @@ def _parse_args(argv: List[str]) -> argparse.Namespace:
         help="Path to per_fact_report.csv (output of python report.py).",
     )
     parser.add_argument(
-        "--bootstrap", type=int, default=10000,
+        "--bootstrap",
+        type=int,
+        default=10000,
         help="Bootstrap iteration count (default: 10000).",
     )
     parser.add_argument(
-        "--alpha", type=float, default=0.05,
+        "--alpha",
+        type=float,
+        default=0.05,
         help="Two-sided significance level (default: 0.05 for a 95%% CI).",
     )
     parser.add_argument(
-        "--metric", type=str, default=None,
+        "--metric",
+        type=str,
+        default=None,
         help="Single metric to summarise (default: all known metrics).",
     )
     parser.add_argument(
-        "--seed", type=int, default=42,
+        "--seed",
+        type=int,
+        default=42,
         help="Seed for the numpy RNG (default: 42).",
     )
     parser.add_argument(
-        "--output", type=str, default=None,
+        "--output",
+        type=str,
+        default=None,
         help="Optional path to write a summary CSV (one row per metric).",
     )
     return parser.parse_args(argv)

@@ -18,9 +18,9 @@ from __future__ import annotations
 
 import copy
 import math
-from dataclasses import asdict, dataclass, field, fields
+from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 import yaml
 
@@ -39,26 +39,26 @@ import yaml
 
 MODEL_PRICING: Dict[str, Dict[str, float]] = {
     # ── Anthropic Claude ──────────────────────────────────────────────────
-    "claude-opus-4-6":   {"input": 0.005,    "output": 0.025},   # $5/$25 per MTok
-    "claude-opus-4-5":   {"input": 0.005,    "output": 0.025},
-    "claude-opus-4-1":   {"input": 0.015,    "output": 0.075},   # $15/$75 per MTok
-    "claude-opus-4":     {"input": 0.015,    "output": 0.075},
-    "claude-opus-3":     {"input": 0.015,    "output": 0.075},
-    "claude-sonnet-4-6": {"input": 0.003,    "output": 0.015},   # $3/$15 per MTok
-    "claude-sonnet-4-5": {"input": 0.003,    "output": 0.015},
-    "claude-sonnet-4":   {"input": 0.003,    "output": 0.015},
-    "claude-sonnet-3-7": {"input": 0.003,    "output": 0.015},
-    "claude-haiku-4-5":  {"input": 0.001,    "output": 0.005},   # $1/$5 per MTok
-    "claude-haiku-3-5":  {"input": 0.0008,   "output": 0.004},   # $0.80/$4 per MTok
-    "claude-haiku-3":    {"input": 0.00025,  "output": 0.00125}, # $0.25/$1.25 per MTok
+    "claude-opus-4-6": {"input": 0.005, "output": 0.025},  # $5/$25 per MTok
+    "claude-opus-4-5": {"input": 0.005, "output": 0.025},
+    "claude-opus-4-1": {"input": 0.015, "output": 0.075},  # $15/$75 per MTok
+    "claude-opus-4": {"input": 0.015, "output": 0.075},
+    "claude-opus-3": {"input": 0.015, "output": 0.075},
+    "claude-sonnet-4-6": {"input": 0.003, "output": 0.015},  # $3/$15 per MTok
+    "claude-sonnet-4-5": {"input": 0.003, "output": 0.015},
+    "claude-sonnet-4": {"input": 0.003, "output": 0.015},
+    "claude-sonnet-3-7": {"input": 0.003, "output": 0.015},
+    "claude-haiku-4-5": {"input": 0.001, "output": 0.005},  # $1/$5 per MTok
+    "claude-haiku-3-5": {"input": 0.0008, "output": 0.004},  # $0.80/$4 per MTok
+    "claude-haiku-3": {"input": 0.00025, "output": 0.00125},  # $0.25/$1.25 per MTok
     # ── OpenAI ───────────────────────────────────────────────────────────
     # NOTE: order most-specific first — the prefix fallback below picks the
     # first startswith() match, so "gpt-5-nano" must appear before "gpt-5".
-    "gpt-5-nano":        {"input": 0.0002,   "output": 0.00125}, # $0.20/$1.25 per MTok
-    "gpt-5-mini":        {"input": 0.00075,  "output": 0.0045},  # $0.75/$4.50 per MTok
-    "gpt-5":             {"input": 0.0025,   "output": 0.015},   # $2.50/$15 per MTok
-    "gpt-4o-mini":       {"input": 0.00015,  "output": 0.0006},  # $0.15/$0.60 per MTok
-    "gpt-4.1-mini":      {"input": 0.0004,   "output": 0.0016},  # $0.40/$1.60 per MTok
+    "gpt-5-nano": {"input": 0.0002, "output": 0.00125},  # $0.20/$1.25 per MTok
+    "gpt-5-mini": {"input": 0.00075, "output": 0.0045},  # $0.75/$4.50 per MTok
+    "gpt-5": {"input": 0.0025, "output": 0.015},  # $2.50/$15 per MTok
+    "gpt-4o-mini": {"input": 0.00015, "output": 0.0006},  # $0.15/$0.60 per MTok
+    "gpt-4.1-mini": {"input": 0.0004, "output": 0.0016},  # $0.40/$1.60 per MTok
 }
 
 
@@ -96,9 +96,11 @@ def pricing_for_model(model_name: str) -> Dict[str, float]:
 # Config section dataclasses (all frozen for immutability)
 # ---------------------------------------------------------------------------
 
+
 @dataclass(frozen=True)
 class ModelConfig:
     """Which LLM provider and model to evaluate."""
+
     provider: str
     name: str
     max_tokens: int
@@ -113,6 +115,7 @@ class EvaluationConfig:
     |temperatures| x runs_per_combination data points per fact — enough to
     compute meaningful variance when runs_per_combination >= 10.
     """
+
     temperatures: List[float]
     runs_per_combination: int
     templates: List[str]
@@ -126,6 +129,7 @@ class QuickModeConfig:
     prompt template. It constrains the sweep to a single temperature, fewer
     runs, and a subset of facts.
     """
+
     temperatures: List[float]
     runs_per_combination: int
     max_facts: int
@@ -146,6 +150,7 @@ class ScoringConfig:
       score. Factual consistency gets the highest weight because getting the
       number right matters more than phrasing consistency.
     """
+
     embedding_model: str
     hallucination_tolerance: float
     composite_weights: Dict[str, float]
@@ -159,6 +164,7 @@ class FlaggingConfig:
     Scores >= green are stable, >= yellow are caution, below yellow are
     flagged as unreliable.
     """
+
     green_threshold: float
     yellow_threshold: float
 
@@ -171,6 +177,7 @@ class CheckpointConfig:
     frequent enough to limit data loss, infrequent enough to avoid I/O
     overhead dominating runtime.
     """
+
     save_interval: int
     directory: str
 
@@ -187,6 +194,7 @@ class CostConfig:
     price_per_1k_input / price_per_1k_output are absent or zero in
     config.yaml. Set them explicitly in config.yaml to override.
     """
+
     avg_input_tokens: int
     avg_output_tokens: int
     price_per_1k_input: float
@@ -201,6 +209,7 @@ class ApiConfig:
     Exponential backoff: wait = min(base_backoff * 2^attempt, max_backoff).
     rate_limit_rpm caps request rate to stay within provider quotas.
     """
+
     timeout_seconds: int
     max_retries: int
     base_backoff_seconds: float
@@ -211,6 +220,7 @@ class ApiConfig:
 @dataclass(frozen=True)
 class AppConfig:
     """Top-level container for all configuration sections."""
+
     model: ModelConfig
     evaluation: EvaluationConfig
     quick_mode: QuickModeConfig
@@ -224,6 +234,7 @@ class AppConfig:
 # ---------------------------------------------------------------------------
 # Construction helpers
 # ---------------------------------------------------------------------------
+
 
 def _build_model(raw: Dict[str, Any]) -> ModelConfig:
     return ModelConfig(
@@ -254,7 +265,9 @@ def _build_scoring(raw: Dict[str, Any]) -> ScoringConfig:
     return ScoringConfig(
         embedding_model=str(raw["embedding_model"]),
         hallucination_tolerance=float(raw["hallucination_tolerance"]),
-        composite_weights={str(k): float(v) for k, v in raw["composite_weights"].items()},
+        composite_weights={
+            str(k): float(v) for k, v in raw["composite_weights"].items()
+        },
     )
 
 
@@ -279,6 +292,7 @@ def _build_cost(raw: Dict[str, Any], model_name: str) -> CostConfig:
     or the string ``"auto"`` in config.yaml, their values are looked up from
     the MODEL_PRICING registry using ``model_name``.
     """
+
     def _resolve(key: str, field: str) -> float:
         val = raw.get(key)
         if val is None or str(val).strip().lower() == "auto":
@@ -310,8 +324,14 @@ def _build_api(raw: Dict[str, Any]) -> ApiConfig:
 # ---------------------------------------------------------------------------
 
 _REQUIRED_SECTIONS = [
-    "model", "evaluation", "quick_mode", "scoring",
-    "flagging", "checkpoint", "cost", "api",
+    "model",
+    "evaluation",
+    "quick_mode",
+    "scoring",
+    "flagging",
+    "checkpoint",
+    "cost",
+    "api",
 ]
 
 
@@ -342,13 +362,17 @@ def load_config(path: str = "config.yaml", quick: bool = False) -> AppConfig:
     """
     config_path = Path(path)
     if not config_path.exists():
-        raise FileNotFoundError(f"Configuration file not found: {config_path.resolve()}")
+        raise FileNotFoundError(
+            f"Configuration file not found: {config_path.resolve()}"
+        )
 
     with open(config_path, "r", encoding="utf-8") as fh:
         raw = yaml.safe_load(fh)
 
     if not isinstance(raw, dict):
-        raise ValueError(f"Config file must contain a YAML mapping, got {type(raw).__name__}")
+        raise ValueError(
+            f"Config file must contain a YAML mapping, got {type(raw).__name__}"
+        )
 
     missing = [s for s in _REQUIRED_SECTIONS if s not in raw]
     if missing:
@@ -406,7 +430,11 @@ def validate_config(config: AppConfig) -> None:
             f"scoring.composite_weights must sum to 1.0, got {weight_sum:.6f}"
         )
 
-    expected_weight_keys = {"semantic_consistency", "factual_consistency", "hallucination_rate"}
+    expected_weight_keys = {
+        "semantic_consistency",
+        "factual_consistency",
+        "hallucination_rate",
+    }
     actual_weight_keys = set(config.scoring.composite_weights.keys())
     if actual_weight_keys != expected_weight_keys:
         errors.append(

@@ -44,6 +44,7 @@ def _load_facts() -> list[dict]:
 def _make_quick_config(tmp_path: Path) -> AppConfig:
     """Load real config in quick mode with checkpoint dir pointing to tmp."""
     from dataclasses import replace
+
     config = load_config(str(CONFIG_PATH), quick=True)
     return replace(
         config,
@@ -139,20 +140,22 @@ class TestReportGenerationEndToEnd:
         call_records = []
         for fact in facts:
             for run_idx in range(3):
-                call_records.append({
-                    "fact_id": fact["id"],
-                    "template_name": "direct_extraction",
-                    "temperature": 0.0,
-                    "run_index": run_idx,
-                    "raw_response": f"The value is {fact['value']}%.",
-                    "extracted_value": fact["value"],
-                    "extracted_unit": fact.get("unit", "percent"),
-                    "latency_ms": 100.0,
-                    "input_tokens": 50,
-                    "output_tokens": 20,
-                    "finish_reason": "end_turn",
-                    "timestamp": "2026-01-01T00:00:00+00:00",
-                })
+                call_records.append(
+                    {
+                        "fact_id": fact["id"],
+                        "template_name": "direct_extraction",
+                        "temperature": 0.0,
+                        "run_index": run_idx,
+                        "raw_response": f"The value is {fact['value']}%.",
+                        "extracted_value": fact["value"],
+                        "extracted_unit": fact.get("unit", "percent"),
+                        "latency_ms": 100.0,
+                        "input_tokens": 50,
+                        "output_tokens": 20,
+                        "finish_reason": "end_turn",
+                        "timestamp": "2026-01-01T00:00:00+00:00",
+                    }
+                )
 
         results_data = {
             "run_id": run_id,

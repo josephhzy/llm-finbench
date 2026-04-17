@@ -123,9 +123,7 @@ class AnthropicAdapter(BaseAdapter):
 
                 # Extract text from content blocks.
                 text = "".join(
-                    block.text
-                    for block in response.content
-                    if block.type == "text"
+                    block.text for block in response.content if block.type == "text"
                 )
 
                 finish_reason = self._FINISH_REASON_MAP.get(
@@ -139,7 +137,9 @@ class AnthropicAdapter(BaseAdapter):
                     output_tokens=response.usage.output_tokens,
                     finish_reason=finish_reason,
                     latency_ms=elapsed_ms,
-                    raw_response=response.model_dump() if hasattr(response, "model_dump") else None,
+                    raw_response=response.model_dump()
+                    if hasattr(response, "model_dump")
+                    else None,
                 )
 
             except (
@@ -152,7 +152,7 @@ class AnthropicAdapter(BaseAdapter):
 
                 if attempt < max_retries:
                     backoff = min(
-                        base_backoff * (2 ** attempt),
+                        base_backoff * (2**attempt),
                         max_backoff,
                     )
                     logger.warning(

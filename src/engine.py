@@ -23,10 +23,8 @@ from __future__ import annotations
 
 import json
 import logging
-import os
-import sys
 import time
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple
@@ -47,6 +45,7 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 # Data classes
 # ---------------------------------------------------------------------------
+
 
 @dataclass
 class CallRecord:
@@ -91,6 +90,7 @@ class CallRecord:
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def _make_completed_key(
     fact_id: str,
     template_name: str,
@@ -115,26 +115,29 @@ def _deserialize_records(raw_list: List[dict]) -> List[CallRecord]:
     """Reconstruct CallRecords from dicts loaded from JSON."""
     results: List[CallRecord] = []
     for d in raw_list:
-        results.append(CallRecord(
-            fact_id=d["fact_id"],
-            template_name=d["template_name"],
-            temperature=d["temperature"],
-            run_index=d["run_index"],
-            raw_response=d["raw_response"],
-            extracted_value=d.get("extracted_value"),
-            extracted_unit=d.get("extracted_unit"),
-            latency_ms=d["latency_ms"],
-            input_tokens=d["input_tokens"],
-            output_tokens=d["output_tokens"],
-            finish_reason=d["finish_reason"],
-            timestamp=d["timestamp"],
-        ))
+        results.append(
+            CallRecord(
+                fact_id=d["fact_id"],
+                template_name=d["template_name"],
+                temperature=d["temperature"],
+                run_index=d["run_index"],
+                raw_response=d["raw_response"],
+                extracted_value=d.get("extracted_value"),
+                extracted_unit=d.get("extracted_unit"),
+                latency_ms=d["latency_ms"],
+                input_tokens=d["input_tokens"],
+                output_tokens=d["output_tokens"],
+                finish_reason=d["finish_reason"],
+                timestamp=d["timestamp"],
+            )
+        )
     return results
 
 
 # ---------------------------------------------------------------------------
 # Engine
 # ---------------------------------------------------------------------------
+
 
 class EvaluationEngine:
     """Orchestrates the full LLM evaluation sweep with checkpointing.
@@ -414,9 +417,11 @@ class EvaluationEngine:
 
         # ----- 2. Print cost estimate -----
         print(f"\n{'=' * 60}")
-        print(f"  LLM Financial Stability Bench — Evaluation Plan")
+        print("  LLM Financial Stability Bench — Evaluation Plan")
         print(f"{'=' * 60}")
-        print(f"  Model:         {self._config.model.provider}/{self._config.model.name}")
+        print(
+            f"  Model:         {self._config.model.provider}/{self._config.model.name}"
+        )
         print(f"  Facts:         {len(facts)}")
         print(f"  Templates:     {len(self._config.evaluation.templates)}")
         print(f"  Temperatures:  {temperatures}")
@@ -432,8 +437,9 @@ class EvaluationEngine:
             n_samples = min(3, len(prompts))
             print(f"DRY RUN — showing {n_samples} sample prompt(s):\n")
             for i, p in enumerate(prompts[:n_samples]):
-                print(f"  [{i + 1}] fact_id={p['fact_id']}, "
-                      f"template={p['template_name']}")
+                print(
+                    f"  [{i + 1}] fact_id={p['fact_id']}, template={p['template_name']}"
+                )
                 print(f"      {p['rendered_prompt'][:120]}...")
                 print()
             print("No API calls made. Exiting dry run.\n")
@@ -497,7 +503,10 @@ class EvaluationEngine:
             for temperature in temperatures:
                 for run_index in range(n_runs):
                     key = _make_completed_key(
-                        fact_id, template_name, temperature, run_index,
+                        fact_id,
+                        template_name,
+                        temperature,
+                        run_index,
                     )
 
                     # Skip if already completed (checkpoint resume).
@@ -505,7 +514,9 @@ class EvaluationEngine:
                         continue
 
                     # --- Make the API call ---
-                    response = self._get_adapter().generate(rendered_prompt, temperature)
+                    response = self._get_adapter().generate(
+                        rendered_prompt, temperature
+                    )
 
                     # --- Extract numeric value ---
                     # Skip extraction for error responses: the text is an error
@@ -586,7 +597,8 @@ class EvaluationEngine:
 
         # ----- 10. Summary -----
         extraction_failures = sum(
-            1 for r in records
+            1
+            for r in records
             if r.extracted_value is None and r.finish_reason != "error"
         )
         total_tokens_in = sum(r.input_tokens for r in records)

@@ -24,6 +24,7 @@ The primary output is a short text summary printed to stdout. When
 invoked with `--markdown`, it also emits a markdown block that the
 `PROVENANCE.md` "Current status" section is expected to include.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -69,6 +70,7 @@ PROVENANCE_FIELDS: Tuple[str, ...] = (
 # ---------------------------------------------------------------------------
 # Validators
 # ---------------------------------------------------------------------------
+
 
 def _is_missing(value: Any) -> bool:
     """Treat None and empty string as 'missing'.
@@ -128,15 +130,9 @@ def validate_fact(fact: Dict[str, Any]) -> Dict[str, Any]:
     """
     fact_id = fact.get("id", "<unknown>")
 
-    missing_required = [
-        f for f in REQUIRED_FIELDS if _is_missing(fact.get(f))
-    ]
-    missing_recommended = [
-        f for f in RECOMMENDED_FIELDS if _is_missing(fact.get(f))
-    ]
-    missing_provenance = [
-        f for f in PROVENANCE_FIELDS if _is_missing(fact.get(f))
-    ]
+    missing_required = [f for f in REQUIRED_FIELDS if _is_missing(fact.get(f))]
+    missing_recommended = [f for f in RECOMMENDED_FIELDS if _is_missing(fact.get(f))]
+    missing_provenance = [f for f in PROVENANCE_FIELDS if _is_missing(fact.get(f))]
 
     context = fact.get("context", "")
     value = fact.get("value")
@@ -168,12 +164,8 @@ def validate_all(path: Path) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
     total = len(per_fact)
     n_required_ok = sum(1 for r in per_fact if not r["missing_required"])
     n_recommended_ok = sum(1 for r in per_fact if not r["missing_recommended"])
-    n_with_page = sum(
-        1 for r in per_fact if "page" not in r["missing_provenance"]
-    )
-    n_context_has_value = sum(
-        1 for r in per_fact if r["context_contains_value"]
-    )
+    n_with_page = sum(1 for r in per_fact if "page" not in r["missing_provenance"])
+    n_context_has_value = sum(1 for r in per_fact if r["context_contains_value"])
 
     aggregate = {
         "total": total,
@@ -191,18 +183,15 @@ def validate_all(path: Path) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
 # Output
 # ---------------------------------------------------------------------------
 
+
 def _print_text(per_fact: List[Dict[str, Any]], aggregate: Dict[str, Any]) -> None:
     total = aggregate["total"]
     print("=" * 72)
     print("  ground_truth/facts.json validator")
     print("=" * 72)
     print(f"Total facts                    : {total}")
-    print(
-        f"With ALL required fields       : {aggregate['n_required_ok']}/{total}"
-    )
-    print(
-        f"With ALL recommended fields    : {aggregate['n_recommended_ok']}/{total}"
-    )
+    print(f"With ALL required fields       : {aggregate['n_required_ok']}/{total}")
+    print(f"With ALL recommended fields    : {aggregate['n_recommended_ok']}/{total}")
     print(
         f"With a non-null `page`         : {aggregate['n_with_page_citation']}/{total}"
     )

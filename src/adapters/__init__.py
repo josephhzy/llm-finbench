@@ -55,9 +55,7 @@ def register_adapter(name: str, cls: Type[BaseAdapter]) -> None:
         ValueError: If name is already registered (prevents silent overwrites).
     """
     if not (isinstance(cls, type) and issubclass(cls, BaseAdapter)):
-        raise TypeError(
-            f"Cannot register {cls!r}: must be a subclass of BaseAdapter."
-        )
+        raise TypeError(f"Cannot register {cls!r}: must be a subclass of BaseAdapter.")
     if name in _REGISTRY:
         raise ValueError(
             f"Adapter '{name}' is already registered as {_REGISTRY[name]!r}. "
@@ -102,10 +100,11 @@ def get_adapter(name: str) -> Type[BaseAdapter]:
         register_adapter(name, cls)
         return cls
 
-    available = ", ".join(sorted(set(_REGISTRY.keys()) | set(_LAZY_REGISTRY.keys()))) or "(none)"
-    raise ValueError(
-        f"Unknown adapter '{name}'. Available adapters: {available}"
+    available = (
+        ", ".join(sorted(set(_REGISTRY.keys()) | set(_LAZY_REGISTRY.keys())))
+        or "(none)"
     )
+    raise ValueError(f"Unknown adapter '{name}'. Available adapters: {available}")
 
 
 # Re-export for convenience so callers can do:

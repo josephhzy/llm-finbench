@@ -60,6 +60,7 @@ Usage
         --per-fact reports/per_fact_report.csv \\
         --sample-sizes 10 29 50 100
 """
+
 from __future__ import annotations
 
 import argparse
@@ -75,10 +76,12 @@ import pandas as pd
 # Standard two-sided z critical value at alpha = 0.05.
 # scipy would be slightly cleaner but is an extra dependency we don't need here.
 _Z_0_975 = 1.959963984540054  # scipy.stats.norm.ppf(0.975)
-_Z_0_80 = 0.841621233572914   # scipy.stats.norm.ppf(0.80)
+_Z_0_80 = 0.841621233572914  # scipy.stats.norm.ppf(0.80)
 
 
-def _fact_level_stats(df: pd.DataFrame, metric: str = "composite_stability") -> Tuple[np.ndarray, float, float]:
+def _fact_level_stats(
+    df: pd.DataFrame, metric: str = "composite_stability"
+) -> Tuple[np.ndarray, float, float]:
     """Collapse rows to per-fact means and return (values, mean, sd).
 
     The per-fact mean is the same unit of analysis the CI helper uses
@@ -89,7 +92,9 @@ def _fact_level_stats(df: pd.DataFrame, metric: str = "composite_stability") -> 
     return per_fact, float(per_fact.mean()), float(per_fact.std(ddof=1))
 
 
-def _mde_from_sigma_diff(sigma_diff: float, n: int, alpha: float, power: float) -> float:
+def _mde_from_sigma_diff(
+    sigma_diff: float, n: int, alpha: float, power: float
+) -> float:
     """Minimum detectable effect at given sigma_diff, n, alpha, power.
 
     Normal approximation; adequate for N >= ~20 and bounded metrics away
@@ -116,28 +121,49 @@ def _norm_ppf(p: float) -> float:
     identical to the rest of the benchmark.
     """
     # Coefficients from Beasley-Springer-Moro (1977), widely reproduced.
-    a = [-39.6968302866538, 220.946098424521, -275.928510446969,
-         138.357751867269, -30.6647980661472, 2.50662827745924]
-    b = [-54.4760987982241, 161.585836858041, -155.698979859887,
-         66.8013118877197, -13.2806815528857]
-    c = [-0.00778489400243029, -0.322396458041136, -2.40075827716184,
-         -2.54973253934373, 4.37466414146497, 2.93816398269878]
-    d = [0.00778469570904146, 0.32246712907004, 2.445134137143,
-         3.75440866190742]
+    a = [
+        -39.6968302866538,
+        220.946098424521,
+        -275.928510446969,
+        138.357751867269,
+        -30.6647980661472,
+        2.50662827745924,
+    ]
+    b = [
+        -54.4760987982241,
+        161.585836858041,
+        -155.698979859887,
+        66.8013118877197,
+        -13.2806815528857,
+    ]
+    c = [
+        -0.00778489400243029,
+        -0.322396458041136,
+        -2.40075827716184,
+        -2.54973253934373,
+        4.37466414146497,
+        2.93816398269878,
+    ]
+    d = [0.00778469570904146, 0.32246712907004, 2.445134137143, 3.75440866190742]
     p_low = 0.02425
     p_high = 1 - p_low
     if p < p_low:
         q = math.sqrt(-2 * math.log(p))
-        return (((((c[0]*q + c[1])*q + c[2])*q + c[3])*q + c[4])*q + c[5]) / \
-               ((((d[0]*q + d[1])*q + d[2])*q + d[3])*q + 1)
+        return (((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) / (
+            (((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1
+        )
     if p <= p_high:
         q = p - 0.5
         r = q * q
-        return (((((a[0]*r + a[1])*r + a[2])*r + a[3])*r + a[4])*r + a[5])*q / \
-               (((((b[0]*r + b[1])*r + b[2])*r + b[3])*r + b[4])*r + 1)
+        return (
+            (((((a[0] * r + a[1]) * r + a[2]) * r + a[3]) * r + a[4]) * r + a[5])
+            * q
+            / (((((b[0] * r + b[1]) * r + b[2]) * r + b[3]) * r + b[4]) * r + 1)
+        )
     q = math.sqrt(-2 * math.log(1 - p))
-    return -(((((c[0]*q + c[1])*q + c[2])*q + c[3])*q + c[4])*q + c[5]) / \
-            ((((d[0]*q + d[1])*q + d[2])*q + d[3])*q + 1)
+    return -(((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) / (
+        (((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1
+    )
 
 
 def run(args: argparse.Namespace) -> int:
@@ -232,9 +258,13 @@ def _print_text(**kw) -> None:
     print(f"N facts in data              : {kw['n_facts']}")
     print(f"Observed mean composite      : {kw['mean_composite']:.4f}")
     print(f"Fact-level SD                : {kw['sd_composite']:.4f}")
-    print(f"Implied 95% CI half-width    : {kw['implied_half_width']:.4f}  (normal approx)")
+    print(
+        f"Implied 95% CI half-width    : {kw['implied_half_width']:.4f}  (normal approx)"
+    )
     if kw["observed_half_width"] is not None:
-        print(f"Observed 95% CI half-width   : {kw['observed_half_width']:.4f}  (bootstrap in ci_summary.csv)")
+        print(
+            f"Observed 95% CI half-width   : {kw['observed_half_width']:.4f}  (bootstrap in ci_summary.csv)"
+        )
     print(f"sigma_diff  (rho = 0, upper) : {kw['sigma_diff_default']:.4f}")
     print(f"sigma_diff  (rho = 0.5)      : {kw['sigma_diff_rho05']:.4f}")
     print(f"alpha                        : {kw['alpha']}")
@@ -253,16 +283,16 @@ def _print_text(**kw) -> None:
         "  model-to-model differences below this threshold are NOT evidence of\n"
         "  a real effect at this sample size.".format(
             kw["mde_rows"][1][1] if len(kw["mde_rows"]) > 1 else kw["mde_rows"][0][1],
-            kw["mde_rho05_rows"][1][1] if len(kw["mde_rho05_rows"]) > 1 else kw["mde_rho05_rows"][0][1],
+            kw["mde_rho05_rows"][1][1]
+            if len(kw["mde_rho05_rows"]) > 1
+            else kw["mde_rho05_rows"][0][1],
         )
     )
     print("=" * 72)
 
 
 def _print_markdown(**kw) -> None:
-    print(
-        f"### Concrete MDE for the current run ({kw['n_facts']} facts)"
-    )
+    print(f"### Concrete MDE for the current run ({kw['n_facts']} facts)")
     print("")
     print(
         f"Observed `composite_stability` point estimate: **{kw['mean_composite']:.3f}**; "

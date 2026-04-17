@@ -10,7 +10,6 @@ import pytest
 
 from src.prompts import (
     TEMPLATES,
-    PromptTemplate,
     generate_all_prompts,
     get_template,
     list_templates,

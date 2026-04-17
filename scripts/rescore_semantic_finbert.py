@@ -49,6 +49,7 @@ Usage
         --results-json ... --per-fact ... --out ... \\
         --finbert-model yiyanghkust/finbert-tone
 """
+
 from __future__ import annotations
 
 import argparse
@@ -56,7 +57,7 @@ import csv
 import json
 import sys
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional, Tuple
+from typing import Any, Dict, List, Tuple
 
 # Make `src/` importable when this file is run directly from the repo root
 # (i.e. `python scripts/rescore_semantic_finbert.py ...`). Without this, the
@@ -65,8 +66,8 @@ _REPO_ROOT = Path(__file__).resolve().parent.parent
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
-import numpy as np
-import pandas as pd
+import numpy as np  # noqa: E402
+import pandas as pd  # noqa: E402
 
 # The FinBERT models we support. Defaulting to ProsusAI/finbert because it is
 # pre-trained on Reuters TRC2 + Financial PhraseBank, which is closer to
@@ -121,9 +122,7 @@ def _synth_response_groups_from_per_fact_csv(
     with facts_json.open("r", encoding="utf-8") as fh:
         facts_raw = json.load(fh)
     facts_list = (
-        facts_raw.get("facts", facts_raw)
-        if isinstance(facts_raw, dict)
-        else facts_raw
+        facts_raw.get("facts", facts_raw) if isinstance(facts_raw, dict) else facts_raw
     )
     facts_lookup: Dict[str, Dict[str, Any]] = {f["id"]: f for f in facts_list}
 
@@ -232,10 +231,7 @@ def _load_results_json(path: Path) -> List[Dict[str, Any]]:
         raw_groups = data
     elif isinstance(data, dict):
         raw_groups = (
-            data.get("results")
-            or data.get("groups")
-            or data.get("call_records")
-            or []
+            data.get("results") or data.get("groups") or data.get("call_records") or []
         )
     else:
         raise SystemExit(
@@ -258,8 +254,7 @@ def _load_results_json(path: Path) -> List[Dict[str, Any]]:
         return [
             {
                 "fact_id": g.get("fact_id") or g.get("id"),
-                "template": g.get("template")
-                or g.get("template_name", "unknown"),
+                "template": g.get("template") or g.get("template_name", "unknown"),
                 "temperature": float(g.get("temperature", 0.0)),
                 "response_texts": list(g["response_texts"]),
             }
@@ -424,6 +419,7 @@ def run(args: argparse.Namespace) -> int:
         groups = _load_results_json(results_path)
     # Group by fact_id so we can aggregate per-fact
     from collections import defaultdict
+
     per_fact_groups: Dict[str, List[List[str]]] = defaultdict(list)
     for g in groups:
         per_fact_groups[g["fact_id"]].append(g["response_texts"])
@@ -454,8 +450,7 @@ def run(args: argparse.Namespace) -> int:
 
     rows: List[Dict[str, Any]] = []
     print(
-        f"Scoring {len(per_fact_groups)} facts with FinBERT "
-        f"({args.finbert_model}) …",
+        f"Scoring {len(per_fact_groups)} facts with FinBERT ({args.finbert_model}) …",
         file=sys.stderr,
     )
     for fact_id, groups_for_fact in sorted(per_fact_groups.items()):
@@ -517,13 +512,9 @@ def run(args: argparse.Namespace) -> int:
     finbert_clean = finbert_vals[mask]
 
     mean_minilm = float(minilm_clean.mean()) if len(minilm_clean) else float("nan")
-    mean_finbert = (
-        float(finbert_clean.mean()) if len(finbert_clean) else float("nan")
-    )
+    mean_finbert = float(finbert_clean.mean()) if len(finbert_clean) else float("nan")
     corr = _pearson(minilm_clean, finbert_clean)
-    disagree_over_0_1 = int(
-        ((finbert_clean - minilm_clean).__abs__() > 0.1).sum()
-    )
+    disagree_over_0_1 = int(((finbert_clean - minilm_clean).__abs__() > 0.1).sum())
 
     print("")
     print("=" * 72)
@@ -537,7 +528,9 @@ def run(args: argparse.Namespace) -> int:
     else:
         print("MODE                : real LLM responses from results.json")
     print(f"FinBERT model       : {args.finbert_model}")
-    print(f"Facts scored        : {len(df_out)}  ({len(minilm_clean)} with both scores)")
+    print(
+        f"Facts scored        : {len(df_out)}  ({len(minilm_clean)} with both scores)"
+    )
     print(f"Mean MiniLM score   : {mean_minilm:.4f}")
     print(f"Mean FinBERT score  : {mean_finbert:.4f}")
     print(f"Mean delta          : {mean_finbert - mean_minilm:+.4f}")

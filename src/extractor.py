@@ -27,14 +27,15 @@ from typing import List, Optional
 # Data class
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class ExtractedValue:
     """A single extracted numeric value with contextual metadata."""
 
-    value: Optional[float]       # The extracted number, or None if failed
-    raw_match: Optional[str]     # The matched text substring
-    unit: Optional[str]          # "percent", "millions", "billions", "ratio", "sgd", etc.
-    currency: Optional[str]      # "SGD", "USD", "HKD", etc.
+    value: Optional[float]  # The extracted number, or None if failed
+    raw_match: Optional[str]  # The matched text substring
+    unit: Optional[str]  # "percent", "millions", "billions", "ratio", "sgd", etc.
+    currency: Optional[str]  # "SGD", "USD", "HKD", etc.
 
 
 # ---------------------------------------------------------------------------
@@ -156,6 +157,7 @@ _NEG_WORDS = re.compile(
 # Helper functions
 # ---------------------------------------------------------------------------
 
+
 def _parse_number(s: str) -> Optional[float]:
     """Parse a numeric string into a float.
 
@@ -202,7 +204,7 @@ def _detect_scale(text: str, match_end: int) -> float:
     Returns the multiplier (e.g. 1_000_000_000 for "billion") or 1.0 if
     no scale word found.
     """
-    after = text[match_end:match_end + 20]
+    after = text[match_end : match_end + 20]
     m = _SCALE_PATTERN.match(after)
     if m:
         word = m.group(1).lower()
@@ -212,7 +214,7 @@ def _detect_scale(text: str, match_end: int) -> float:
 
 def _detect_percentage(text: str, match_end: int) -> bool:
     """Check if the number is followed by a percentage indicator."""
-    after = text[match_end:match_end + 25]
+    after = text[match_end : match_end + 25]
     return bool(_PCT_PATTERN.match(after))
 
 
@@ -222,19 +224,19 @@ def _detect_basis_points(text: str, match_end: int) -> bool:
     Used in addition to _detect_percentage so the value can be divided by 100:
     25 bps -> 0.25 (percent), not 25.  One basis point = 0.01%.
     """
-    after = text[match_end:match_end + 25]
+    after = text[match_end : match_end + 25]
     return bool(_BPS_PATTERN.match(after))
 
 
 def _detect_ratio(text: str, match_end: int) -> bool:
     """Check if the number is followed by a ratio indicator (x, times)."""
-    after = text[match_end:match_end + 10]
+    after = text[match_end : match_end + 10]
     return bool(_RATIO_PATTERN.match(after))
 
 
 def _detect_cents(text: str, match_end: int) -> bool:
     """Check if the number is followed by 'cents'."""
-    after = text[match_end:match_end + 10]
+    after = text[match_end : match_end + 10]
     return bool(_CENTS_PATTERN.match(after))
 
 
@@ -306,7 +308,7 @@ def _compute_raw_match(text: str, match_start: int, match_end: int) -> str:
 
     # Extend right to capture unit suffix
     right = match_end
-    after = text[match_end:match_end + 25]
+    after = text[match_end : match_end + 25]
     for suffix_pat in [_SCALE_PATTERN, _PCT_PATTERN, _RATIO_PATTERN, _CENTS_PATTERN]:
         m = suffix_pat.match(after)
         if m:
@@ -319,6 +321,7 @@ def _compute_raw_match(text: str, match_start: int, match_end: int) -> str:
 # ---------------------------------------------------------------------------
 # Candidate scoring (for ranking when multiple numeric values found)
 # ---------------------------------------------------------------------------
+
 
 def _score_candidate(
     ev: ExtractedValue,
@@ -368,6 +371,7 @@ def _score_candidate(
 # Core extraction
 # ---------------------------------------------------------------------------
 
+
 def _extract_one(text: str, match: re.Match) -> ExtractedValue:
     """Build an ExtractedValue from a single regex match within text."""
     leading_minus = match.group(1)
@@ -395,7 +399,7 @@ def _extract_one(text: str, match: re.Match) -> ExtractedValue:
         # Opening paren captured but closing wasn't (e.g. "(2.3%)" where
         # % sits between the number and ")"). Scan forward for a closing
         # paren within a reasonable window.
-        after_full = text[match_end:match_end + 30]
+        after_full = text[match_end : match_end + 30]
         if ")" in after_full:
             is_negative = True
     else:
@@ -518,7 +522,9 @@ def extract_numeric(text: str, expected_unit: Optional[str] = None) -> Extracted
     return _maybe_convert_cents(best, expected_unit)
 
 
-def _maybe_convert_cents(ev: ExtractedValue, expected_unit: Optional[str]) -> ExtractedValue:
+def _maybe_convert_cents(
+    ev: ExtractedValue, expected_unit: Optional[str]
+) -> ExtractedValue:
     """Convert cents to dollars if the expected_unit hints at a dollar amount.
 
     "15.0 cents" -> 0.15 when expected_unit is "sgd", "usd", or similar

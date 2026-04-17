@@ -7,8 +7,7 @@ No real API calls are made.
 
 from __future__ import annotations
 
-import time
-from unittest.mock import MagicMock, patch, PropertyMock
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -20,7 +19,6 @@ from src.adapters import (
     _REGISTRY,
     _LAZY_REGISTRY,
 )
-from src.adapters.base_adapter import BaseAdapter as BaseAdapterDirect
 
 
 # ===========================================================================
@@ -200,7 +198,9 @@ class TestRetryBehaviour:
         error_response.status_code = 429
         error_response.headers = {}
         rate_error = real_openai.RateLimitError(
-            "rate limited", response=error_response, body=None,
+            "rate limited",
+            response=error_response,
+            body=None,
         )
 
         # First call raises, second succeeds
@@ -237,7 +237,9 @@ class TestRetryBehaviour:
         error_response.status_code = 429
         error_response.headers = {}
         rate_error = real_openai.RateLimitError(
-            "rate limited", response=error_response, body=None,
+            "rate limited",
+            response=error_response,
+            body=None,
         )
 
         mock_client.chat.completions.create.side_effect = rate_error

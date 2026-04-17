@@ -27,7 +27,7 @@ from collections import defaultdict
 from dataclasses import replace
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
 import pandas as pd
 
@@ -76,6 +76,7 @@ _SCORE_COLUMNS = [
 # ---------------------------------------------------------------------------
 # Internal helpers
 # ---------------------------------------------------------------------------
+
 
 def _flag_from_score(
     composite: float,
@@ -166,26 +167,30 @@ def _score_all_groups(
             logger.warning(
                 "No ground truth value for fact_id=%s (template=%s, temp=%.1f); "
                 "skipping scoring — check that facts.json has a 'value' field for this fact.",
-                fact_id, template, temperature,
+                fact_id,
+                template,
+                temperature,
             )
-            rows.append({
-                "fact_id": fact_id,
-                "company": fact.get("company", "unknown"),
-                "metric": fact.get("metric", "unknown"),
-                "category": fact.get("category", "unknown"),
-                "difficulty": fact.get("difficulty", "unknown"),
-                "template": template,
-                "temperature": temperature,
-                "n_runs": len(records),
-                "semantic_score": None,
-                "factual_score": None,
-                "hallucination_rate": None,
-                "extraction_failure_rate": None,
-                "modal_value": None,
-                "ground_truth": None,
-                "composite_stability": None,
-                "flag": "\U0001f534",
-            })
+            rows.append(
+                {
+                    "fact_id": fact_id,
+                    "company": fact.get("company", "unknown"),
+                    "metric": fact.get("metric", "unknown"),
+                    "category": fact.get("category", "unknown"),
+                    "difficulty": fact.get("difficulty", "unknown"),
+                    "template": template,
+                    "temperature": temperature,
+                    "n_runs": len(records),
+                    "semantic_score": None,
+                    "factual_score": None,
+                    "hallucination_rate": None,
+                    "extraction_failure_rate": None,
+                    "modal_value": None,
+                    "ground_truth": None,
+                    "composite_stability": None,
+                    "flag": "\U0001f534",
+                }
+            )
             continue
 
         response_texts = _extract_response_texts(records)
@@ -238,24 +243,26 @@ def _score_all_groups(
         else:
             flag = "\U0001f534"  # red — unknown scores are flagged as unstable
 
-        rows.append({
-            "fact_id": fact_id,
-            "company": fact.get("company", "unknown"),
-            "metric": fact.get("metric", "unknown"),
-            "category": fact.get("category", "unknown"),
-            "difficulty": fact.get("difficulty", "unknown"),
-            "template": template,
-            "temperature": temperature,
-            "n_runs": len(records),
-            "semantic_score": scores.semantic_consistency,
-            "factual_score": scores.factual_consistency,
-            "hallucination_rate": scores.hallucination_rate,
-            "extraction_failure_rate": scores.extraction_failure_rate,
-            "modal_value": scores.modal_value,
-            "ground_truth": ground_truth,
-            "composite_stability": composite,
-            "flag": flag,
-        })
+        rows.append(
+            {
+                "fact_id": fact_id,
+                "company": fact.get("company", "unknown"),
+                "metric": fact.get("metric", "unknown"),
+                "category": fact.get("category", "unknown"),
+                "difficulty": fact.get("difficulty", "unknown"),
+                "template": template,
+                "temperature": temperature,
+                "n_runs": len(records),
+                "semantic_score": scores.semantic_consistency,
+                "factual_score": scores.factual_consistency,
+                "hallucination_rate": scores.hallucination_rate,
+                "extraction_failure_rate": scores.extraction_failure_rate,
+                "modal_value": scores.modal_value,
+                "ground_truth": ground_truth,
+                "composite_stability": composite,
+                "flag": flag,
+            }
+        )
 
     return rows
 
@@ -263,6 +270,7 @@ def _score_all_groups(
 # ---------------------------------------------------------------------------
 # CSV writing with comment headers
 # ---------------------------------------------------------------------------
+
 
 def _write_csv_with_header(
     df: pd.DataFrame,
@@ -356,6 +364,7 @@ def _aggregated_csv_header(
 # Aggregation helpers
 # ---------------------------------------------------------------------------
 
+
 def _aggregate_by(
     detail_df: pd.DataFrame,
     group_col: str,
@@ -394,6 +403,7 @@ def _aggregate_by(
 # Summary text generation
 # ---------------------------------------------------------------------------
 
+
 def _generate_summary(
     detail_df: pd.DataFrame,
     config: AppConfig,
@@ -429,7 +439,9 @@ def _generate_summary(
 
     eval_cfg = run_config.get("evaluation", {})
     temperatures = eval_cfg.get("temperatures", config.evaluation.temperatures)
-    runs_per = eval_cfg.get("runs_per_combination", config.evaluation.runs_per_combination)
+    runs_per = eval_cfg.get(
+        "runs_per_combination", config.evaluation.runs_per_combination
+    )
     templates = eval_cfg.get("templates", config.evaluation.templates)
 
     scoring_cfg = run_config.get("scoring", {})
@@ -446,10 +458,14 @@ def _generate_summary(
     lines.append(f"Runs per combination: {runs_per}")
     lines.append(f"Templates:            {templates}")
     lines.append(f"Embedding model:      {embedding_model}")
-    lines.append(f"Hallucination tol.:   {hallucination_tol} ({hallucination_tol * 100:.0f}% relative)")
+    lines.append(
+        f"Hallucination tol.:   {hallucination_tol} ({hallucination_tol * 100:.0f}% relative)"
+    )
     lines.append(f"Composite weights:    {composite_weights}")
-    lines.append(f"Scoring method:       Modal value for factual consistency, "
-                 f"cosine similarity for semantic consistency")
+    lines.append(
+        "Scoring method:       Modal value for factual consistency, "
+        "cosine similarity for semantic consistency"
+    )
     lines.append("")
 
     # ---- Overall Statistics ----
@@ -490,15 +506,23 @@ def _generate_summary(
         lines.append(f"Mean composite stability:   {mean_stability:.4f}")
         lines.append(f"Median composite stability: {median_stability:.4f}")
         lines.append(f"Std dev:                    {std_stability:.4f}")
-        lines.append(f"Range:                      [{min_stability:.4f}, {max_stability:.4f}]")
+        lines.append(
+            f"Range:                      [{min_stability:.4f}, {max_stability:.4f}]"
+        )
         lines.append("")
-        lines.append(f"Flag distribution:")
-        lines.append(f"  \U0001f7e2 Green  (>= {config.flagging.green_threshold}): "
-                     f"{n_green:>4d} ({pct_green:5.1f}%)")
-        lines.append(f"  \U0001f7e1 Yellow (>= {config.flagging.yellow_threshold}): "
-                     f"{n_yellow:>4d} ({pct_yellow:5.1f}%)")
-        lines.append(f"  \U0001f534 Red    (<  {config.flagging.yellow_threshold}): "
-                     f"{n_red:>4d} ({pct_red:5.1f}%)")
+        lines.append("Flag distribution:")
+        lines.append(
+            f"  \U0001f7e2 Green  (>= {config.flagging.green_threshold}): "
+            f"{n_green:>4d} ({pct_green:5.1f}%)"
+        )
+        lines.append(
+            f"  \U0001f7e1 Yellow (>= {config.flagging.yellow_threshold}): "
+            f"{n_yellow:>4d} ({pct_yellow:5.1f}%)"
+        )
+        lines.append(
+            f"  \U0001f534 Red    (<  {config.flagging.yellow_threshold}): "
+            f"{n_red:>4d} ({pct_red:5.1f}%)"
+        )
         lines.append("")
 
         # Mean scores breakdown
@@ -519,11 +543,17 @@ def _generate_summary(
 
     if not detail_df.empty and "composite_stability" in detail_df.columns:
         # Aggregate per fact_id for ranking (a fact appears in multiple template/temp combos)
-        per_fact = detail_df.groupby("fact_id").agg({
-            "composite_stability": "mean",
-            "company": "first",
-            "metric": "first",
-        }).sort_values("composite_stability", ascending=False)
+        per_fact = (
+            detail_df.groupby("fact_id")
+            .agg(
+                {
+                    "composite_stability": "mean",
+                    "company": "first",
+                    "metric": "first",
+                }
+            )
+            .sort_values("composite_stability", ascending=False)
+        )
 
         for i, (fact_id, row) in enumerate(per_fact.head(5).iterrows()):
             score = row["composite_stability"]
@@ -547,11 +577,17 @@ def _generate_summary(
     lines.append("-" * 72)
 
     if not detail_df.empty and "composite_stability" in detail_df.columns:
-        per_fact = detail_df.groupby("fact_id").agg({
-            "composite_stability": "mean",
-            "company": "first",
-            "metric": "first",
-        }).sort_values("composite_stability", ascending=True)
+        per_fact = (
+            detail_df.groupby("fact_id")
+            .agg(
+                {
+                    "composite_stability": "mean",
+                    "company": "first",
+                    "metric": "first",
+                }
+            )
+            .sort_values("composite_stability", ascending=True)
+        )
 
         for i, (fact_id, row) in enumerate(per_fact.head(5).iterrows()):
             score = row["composite_stability"]
@@ -769,9 +805,7 @@ def _emit_bootstrap_ci_summary(
 
     rows: List[Dict[str, object]] = []
     for metric in available:
-        per_fact = (
-            detail_df.groupby("fact_id")[metric].mean().dropna().to_numpy()
-        )
+        per_fact = detail_df.groupby("fact_id")[metric].mean().dropna().to_numpy()
         group_values = detail_df[metric].dropna().to_numpy()
         if per_fact.size == 0 or group_values.size == 0:
             continue
@@ -779,17 +813,19 @@ def _emit_bootstrap_ci_summary(
         fact_lo, fact_hi = _bootstrap(per_fact)
         group_point = float(group_values.mean())
         group_lo, group_hi = _bootstrap(group_values)
-        rows.append({
-            "metric": metric,
-            "fact_point": round(fact_point, 6),
-            "fact_ci_lower": round(fact_lo, 6),
-            "fact_ci_upper": round(fact_hi, 6),
-            "n_facts": int(per_fact.size),
-            "group_point": round(group_point, 6),
-            "group_ci_lower": round(group_lo, 6),
-            "group_ci_upper": round(group_hi, 6),
-            "n_groups": int(group_values.size),
-        })
+        rows.append(
+            {
+                "metric": metric,
+                "fact_point": round(fact_point, 6),
+                "fact_ci_lower": round(fact_lo, 6),
+                "fact_ci_upper": round(fact_hi, 6),
+                "n_facts": int(per_fact.size),
+                "group_point": round(group_point, 6),
+                "group_ci_lower": round(group_lo, 6),
+                "group_ci_upper": round(group_hi, 6),
+                "n_groups": int(group_values.size),
+            }
+        )
 
     if not rows:
         logger.info("CI summary skipped: no bootstrappable rows found.")
@@ -815,6 +851,7 @@ def _emit_bootstrap_ci_summary(
 # ---------------------------------------------------------------------------
 # Public API
 # ---------------------------------------------------------------------------
+
 
 def generate_report(
     run_id: str,
@@ -889,18 +926,27 @@ def generate_report(
     saved_scoring = saved.get("scoring", {})
     saved_flagging = saved.get("flagging", {})
     if saved_scoring:
-        config = replace(config, scoring=ScoringConfig(
-            embedding_model=saved_scoring["embedding_model"],
-            hallucination_tolerance=saved_scoring["hallucination_tolerance"],
-            composite_weights=saved_scoring["composite_weights"],
-        ))
-        logger.info("Using scoring config from run snapshot (embedding=%s, tol=%.2f).",
-                    config.scoring.embedding_model, config.scoring.hallucination_tolerance)
+        config = replace(
+            config,
+            scoring=ScoringConfig(
+                embedding_model=saved_scoring["embedding_model"],
+                hallucination_tolerance=saved_scoring["hallucination_tolerance"],
+                composite_weights=saved_scoring["composite_weights"],
+            ),
+        )
+        logger.info(
+            "Using scoring config from run snapshot (embedding=%s, tol=%.2f).",
+            config.scoring.embedding_model,
+            config.scoring.hallucination_tolerance,
+        )
     if saved_flagging:
-        config = replace(config, flagging=FlaggingConfig(
-            green_threshold=saved_flagging["green_threshold"],
-            yellow_threshold=saved_flagging["yellow_threshold"],
-        ))
+        config = replace(
+            config,
+            flagging=FlaggingConfig(
+                green_threshold=saved_flagging["green_threshold"],
+                yellow_threshold=saved_flagging["yellow_threshold"],
+            ),
+        )
 
     # --- Prepare output directory ---
     out_path = Path(output_dir)

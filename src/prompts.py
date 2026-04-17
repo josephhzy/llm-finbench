@@ -15,7 +15,7 @@ from *how the question is framed*.
 from __future__ import annotations
 
 import logging
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Dict, List
 
 logger = logging.getLogger(__name__)
@@ -59,9 +59,9 @@ TEMPLATES: Dict[str, PromptTemplate] = {
     "contextual_extraction": PromptTemplate(
         name="contextual_extraction",
         template=(
-            'In {company}\'s {period} annual report, the following was stated: '
+            "In {company}'s {period} annual report, the following was stated: "
             '"{context}" Based on this, what was the exact {metric}? '
-            'Respond with just the number and unit.'
+            "Respond with just the number and unit."
         ),
         description="Provides source context, tests extraction accuracy",
         required_fields=["company", "metric", "period", "context"],
@@ -99,8 +99,7 @@ def get_template(name: str) -> PromptTemplate:
     """
     if name not in TEMPLATES:
         raise ValueError(
-            f"Unknown template '{name}'. "
-            f"Available templates: {list(TEMPLATES.keys())}"
+            f"Unknown template '{name}'. Available templates: {list(TEMPLATES.keys())}"
         )
     return TEMPLATES[name]
 
@@ -160,7 +159,9 @@ def generate_all_prompts(
             # Check required fields *before* rendering so we can give a
             # clear skip-warning rather than a cryptic KeyError.
             missing = [
-                f for f in template.required_fields if f not in fact or fact.get(f) is None
+                f
+                for f in template.required_fields
+                if f not in fact or fact.get(f) is None
             ]
             if missing:
                 logger.warning(

@@ -41,10 +41,10 @@ Usage
         --tolerances 0.001 0.005 0.01 0.02 0.05 0.1 0.2 \\
         --out reports/tolerance_sensitivity.csv
 """
+
 from __future__ import annotations
 
 import argparse
-import csv
 import json
 import sys
 from pathlib import Path
@@ -56,7 +56,9 @@ import pandas as pd
 DEFAULT_TOLERANCES: Tuple[float, ...] = (0.005, 0.01, 0.02, 0.05, 0.1)
 
 
-def _is_hallucination(value: Optional[float], ground_truth: float, tolerance: float) -> bool:
+def _is_hallucination(
+    value: Optional[float], ground_truth: float, tolerance: float
+) -> bool:
     """Mirrors src.scorer.compute_hallucination_rate's per-value predicate.
 
     None -> True (extraction failure counts as hallucination).
@@ -71,7 +73,9 @@ def _is_hallucination(value: Optional[float], ground_truth: float, tolerance: fl
 
 
 def _flag_from_composite(
-    composite: float, green_threshold: float, yellow_threshold: float,
+    composite: float,
+    green_threshold: float,
+    yellow_threshold: float,
 ) -> str:
     if composite >= green_threshold:
         return "green"
@@ -83,6 +87,7 @@ def _flag_from_composite(
 # ---------------------------------------------------------------------------
 # CSV (modal-only) mode
 # ---------------------------------------------------------------------------
+
 
 def rescore_from_csv(
     csv_path: Path,
@@ -104,8 +109,11 @@ def rescore_from_csv(
     df = pd.read_csv(csv_path, comment="#")
 
     required_cols = {
-        "fact_id", "modal_value", "ground_truth",
-        "semantic_score", "factual_score",
+        "fact_id",
+        "modal_value",
+        "ground_truth",
+        "semantic_score",
+        "factual_score",
     }
     missing = required_cols - set(df.columns)
     if missing:
@@ -141,16 +149,18 @@ def rescore_from_csv(
         n_yellow = int((flags == "yellow").sum())
         n_red = int((flags == "red").sum())
 
-        rows.append({
-            "tolerance": tol,
-            "modal_hallucination_fraction": round(halluc_rate, 6),
-            "composite_stability_approx": round(mean_composite, 6),
-            "n_green": n_green,
-            "n_yellow": n_yellow,
-            "n_red": n_red,
-            "n_groups": len(df),
-            "mode": "csv_modal_only",
-        })
+        rows.append(
+            {
+                "tolerance": tol,
+                "modal_hallucination_fraction": round(halluc_rate, 6),
+                "composite_stability_approx": round(mean_composite, 6),
+                "n_green": n_green,
+                "n_yellow": n_yellow,
+                "n_red": n_red,
+                "n_groups": len(df),
+                "mode": "csv_modal_only",
+            }
+        )
 
     return pd.DataFrame(rows)
 
@@ -158,6 +168,7 @@ def rescore_from_csv(
 # ---------------------------------------------------------------------------
 # results.json (full recomputation) mode
 # ---------------------------------------------------------------------------
+
 
 def rescore_from_results_json(
     results_path: Path,
@@ -184,6 +195,7 @@ def rescore_from_results_json(
     expects 'results' or 'groups' as the key.
     """
     import sys
+
     # src/ may not be on PYTHONPATH when this script is invoked directly
     # from the repo root, so add it explicitly.
     repo_root = results_path.resolve().parent.parent.parent
@@ -239,13 +251,15 @@ def rescore_from_results_json(
 
         semantic = g.get("semantic_score", g.get("semantic_consistency"))
         factual = g.get("factual_score", g.get("factual_consistency"))
-        per_group.append({
-            "fact_id": fact_id,
-            "extracted": extracted,
-            "ground_truth": ground_truth_value,
-            "semantic": semantic,
-            "factual": factual,
-        })
+        per_group.append(
+            {
+                "fact_id": fact_id,
+                "extracted": extracted,
+                "ground_truth": ground_truth_value,
+                "semantic": semantic,
+                "factual": factual,
+            }
+        )
 
     if not per_group:
         raise SystemExit(
@@ -276,18 +290,22 @@ def rescore_from_results_json(
                 + (1.0 - rate) * composite_weights["hallucination_rate"]
             )
             all_composites.append(composite)
-            flags_counter[_flag_from_composite(composite, green_threshold, yellow_threshold)] += 1
+            flags_counter[
+                _flag_from_composite(composite, green_threshold, yellow_threshold)
+            ] += 1
 
-        rows.append({
-            "tolerance": tol,
-            "hallucination_rate": round(float(np.mean(all_rates)), 6),
-            "composite_stability": round(float(np.mean(all_composites)), 6),
-            "n_green": flags_counter["green"],
-            "n_yellow": flags_counter["yellow"],
-            "n_red": flags_counter["red"],
-            "n_groups": len(all_rates),
-            "mode": "results_json_full",
-        })
+        rows.append(
+            {
+                "tolerance": tol,
+                "hallucination_rate": round(float(np.mean(all_rates)), 6),
+                "composite_stability": round(float(np.mean(all_composites)), 6),
+                "n_green": flags_counter["green"],
+                "n_yellow": flags_counter["yellow"],
+                "n_red": flags_counter["red"],
+                "n_groups": len(all_rates),
+                "mode": "results_json_full",
+            }
+        )
 
     return pd.DataFrame(rows)
 
@@ -295,6 +313,7 @@ def rescore_from_results_json(
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
+
 
 def _write_csv(df: pd.DataFrame, out_path: Path) -> None:
     out_path.parent.mkdir(parents=True, exist_ok=True)
@@ -329,15 +348,20 @@ def run(args: argparse.Namespace) -> int:
                 "so ground-truth values can be re-matched."
             )
         df = rescore_from_results_json(
-            Path(args.results_json), Path(args.ground_truth),
-            tolerances, composite_weights,
-            args.green_threshold, args.yellow_threshold,
+            Path(args.results_json),
+            Path(args.ground_truth),
+            tolerances,
+            composite_weights,
+            args.green_threshold,
+            args.yellow_threshold,
         )
     elif args.csv:
         df = rescore_from_csv(
             Path(args.csv),
-            tolerances, composite_weights,
-            args.green_threshold, args.yellow_threshold,
+            tolerances,
+            composite_weights,
+            args.green_threshold,
+            args.yellow_threshold,
         )
     else:
         raise SystemExit(
@@ -365,43 +389,64 @@ def _parse_args(argv: List[str]) -> argparse.Namespace:
     )
     src = parser.add_mutually_exclusive_group(required=False)
     src.add_argument(
-        "--csv", type=str, default=None,
+        "--csv",
+        type=str,
+        default=None,
         help="Path to reports/per_fact_report.csv (modal-only approximation).",
     )
     src.add_argument(
-        "--results-json", type=str, default=None,
+        "--results-json",
+        type=str,
+        default=None,
         help="Path to results/<run_id>/results.json (full recomputation).",
     )
     parser.add_argument(
-        "--ground-truth", type=str, default="ground_truth/facts.json",
+        "--ground-truth",
+        type=str,
+        default="ground_truth/facts.json",
         help="Path to facts.json (only needed in --results-json mode).",
     )
     parser.add_argument(
-        "--tolerances", type=float, nargs="*", default=None,
+        "--tolerances",
+        type=float,
+        nargs="*",
+        default=None,
         help=f"Tolerance ladder (default: {DEFAULT_TOLERANCES}).",
     )
     parser.add_argument(
-        "--out", type=str, default=None,
+        "--out",
+        type=str,
+        default=None,
         help="Optional output CSV path (e.g. reports/tolerance_sensitivity.csv).",
     )
     parser.add_argument(
-        "--weight-semantic", type=float, default=0.30,
+        "--weight-semantic",
+        type=float,
+        default=0.30,
         help="Composite weight for semantic_consistency (default: 0.30).",
     )
     parser.add_argument(
-        "--weight-factual", type=float, default=0.40,
+        "--weight-factual",
+        type=float,
+        default=0.40,
         help="Composite weight for factual_consistency (default: 0.40).",
     )
     parser.add_argument(
-        "--weight-hallucination", type=float, default=0.30,
+        "--weight-hallucination",
+        type=float,
+        default=0.30,
         help="Composite weight for (1 - hallucination_rate) (default: 0.30).",
     )
     parser.add_argument(
-        "--green-threshold", type=float, default=0.75,
+        "--green-threshold",
+        type=float,
+        default=0.75,
         help="Composite threshold for the green flag (default: 0.75).",
     )
     parser.add_argument(
-        "--yellow-threshold", type=float, default=0.50,
+        "--yellow-threshold",
+        type=float,
+        default=0.50,
         help="Composite threshold for the yellow flag (default: 0.50).",
     )
     return parser.parse_args(argv)
