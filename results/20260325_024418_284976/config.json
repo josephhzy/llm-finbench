@@ -1,0 +1,64 @@
+{
+  "model": {
+    "provider": "openai",
+    "name": "gpt-5-nano",
+    "max_tokens": 1024
+  },
+  "evaluation": {
+    "temperatures": [
+      0.0,
+      0.3,
+      0.5,
+      0.7,
+      1.0
+    ],
+    "runs_per_combination": 10,
+    "templates": [
+      "direct_extraction",
+      "contextual_extraction",
+      "comparative",
+      "qualitative"
+    ]
+  },
+  "quick_mode": {
+    "temperatures": [
+      0.0
+    ],
+    "runs_per_combination": 3,
+    "max_facts": 6,
+    "templates": [
+      "direct_extraction"
+    ]
+  },
+  "scoring": {
+    "embedding_model": "all-MiniLM-L6-v2",
+    "hallucination_tolerance": 0.05,
+    "composite_weights": {
+      "semantic_consistency": 0.3,
+      "factual_consistency": 0.4,
+      "hallucination_rate": 0.3
+    }
+  },
+  "flagging": {
+    "green_threshold": 0.75,
+    "yellow_threshold": 0.5
+  },
+  "checkpoint": {
+    "save_interval": 50,
+    "directory": "results"
+  },
+  "cost": {
+    "avg_input_tokens": 200,
+    "avg_output_tokens": 300,
+    "price_per_1k_input": 0.0002,
+    "price_per_1k_output": 0.00125,
+    "confirmation_threshold": 1.0
+  },
+  "api": {
+    "timeout_seconds": 30,
+    "max_retries": 5,
+    "base_backoff_seconds": 1.0,
+    "max_backoff_seconds": 60.0,
+    "rate_limit_rpm": 50
+  }
+}

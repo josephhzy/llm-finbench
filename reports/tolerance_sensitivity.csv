@@ -1,0 +1,16 @@
+# Tolerance sensitivity sweep — see docs/SENSITIVITY_ANALYSIS.md
+# Column semantics:
+#   tolerance                       Relative tolerance threshold
+#   hallucination_rate OR           Full mean rate over all (fact,template,temperature,run) units
+#   modal_hallucination_fraction    Fraction of groups whose MODAL value alone fails the tolerance test
+#   composite_stability[_approx]    Recomputed composite (approx in csv mode)
+#   n_green/n_yellow/n_red          Flag distribution recomputed at this tolerance
+#   n_groups                        Number of evaluation groups used
+#   mode                            csv_modal_only | results_json_full
+#
+tolerance,modal_hallucination_fraction,composite_stability_approx,n_green,n_yellow,n_red,n_groups,mode
+0.005,0.736449,0.56779,136,102,297,535,csv_modal_only
+0.01,0.719626,0.572837,139,106,290,535,csv_modal_only
+0.02,0.693458,0.580687,139,120,276,535,csv_modal_only
+0.05,0.626168,0.600874,154,131,250,535,csv_modal_only
+0.1,0.521495,0.632276,171,155,209,535,csv_modal_only

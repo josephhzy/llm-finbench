@@ -1,0 +1,31 @@
+# Aggregated by Metric Type (Category) — Run: 20260401_040014_891022
+# Generated: 2026-04-01 07:33:56 UTC
+# 
+# Aggregated by: category
+# Each row is the mean of all per-fact scores within that group.
+# 
+# Column Descriptions:
+#   category              — Grouping key
+#   semantic_score         — Mean semantic consistency across group
+#   factual_score          — Mean factual consistency across group
+#   hallucination_rate     — Mean hallucination rate across group
+#   extraction_failure_rate — Mean extraction failure rate across group
+#   composite_stability    — Mean composite stability across group
+#   n_facts                — Number of per-fact rows in this group
+# 
+# Flagging Thresholds (applied to mean composite_stability):
+#   🟢 Green  — >= 0.75
+#   🟡 Yellow — >= 0.5
+#   🔴 Red    — <  0.5
+#
+category,semantic_score,factual_score,hallucination_rate,extraction_failure_rate,composite_stability,n_facts,flag
+asset_quality,0.9183430294195811,0.5465608465608465,0.715,0.16166666666666665,0.579627247450213,60,🟡
+aum,0.9300126865506172,0.4411111111111111,0.7025,0.06,0.5446982504096296,40,🟡
+balance_sheet,0.8772575100262959,0.6851851851851851,0.6533333333333334,0.29333333333333333,0.641251327081963,15,🟡
+capital,0.9498403628667196,0.5507407407407408,0.5566666666666666,0.006666666666666667,0.6382484051563122,60,🟡
+efficiency,0.8715362951159478,0.6449007936507936,0.73,0.36,0.6004212059951017,20,🟡
+income,0.8974987212953897,0.5491735084838533,0.6682758620689656,0.16896551724137931,0.5884362611614685,145,🟡
+liquidity,0.8836661785840988,0.48250000000000004,0.5549999999999999,0.255,0.5915998535752296,20,🟡
+profitability,0.931756260565349,0.5146626984126984,0.5964285714285714,0.2542857142857143,0.6064633861061126,140,🟡
+revenue,0.9285170197486877,0.5348148148148149,0.64,0.013333333333333334,0.6004810318505321,15,🟡
+shareholder,0.9236953765153885,0.48755952380952383,0.985,0.045,0.4766324224784261,20,🔴

@@ -1,0 +1,40 @@
+# Semantic consistency — MiniLM vs FinBERT comparison
+# FinBERT model: ProsusAI/finbert
+# Source:        synthetic paraphrase corpus from per_fact_report.csv (code-path validation — NOT real LLM responses)
+#
+# Columns:
+#   fact_id       - Ground-truth fact identifier
+#   miniLM_score  - Per-fact mean of semantic_score from per_fact_report.csv
+#   finbert_score - Same metric, recomputed with FinBERT mean-pooled embeddings
+#   delta         - finbert_score - miniLM_score
+#
+fact_id,miniLM_score,finbert_score,delta
+capitaland_fy2024_aum,0.921761,0.883807,-0.037954
+capitaland_fy2024_fee_income,0.911503,0.882781,-0.028721
+capitaland_fy2024_fum,0.938264,0.884425,-0.053839
+capitaland_fy2024_net_profit,0.90811,0.886735,-0.021375
+dbs_fy2024_cet1,0.954199,0.785094,-0.169105
+dbs_fy2024_cir,0.871536,0.790046,-0.08149
+dbs_fy2024_net_profit,0.861679,0.887309,0.02563
+dbs_fy2024_nim,0.911401,0.772715,-0.138685
+dbs_fy2024_npl,0.911565,0.776958,-0.134608
+dbs_fy2024_roe,0.906952,0.7867,-0.120252
+dbs_fy2024_total_income,0.880095,0.885607,0.005512
+ocbc_fy2024_cet1,0.960818,0.776906,-0.183912
+ocbc_fy2024_ldr,0.883666,0.79573,-0.087937
+ocbc_fy2024_net_profit,0.91663,0.907243,-0.009387
+ocbc_fy2024_nim,0.961398,0.76639,-0.195008
+ocbc_fy2024_npl,0.948365,0.783932,-0.164433
+ocbc_fy2024_roe,0.94243,0.782526,-0.159904
+ocbc_fy2024_total_income,0.912085,0.90324,-0.008845
+singtel_fy2024_dps,0.923695,0.726975,-0.19672
+singtel_fy2024_ebitda,0.929062,0.883024,-0.046038
+singtel_fy2024_net_profit,0.897752,0.902821,0.005069
+singtel_fy2024_revenue,0.928517,0.909486,-0.019031
+uob_fy2024_cet1,0.934504,0.784542,-0.149961
+uob_fy2024_net_profit,0.888073,0.888668,0.000595
+uob_fy2024_nim,0.951116,0.776233,-0.174883
+uob_fy2024_npl,0.895099,0.79265,-0.102449
+uob_fy2024_roe,0.919935,0.789652,-0.130283
+uob_fy2024_total_assets,0.877258,0.895082,0.017825
+uob_fy2024_total_income,0.893356,0.88615,-0.007206

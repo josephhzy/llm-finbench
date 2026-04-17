@@ -1,0 +1,26 @@
+# Aggregated by Temperature — Run: 20260401_040014_891022
+# Generated: 2026-04-01 07:33:56 UTC
+# 
+# Aggregated by: temperature
+# Each row is the mean of all per-fact scores within that group.
+# 
+# Column Descriptions:
+#   temperature              — Grouping key
+#   semantic_score         — Mean semantic consistency across group
+#   factual_score          — Mean factual consistency across group
+#   hallucination_rate     — Mean hallucination rate across group
+#   extraction_failure_rate — Mean extraction failure rate across group
+#   composite_stability    — Mean composite stability across group
+#   n_facts                — Number of per-fact rows in this group
+# 
+# Flagging Thresholds (applied to mean composite_stability):
+#   🟢 Green  — >= 0.75
+#   🟡 Yellow — >= 0.5
+#   🔴 Red    — <  0.5
+#
+temperature,semantic_score,factual_score,hallucination_rate,extraction_failure_rate,composite_stability,n_facts,flag
+0.0,0.9887349650124523,0.805607476635514,0.6523364485981308,0.16355140186915887,0.7231625455785021,107,🟡
+0.3,0.9297678242219942,0.49876131137813384,0.6392523364485981,0.16635514018691588,0.5866591708832724,107,🟡
+0.5,0.9029082274325541,0.486752707313455,0.6457943925233645,0.15607476635514017,0.5718352333981388,107,🟡
+0.7,0.8943604328364969,0.45509197448449784,0.6626168224299066,0.17850467289719626,0.5515598729157762,107,🟡
+1.0,0.8687077749555356,0.42448449784898384,0.6672897196261682,0.18037383177570093,0.5302192157384037,107,🟡

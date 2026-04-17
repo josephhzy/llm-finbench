@@ -1,0 +1,568 @@
+# Per-Fact Detail Report — Run: 20260401_040014_891022
+# Generated: 2026-04-01 07:33:56 UTC
+# 
+# Column Descriptions:
+#   fact_id                — Unique identifier for the ground truth fact
+#   company                — Company name (DBS, OCBC, UOB, Singtel, CapitaLand)
+#   metric                 — Financial metric being tested
+#   category               — Metric category (profitability, capital, etc.)
+#   difficulty             — Fact difficulty level (easy, medium, hard)
+#   template               — Prompt template used for this evaluation group
+#   temperature            — Sampling temperature used
+#   n_runs                 — Number of API calls in this evaluation group
+#   semantic_score         — Semantic consistency (0-1): cosine similarity of response embeddings
+#   factual_score          — Factual consistency (0-1): fraction of runs matching modal extracted value
+#   hallucination_rate     — Fraction of extracted values outside tolerance of ground truth
+#   extraction_failure_rate — Fraction of responses where numeric extraction returned null
+#   modal_value            — Most commonly extracted numeric value across runs
+#   ground_truth           — Expected value from verified annual report
+#   composite_stability    — Weighted combination of scores (see config for weights)
+#   flag                   — Traffic-light indicator based on composite_stability
+# 
+# Flagging Thresholds:
+#   🟢 Green  — composite_stability >= 0.75
+#   🟡 Yellow — composite_stability >= 0.5
+#   🔴 Red    — composite_stability <  0.5
+# 
+# Scoring Weights:
+#   semantic_consistency: 0.3
+#   factual_consistency:  0.4
+#   hallucination_rate:   0.3
+#   hallucination_tolerance: 0.05 (5% relative)
+#
+fact_id,company,metric,category,difficulty,template,temperature,n_runs,semantic_score,factual_score,hallucination_rate,extraction_failure_rate,modal_value,ground_truth,composite_stability,flag
+capitaland_fy2024_aum,CapitaLand,Assets Under Management,aum,easy,comparative,0.0,10,0.9866536259651184,0.0,1.0,1.0,,136.0,0.2959960877895355,🔴
+capitaland_fy2024_aum,CapitaLand,Assets Under Management,aum,easy,comparative,0.3,10,0.8656892776489258,0.25,1.0,0.6,128.5,136.0,0.35970678329467776,🔴
+capitaland_fy2024_aum,CapitaLand,Assets Under Management,aum,easy,comparative,0.5,10,0.9065770506858826,0.125,0.9,0.2,96.1,136.0,0.35197311520576474,🔴
+capitaland_fy2024_aum,CapitaLand,Assets Under Management,aum,easy,comparative,0.7,10,0.9764647483825684,0.1,1.0,0.0,126.4,136.0,0.33293942451477054,🔴
+capitaland_fy2024_aum,CapitaLand,Assets Under Management,aum,easy,comparative,1.0,10,0.8882982730865479,0.125,0.9,0.2,122.9,136.0,0.3464894819259643,🔴
+capitaland_fy2024_aum,CapitaLand,Assets Under Management,aum,easy,contextual_extraction,0.0,10,1.0,1.0,0.0,0.0,136.0,136.0,1.0,🟢
+capitaland_fy2024_aum,CapitaLand,Assets Under Management,aum,easy,contextual_extraction,0.3,10,0.9951930642127991,1.0,0.0,0.0,136.0,136.0,0.9985579192638399,🟢
+capitaland_fy2024_aum,CapitaLand,Assets Under Management,aum,easy,contextual_extraction,0.5,10,0.9914544224739075,1.0,0.0,0.0,136.0,136.0,0.9974363267421722,🟢
+capitaland_fy2024_aum,CapitaLand,Assets Under Management,aum,easy,contextual_extraction,0.7,10,1.0,1.0,0.0,0.0,136.0,136.0,1.0,🟢
+capitaland_fy2024_aum,CapitaLand,Assets Under Management,aum,easy,contextual_extraction,1.0,10,0.9914543032646179,1.0,0.0,0.0,136.0,136.0,0.9974362909793855,🟢
+capitaland_fy2024_aum,CapitaLand,Assets Under Management,aum,easy,direct_extraction,0.0,10,1.0,1.0,1.0,0.0,676.0,136.0,0.7,🟡
+capitaland_fy2024_aum,CapitaLand,Assets Under Management,aum,easy,direct_extraction,0.3,10,0.8517599105834961,0.3,1.0,0.0,676.0,136.0,0.3755279731750488,🔴
+capitaland_fy2024_aum,CapitaLand,Assets Under Management,aum,easy,direct_extraction,0.5,10,0.8402712345123291,0.2,1.0,0.0,676.0,136.0,0.3320813703536987,🔴
+capitaland_fy2024_aum,CapitaLand,Assets Under Management,aum,easy,direct_extraction,0.7,10,0.7926108241081238,0.1,1.0,0.0,683.4,136.0,0.27778324723243714,🔴
+capitaland_fy2024_aum,CapitaLand,Assets Under Management,aum,easy,direct_extraction,1.0,10,0.7394393682479858,0.1,0.9,0.0,168.0,136.0,0.2918318104743957,🔴
+capitaland_fy2024_aum,CapitaLand,Assets Under Management,aum,easy,qualitative,0.0,10,0.9915676712989807,0.8,1.0,0.0,109.2,136.0,0.6174703013896943,🟡
+capitaland_fy2024_aum,CapitaLand,Assets Under Management,aum,easy,qualitative,0.3,10,0.9618449807167053,0.1,0.8,0.0,114.2,136.0,0.38855349421501156,🔴
+capitaland_fy2024_aum,CapitaLand,Assets Under Management,aum,easy,qualitative,0.5,10,0.9124892354011536,0.1,0.9,0.0,159.2,136.0,0.34374677062034603,🔴
+capitaland_fy2024_aum,CapitaLand,Assets Under Management,aum,easy,qualitative,0.7,10,0.9131112098693848,0.1,0.9,0.0,109.2,136.0,0.3439333629608154,🔴
+capitaland_fy2024_aum,CapitaLand,Assets Under Management,aum,easy,qualitative,1.0,10,0.830339789390564,0.1111111111111111,0.9,0.1,148.7,136.0,0.3235463812616136,🔴
+capitaland_fy2024_fee_income,CapitaLand,Fee Income-related Business Revenue,income,medium,comparative,0.0,10,0.991581916809082,0.9,1.0,0.0,1000.0,1169.0,0.6574745750427247,🟡
+capitaland_fy2024_fee_income,CapitaLand,Fee Income-related Business Revenue,income,medium,comparative,0.3,10,0.9329197406768799,0.1111111111111111,0.8,0.1,1600.0,1169.0,0.3843203666475084,🔴
+capitaland_fy2024_fee_income,CapitaLand,Fee Income-related Business Revenue,income,medium,comparative,0.5,10,0.9209470748901367,0.1111111111111111,0.8,0.1,1079.0,1169.0,0.38072856691148543,🔴
+capitaland_fy2024_fee_income,CapitaLand,Fee Income-related Business Revenue,income,medium,comparative,0.7,10,0.8477293252944946,0.25,1.0,0.6,1989.0,1169.0,0.3543187975883484,🔴
+capitaland_fy2024_fee_income,CapitaLand,Fee Income-related Business Revenue,income,medium,comparative,1.0,10,0.8766672015190125,0.25,1.0,0.2,1e-06,1169.0,0.3630001604557037,🔴
+capitaland_fy2024_fee_income,CapitaLand,Fee Income-related Business Revenue,income,medium,contextual_extraction,0.0,10,1.0,1.0,0.0,0.0,1169.0,1169.0,1.0,🟢
+capitaland_fy2024_fee_income,CapitaLand,Fee Income-related Business Revenue,income,medium,contextual_extraction,0.3,10,1.0,1.0,0.0,0.0,1169.0,1169.0,1.0,🟢
+capitaland_fy2024_fee_income,CapitaLand,Fee Income-related Business Revenue,income,medium,contextual_extraction,0.5,10,1.0,1.0,0.0,0.0,1169.0,1169.0,1.0,🟢
+capitaland_fy2024_fee_income,CapitaLand,Fee Income-related Business Revenue,income,medium,contextual_extraction,0.7,10,1.0,1.0,0.0,0.0,1169.0,1169.0,1.0,🟢
+capitaland_fy2024_fee_income,CapitaLand,Fee Income-related Business Revenue,income,medium,contextual_extraction,1.0,10,1.0,1.0,0.0,0.0,1169.0,1169.0,1.0,🟢
+capitaland_fy2024_fee_income,CapitaLand,Fee Income-related Business Revenue,income,medium,direct_extraction,0.0,10,0.9411605000495911,0.6,1.0,0.0,2000.0,1169.0,0.5223481500148772,🟡
+capitaland_fy2024_fee_income,CapitaLand,Fee Income-related Business Revenue,income,medium,direct_extraction,0.3,10,0.8539790511131287,0.3,1.0,0.0,1000.0,1169.0,0.3761937153339386,🔴
+capitaland_fy2024_fee_income,CapitaLand,Fee Income-related Business Revenue,income,medium,direct_extraction,0.5,10,0.7837393283843994,0.1,1.0,0.0,6779.0,1169.0,0.2751217985153198,🔴
+capitaland_fy2024_fee_income,CapitaLand,Fee Income-related Business Revenue,income,medium,direct_extraction,0.7,10,0.7530720829963684,0.125,0.9,0.2,1216.0,1169.0,0.3059216248989105,🔴
+capitaland_fy2024_fee_income,CapitaLand,Fee Income-related Business Revenue,income,medium,direct_extraction,1.0,10,0.6536226272583008,0.125,1.0,0.2,6748.0,1169.0,0.24608678817749025,🔴
+capitaland_fy2024_fee_income,CapitaLand,Fee Income-related Business Revenue,income,medium,qualitative,0.0,10,0.9959524273872375,0.9,1.0,0.0,3000.0,1169.0,0.6587857282161713,🟡
+capitaland_fy2024_fee_income,CapitaLand,Fee Income-related Business Revenue,income,medium,qualitative,0.3,10,0.9490197896957397,0.1,1.0,0.0,4400.0,1169.0,0.32470593690872196,🔴
+capitaland_fy2024_fee_income,CapitaLand,Fee Income-related Business Revenue,income,medium,qualitative,0.5,10,0.9190842509269714,0.2,0.8,0.0,1200.0,1169.0,0.41572527527809144,🔴
+capitaland_fy2024_fee_income,CapitaLand,Fee Income-related Business Revenue,income,medium,qualitative,0.7,10,0.9190356135368347,0.1,0.8,0.0,3100.0,1169.0,0.3757106840610504,🔴
+capitaland_fy2024_fee_income,CapitaLand,Fee Income-related Business Revenue,income,medium,qualitative,1.0,10,0.8915403485298157,0.1,1.0,0.0,14091.0,1169.0,0.30746210455894474,🔴
+capitaland_fy2024_fum,CapitaLand,Funds Under Management,aum,medium,comparative,0.0,10,0.9873977899551392,0.8,1.0,0.0,109.0,117.0,0.6162193369865419,🟡
+capitaland_fy2024_fum,CapitaLand,Funds Under Management,aum,medium,comparative,0.3,10,0.9428986310958862,0.1111111111111111,0.7,0.1,100.0,117.0,0.41731403377321036,🔴
+capitaland_fy2024_fum,CapitaLand,Funds Under Management,aum,medium,comparative,0.5,10,0.9464434385299683,0.1111111111111111,1.0,0.1,100.1,117.0,0.3283774760034349,🔴
+capitaland_fy2024_fum,CapitaLand,Funds Under Management,aum,medium,comparative,0.7,10,0.9577500224113464,0.1,0.8,0.0,157.0,117.0,0.3873250067234039,🔴
+capitaland_fy2024_fum,CapitaLand,Funds Under Management,aum,medium,comparative,1.0,10,0.9531247615814209,0.1,0.9,0.0,112.8,117.0,0.3559374284744263,🔴
+capitaland_fy2024_fum,CapitaLand,Funds Under Management,aum,medium,contextual_extraction,0.0,10,0.9999999403953552,1.0,0.0,0.0,117.0,117.0,0.9999999821186065,🟢
+capitaland_fy2024_fum,CapitaLand,Funds Under Management,aum,medium,contextual_extraction,0.3,10,0.9999999403953552,1.0,0.0,0.0,117.0,117.0,0.9999999821186065,🟢
+capitaland_fy2024_fum,CapitaLand,Funds Under Management,aum,medium,contextual_extraction,0.5,10,0.9906414747238159,1.0,0.0,0.0,117.0,117.0,0.9971924424171448,🟢
+capitaland_fy2024_fum,CapitaLand,Funds Under Management,aum,medium,contextual_extraction,0.7,10,0.9877169132232666,1.0,0.0,0.0,117.0,117.0,0.9963150739669799,🟢
+capitaland_fy2024_fum,CapitaLand,Funds Under Management,aum,medium,contextual_extraction,1.0,10,0.9859622716903687,1.0,0.0,0.0,117.0,117.0,0.9957886815071106,🟢
+capitaland_fy2024_fum,CapitaLand,Funds Under Management,aum,medium,direct_extraction,0.0,10,1.0,1.0,1.0,0.0,92.0,117.0,0.7,🟡
+capitaland_fy2024_fum,CapitaLand,Funds Under Management,aum,medium,direct_extraction,0.3,10,0.8851961493492126,0.2,1.0,0.0,92.0,117.0,0.3455588448047638,🔴
+capitaland_fy2024_fum,CapitaLand,Funds Under Management,aum,medium,direct_extraction,0.5,10,0.8276658654212952,0.1,1.0,0.0,128.5,117.0,0.28829975962638854,🔴
+capitaland_fy2024_fum,CapitaLand,Funds Under Management,aum,medium,direct_extraction,0.7,10,0.8408980369567871,0.1,1.0,0.0,193.0,117.0,0.2922694110870361,🔴
+capitaland_fy2024_fum,CapitaLand,Funds Under Management,aum,medium,direct_extraction,1.0,10,0.8318861126899719,0.1,1.0,0.0,92.7,117.0,0.2895658338069916,🔴
+capitaland_fy2024_fum,CapitaLand,Funds Under Management,aum,medium,qualitative,0.0,10,1.0,1.0,1.0,0.0,93.0,117.0,0.7,🟡
+capitaland_fy2024_fum,CapitaLand,Funds Under Management,aum,medium,qualitative,0.3,10,0.9424283504486084,0.1,0.8,0.0,70.2,117.0,0.3827285051345825,🔴
+capitaland_fy2024_fum,CapitaLand,Funds Under Management,aum,medium,qualitative,0.5,10,0.9059650897979736,0.1,1.0,0.0,59.5,117.0,0.3117895269393921,🔴
+capitaland_fy2024_fum,CapitaLand,Funds Under Management,aum,medium,qualitative,0.7,10,0.8788965940475464,0.1111111111111111,0.9,0.1,95.2,117.0,0.3381134226587083,🔴
+capitaland_fy2024_fum,CapitaLand,Funds Under Management,aum,medium,qualitative,1.0,10,0.9004170894622803,0.1,0.8,0.0,108.3,117.0,0.3701251268386841,🔴
+capitaland_fy2024_net_profit,CapitaLand,Total PATMI,income,easy,comparative,0.0,10,0.9915429949760437,1.0,1.0,0.0,1980.0,479.0,0.6974628984928131,🟡
+capitaland_fy2024_net_profit,CapitaLand,Total PATMI,income,easy,comparative,0.3,10,0.9680277705192566,0.2,1.0,0.0,1980.0,479.0,0.370408331155777,🔴
+capitaland_fy2024_net_profit,CapitaLand,Total PATMI,income,easy,comparative,0.5,10,0.9084116816520691,0.1111111111111111,1.0,0.1,2600.0,479.0,0.3169679489400652,🔴
+capitaland_fy2024_net_profit,CapitaLand,Total PATMI,income,easy,comparative,0.7,10,0.9419377446174622,0.1,1.0,0.0,1800.0,479.0,0.3225813233852386,🔴
+capitaland_fy2024_net_profit,CapitaLand,Total PATMI,income,easy,comparative,1.0,10,0.942078709602356,0.1,1.0,0.0,3570.0,479.0,0.32262361288070673,🔴
+capitaland_fy2024_net_profit,CapitaLand,Total PATMI,income,easy,contextual_extraction,0.0,10,0.9933207035064697,1.0,0.0,0.0,479.0,479.0,0.9979962110519409,🟢
+capitaland_fy2024_net_profit,CapitaLand,Total PATMI,income,easy,contextual_extraction,0.3,10,0.9844149351119995,1.0,0.0,0.0,479.0,479.0,0.9953244805335999,🟢
+capitaland_fy2024_net_profit,CapitaLand,Total PATMI,income,easy,contextual_extraction,0.5,10,0.9821885228157043,1.0,0.0,0.0,479.0,479.0,0.9946565568447114,🟢
+capitaland_fy2024_net_profit,CapitaLand,Total PATMI,income,easy,contextual_extraction,0.7,10,0.981446385383606,1.0,0.0,0.0,479.0,479.0,0.9944339156150819,🟢
+capitaland_fy2024_net_profit,CapitaLand,Total PATMI,income,easy,contextual_extraction,1.0,10,0.9844149351119995,1.0,0.0,0.0,479.0,479.0,0.9953244805335999,🟢
+capitaland_fy2024_net_profit,CapitaLand,Total PATMI,income,easy,direct_extraction,0.0,10,1.0,1.0,1.0,0.0,1000.0,479.0,0.7,🟡
+capitaland_fy2024_net_profit,CapitaLand,Total PATMI,income,easy,direct_extraction,0.3,10,0.8380085229873657,0.1,1.0,0.0,1769.0,479.0,0.29140255689620975,🔴
+capitaland_fy2024_net_profit,CapitaLand,Total PATMI,income,easy,direct_extraction,0.5,10,0.6929864883422852,0.1,1.0,0.0,1900.0,479.0,0.24789594650268554,🔴
+capitaland_fy2024_net_profit,CapitaLand,Total PATMI,income,easy,direct_extraction,0.7,10,0.6892475485801697,0.1,1.0,0.0,2526.0,479.0,0.2467742645740509,🔴
+capitaland_fy2024_net_profit,CapitaLand,Total PATMI,income,easy,direct_extraction,1.0,10,0.560092568397522,0.1,1.0,0.0,2000.0,479.0,0.20802777051925658,🔴
+capitaland_fy2024_net_profit,CapitaLand,Total PATMI,income,easy,qualitative,0.0,10,1.0,1.0,1.0,0.0,1000.0,479.0,0.7,🟡
+capitaland_fy2024_net_profit,CapitaLand,Total PATMI,income,easy,qualitative,0.3,10,0.9426718950271606,0.2,1.0,0.0,1700.0,479.0,0.3628015685081482,🔴
+capitaland_fy2024_net_profit,CapitaLand,Total PATMI,income,easy,qualitative,0.5,10,0.9236837029457092,0.1,1.0,0.0,1858.0,479.0,0.31710511088371274,🔴
+capitaland_fy2024_net_profit,CapitaLand,Total PATMI,income,easy,qualitative,0.7,10,0.9280108213424683,0.1,1.0,0.0,2016.0,479.0,0.3184032464027404,🔴
+capitaland_fy2024_net_profit,CapitaLand,Total PATMI,income,easy,qualitative,1.0,10,0.909714937210083,0.1,1.0,0.0,2600.0,479.0,0.3129144811630249,🔴
+dbs_fy2024_cet1,DBS,Common Equity Tier 1 Ratio,capital,easy,comparative,0.0,10,0.9939554929733276,0.7,0.8,0.0,15.9,15.1,0.6381866478919982,🟡
+dbs_fy2024_cet1,DBS,Common Equity Tier 1 Ratio,capital,easy,comparative,0.3,10,0.985359251499176,0.2,0.4,0.0,15.6,15.1,0.5556077754497528,🟡
+dbs_fy2024_cet1,DBS,Common Equity Tier 1 Ratio,capital,easy,comparative,0.5,10,0.9492303729057312,0.2,0.4,0.0,15.7,15.1,0.5447691118717193,🟡
+dbs_fy2024_cet1,DBS,Common Equity Tier 1 Ratio,capital,easy,comparative,0.7,10,0.9281168580055237,0.4,0.9,0.0,1.0,15.1,0.4684350574016571,🔴
+dbs_fy2024_cet1,DBS,Common Equity Tier 1 Ratio,capital,easy,comparative,1.0,10,0.9235928058624268,0.2222222222222222,0.7,0.1,15.2,15.1,0.45596673064761695,🔴
+dbs_fy2024_cet1,DBS,Common Equity Tier 1 Ratio,capital,easy,contextual_extraction,0.0,10,1.0,1.0,1.0,0.0,17.0,15.1,0.7,🟡
+dbs_fy2024_cet1,DBS,Common Equity Tier 1 Ratio,capital,easy,contextual_extraction,0.3,10,1.0,1.0,1.0,0.0,17.0,15.1,0.7,🟡
+dbs_fy2024_cet1,DBS,Common Equity Tier 1 Ratio,capital,easy,contextual_extraction,0.5,10,1.0,1.0,1.0,0.0,17.0,15.1,0.7,🟡
+dbs_fy2024_cet1,DBS,Common Equity Tier 1 Ratio,capital,easy,contextual_extraction,0.7,10,0.9687831401824951,0.9,0.9,0.0,17.0,15.1,0.6806349420547486,🟡
+dbs_fy2024_cet1,DBS,Common Equity Tier 1 Ratio,capital,easy,contextual_extraction,1.0,10,0.9271600246429443,0.7,0.7,0.0,17.0,15.1,0.6481480073928833,🟡
+dbs_fy2024_cet1,DBS,Common Equity Tier 1 Ratio,capital,easy,direct_extraction,0.0,10,0.9999999403953552,1.0,0.0,0.0,15.6,15.1,0.9999999821186065,🟢
+dbs_fy2024_cet1,DBS,Common Equity Tier 1 Ratio,capital,easy,direct_extraction,0.3,10,0.9707587957382202,0.3,0.2,0.0,15.0,15.1,0.651227638721466,🟡
+dbs_fy2024_cet1,DBS,Common Equity Tier 1 Ratio,capital,easy,direct_extraction,0.5,10,0.9325218200683594,0.2,0.4,0.0,15.8,15.1,0.5397565460205078,🟡
+dbs_fy2024_cet1,DBS,Common Equity Tier 1 Ratio,capital,easy,direct_extraction,0.7,10,0.9327244162559509,0.2,0.5,0.0,15.9,15.1,0.5098173248767853,🟡
+dbs_fy2024_cet1,DBS,Common Equity Tier 1 Ratio,capital,easy,direct_extraction,1.0,10,0.9049900770187378,0.3,0.5,0.0,15.3,15.1,0.5414970231056213,🟡
+dbs_fy2024_cet1,DBS,Common Equity Tier 1 Ratio,capital,easy,qualitative,0.0,10,1.0,1.0,1.0,0.0,15.9,15.1,0.7,🟡
+dbs_fy2024_cet1,DBS,Common Equity Tier 1 Ratio,capital,easy,qualitative,0.3,10,0.954146146774292,0.2,0.4,0.0,15.2,15.1,0.5462438440322877,🟡
+dbs_fy2024_cet1,DBS,Common Equity Tier 1 Ratio,capital,easy,qualitative,0.5,10,0.914170503616333,0.2,0.2,0.0,15.9,15.1,0.5942511510848999,🟡
+dbs_fy2024_cet1,DBS,Common Equity Tier 1 Ratio,capital,easy,qualitative,0.7,10,0.9184208512306213,0.2,0.2,0.0,14.9,15.1,0.5955262553691865,🟡
+dbs_fy2024_cet1,DBS,Common Equity Tier 1 Ratio,capital,easy,qualitative,1.0,10,0.8800568580627441,0.3333333333333333,0.2,0.1,15.3,15.1,0.6373503907521566,🟡
+dbs_fy2024_cir,DBS,Cost-to-Income Ratio,efficiency,easy,comparative,0.0,10,0.991881251335144,1.0,1.0,0.0,43.0,39.9,0.6975643754005432,🟡
+dbs_fy2024_cir,DBS,Cost-to-Income Ratio,efficiency,easy,comparative,0.3,10,0.8900732398033142,0.2857142857142857,0.9,0.3,43.7,39.9,0.4113076862267085,🔴
+dbs_fy2024_cir,DBS,Cost-to-Income Ratio,efficiency,easy,comparative,0.5,10,0.9002059698104858,0.125,0.8,0.2,40.6,39.9,0.38006179094314574,🔴
+dbs_fy2024_cir,DBS,Cost-to-Income Ratio,efficiency,easy,comparative,0.7,10,0.833662748336792,0.3333333333333333,1.0,0.7,42.2,39.9,0.3834321578343709,🔴
+dbs_fy2024_cir,DBS,Cost-to-Income Ratio,efficiency,easy,comparative,1.0,10,0.8378413915634155,0.2,0.9,0.5,44.2,39.9,0.36135241746902463,🔴
+dbs_fy2024_cir,DBS,Cost-to-Income Ratio,efficiency,easy,contextual_extraction,0.0,10,0.9999999403953552,1.0,0.0,0.0,39.9,39.9,0.9999999821186065,🟢
+dbs_fy2024_cir,DBS,Cost-to-Income Ratio,efficiency,easy,contextual_extraction,0.3,10,0.9999999403953552,1.0,0.0,0.0,39.9,39.9,0.9999999821186065,🟢
+dbs_fy2024_cir,DBS,Cost-to-Income Ratio,efficiency,easy,contextual_extraction,0.5,10,0.9999999403953552,1.0,0.0,0.0,39.9,39.9,0.9999999821186065,🟢
+dbs_fy2024_cir,DBS,Cost-to-Income Ratio,efficiency,easy,contextual_extraction,0.7,10,0.9999999403953552,1.0,0.0,0.0,39.9,39.9,0.9999999821186065,🟢
+dbs_fy2024_cir,DBS,Cost-to-Income Ratio,efficiency,easy,contextual_extraction,1.0,10,0.9999999403953552,1.0,0.0,0.0,39.9,39.9,0.9999999821186065,🟢
+dbs_fy2024_cir,DBS,Cost-to-Income Ratio,efficiency,easy,direct_extraction,0.0,10,1.0,1.0,1.0,0.0,55.0,39.9,0.7,🟡
+dbs_fy2024_cir,DBS,Cost-to-Income Ratio,efficiency,easy,direct_extraction,0.3,10,0.5494426488876343,0.6,1.0,0.5,55.0,39.9,0.4048327946662903,🔴
+dbs_fy2024_cir,DBS,Cost-to-Income Ratio,efficiency,easy,direct_extraction,0.5,10,0.7922688722610474,0.1,1.0,0.0,68.0,39.9,0.2776806616783142,🔴
+dbs_fy2024_cir,DBS,Cost-to-Income Ratio,efficiency,easy,direct_extraction,0.7,10,0.48811373114585876,0.14285714285714285,1.0,0.3,55.8,39.9,0.20357697648661477,🔴
+dbs_fy2024_cir,DBS,Cost-to-Income Ratio,efficiency,easy,direct_extraction,1.0,10,0.742829442024231,0.1111111111111111,1.0,0.1,62.6,39.9,0.26729327705171374,🔴
+dbs_fy2024_cir,DBS,Cost-to-Income Ratio,efficiency,easy,qualitative,0.0,10,0.9842678308486938,0.0,1.0,1.0,,39.9,0.29528034925460817,🔴
+dbs_fy2024_cir,DBS,Cost-to-Income Ratio,efficiency,easy,qualitative,0.3,10,0.8689940571784973,1.0,1.0,0.9,1.0,39.9,0.6606982171535491,🟡
+dbs_fy2024_cir,DBS,Cost-to-Income Ratio,efficiency,easy,qualitative,0.5,10,0.851274847984314,1.0,1.0,0.9,1.0,39.9,0.6553824543952942,🟡
+dbs_fy2024_cir,DBS,Cost-to-Income Ratio,efficiency,easy,qualitative,0.7,10,0.844476044178009,1.0,1.0,0.9,1.0,39.9,0.6533428132534027,🟡
+dbs_fy2024_cir,DBS,Cost-to-Income Ratio,efficiency,easy,qualitative,1.0,10,0.8553941249847412,1.0,1.0,0.9,42.0,39.9,0.6566182374954224,🟡
+dbs_fy2024_net_profit,DBS,Net Profit,income,easy,comparative,0.0,10,0.9401345252990723,0.0,1.0,1.0,,11408.0,0.2820403575897217,🔴
+dbs_fy2024_net_profit,DBS,Net Profit,income,easy,comparative,0.3,10,0.8666535019874573,0.0,1.0,1.0,,11408.0,0.25999605059623715,🔴
+dbs_fy2024_net_profit,DBS,Net Profit,income,easy,comparative,0.5,10,0.8515288233757019,1.0,1.0,0.8,1e-06,11408.0,0.6554586470127106,🟡
+dbs_fy2024_net_profit,DBS,Net Profit,income,easy,comparative,0.7,10,0.8289933800697327,0.6666666666666666,1.0,0.7,1e-06,11408.0,0.5153646806875865,🟡
+dbs_fy2024_net_profit,DBS,Net Profit,income,easy,comparative,1.0,10,0.854223906993866,0.4,1.0,0.5,3.1e-05,11408.0,0.41626717209815983,🔴
+dbs_fy2024_net_profit,DBS,Net Profit,income,easy,contextual_extraction,0.0,10,1.0,1.0,0.0,0.0,11408.0,11408.0,1.0,🟢
+dbs_fy2024_net_profit,DBS,Net Profit,income,easy,contextual_extraction,0.3,10,1.0,1.0,0.0,0.0,11408.0,11408.0,1.0,🟢
+dbs_fy2024_net_profit,DBS,Net Profit,income,easy,contextual_extraction,0.5,10,1.0,1.0,0.0,0.0,11408.0,11408.0,1.0,🟢
+dbs_fy2024_net_profit,DBS,Net Profit,income,easy,contextual_extraction,0.7,10,1.0,1.0,0.0,0.0,11408.0,11408.0,1.0,🟢
+dbs_fy2024_net_profit,DBS,Net Profit,income,easy,contextual_extraction,1.0,10,1.0,1.0,0.0,0.0,11408.0,11408.0,1.0,🟢
+dbs_fy2024_net_profit,DBS,Net Profit,income,easy,direct_extraction,0.0,10,1.0,1.0,1.0,0.0,2000.0,11408.0,0.7,🟡
+dbs_fy2024_net_profit,DBS,Net Profit,income,easy,direct_extraction,0.3,10,0.7796153426170349,0.4,1.0,0.0,2000.0,11408.0,0.3938846027851105,🔴
+dbs_fy2024_net_profit,DBS,Net Profit,income,easy,direct_extraction,0.5,10,0.6029888987541199,0.1,1.0,0.0,1800.0,11408.0,0.22089666962623597,🔴
+dbs_fy2024_net_profit,DBS,Net Profit,income,easy,direct_extraction,0.7,10,0.7032902836799622,0.2,1.0,0.0,2000.0,11408.0,0.29098708510398863,🔴
+dbs_fy2024_net_profit,DBS,Net Profit,income,easy,direct_extraction,1.0,10,0.49776241183280945,0.1,0.9,0.0,4503.0,11408.0,0.21932872354984284,🔴
+dbs_fy2024_nim,DBS,Net Interest Margin,profitability,easy,comparative,0.0,10,0.8523762226104736,0.0,1.0,1.0,,2.13,0.2557128667831421,🔴
+dbs_fy2024_nim,DBS,Net Interest Margin,profitability,easy,comparative,0.3,10,0.8823172450065613,0.5,0.9,0.8,2.05,2.13,0.49469517350196834,🔴
+dbs_fy2024_nim,DBS,Net Interest Margin,profitability,easy,comparative,0.5,10,0.8698962926864624,0.6666666666666666,0.8,0.7,2.08,2.13,0.5876355544726053,🟡
+dbs_fy2024_nim,DBS,Net Interest Margin,profitability,easy,comparative,0.7,10,0.8753037452697754,0.25,0.7,0.6,2.16,2.13,0.4525911235809326,🔴
+dbs_fy2024_nim,DBS,Net Interest Margin,profitability,easy,comparative,1.0,10,0.8793433308601379,0.14285714285714285,0.6,0.3,2.09,2.13,0.4409458564008985,🔴
+dbs_fy2024_nim,DBS,Net Interest Margin,profitability,easy,contextual_extraction,0.0,10,1.0,1.0,0.0,0.0,2.13,2.13,1.0,🟢
+dbs_fy2024_nim,DBS,Net Interest Margin,profitability,easy,contextual_extraction,0.3,10,1.0,1.0,0.0,0.0,2.13,2.13,1.0,🟢
+dbs_fy2024_nim,DBS,Net Interest Margin,profitability,easy,contextual_extraction,0.5,10,1.0,1.0,0.0,0.0,2.13,2.13,1.0,🟢
+dbs_fy2024_nim,DBS,Net Interest Margin,profitability,easy,contextual_extraction,0.7,10,1.0,1.0,0.0,0.0,2.13,2.13,1.0,🟢
+dbs_fy2024_nim,DBS,Net Interest Margin,profitability,easy,contextual_extraction,1.0,10,1.0,1.0,0.0,0.0,2.13,2.13,1.0,🟢
+dbs_fy2024_nim,DBS,Net Interest Margin,profitability,easy,direct_extraction,0.0,10,1.0,1.0,1.0,0.0,2.3,2.13,0.7,🟡
+dbs_fy2024_nim,DBS,Net Interest Margin,profitability,easy,direct_extraction,0.3,10,0.9506827592849731,0.2,0.7,0.0,2.3,2.13,0.455204827785492,🔴
+dbs_fy2024_nim,DBS,Net Interest Margin,profitability,easy,direct_extraction,0.5,10,0.9421453475952148,0.2,0.6,0.0,2.1,2.13,0.48264360427856445,🔴
+dbs_fy2024_nim,DBS,Net Interest Margin,profitability,easy,direct_extraction,0.7,10,0.909934401512146,0.1,0.8,0.0,2.9,2.13,0.37298032045364377,🔴
+dbs_fy2024_nim,DBS,Net Interest Margin,profitability,easy,direct_extraction,1.0,10,0.8294659852981567,0.2,0.7,0.0,2.1,2.13,0.41883979558944706,🔴
+dbs_fy2024_nim,DBS,Net Interest Margin,profitability,easy,qualitative,0.0,10,0.9745277166366577,0.0,1.0,1.0,,2.13,0.2923583149909973,🔴
+dbs_fy2024_nim,DBS,Net Interest Margin,profitability,easy,qualitative,0.3,10,0.8504430055618286,0.5,0.9,0.8,2.28,2.13,0.48513290166854856,🔴
+dbs_fy2024_nim,DBS,Net Interest Margin,profitability,easy,qualitative,0.5,10,0.8153586387634277,0.2,0.6,0.5,2.16,2.13,0.4446075916290283,🔴
+dbs_fy2024_nim,DBS,Net Interest Margin,profitability,easy,qualitative,0.7,10,0.8200687170028687,0.25,0.7,0.6,2.2,2.13,0.4360206151008606,🔴
+dbs_fy2024_nim,DBS,Net Interest Margin,profitability,easy,qualitative,1.0,10,0.7761532068252563,0.5,0.9,0.6,31.0,2.13,0.4628459620475769,🔴
+dbs_fy2024_npl,DBS,Non-Performing Loan Ratio,asset_quality,easy,comparative,0.0,10,0.9976555109024048,1.0,1.0,0.0,1.0,1.1,0.6992966532707214,🟡
+dbs_fy2024_npl,DBS,Non-Performing Loan Ratio,asset_quality,easy,comparative,0.3,10,0.9387069940567017,0.3333333333333333,0.8,0.1,1.0,1.1,0.4749454315503438,🔴
+dbs_fy2024_npl,DBS,Non-Performing Loan Ratio,asset_quality,easy,comparative,0.5,10,0.9260584712028503,0.5,0.9,0.2,1.3,1.1,0.5078175413608551,🟡
+dbs_fy2024_npl,DBS,Non-Performing Loan Ratio,asset_quality,easy,comparative,0.7,10,0.8948792219161987,0.2857142857142857,1.0,0.3,1.7,1.1,0.38274948086057387,🔴
+dbs_fy2024_npl,DBS,Non-Performing Loan Ratio,asset_quality,easy,comparative,1.0,10,0.8713198900222778,0.5,1.0,0.4,1.4,1.1,0.46139596700668334,🔴
+dbs_fy2024_npl,DBS,Non-Performing Loan Ratio,asset_quality,easy,contextual_extraction,0.0,10,1.0,1.0,0.0,0.0,1.1,1.1,1.0,🟢
+dbs_fy2024_npl,DBS,Non-Performing Loan Ratio,asset_quality,easy,contextual_extraction,0.3,10,1.0,1.0,0.0,0.0,1.1,1.1,1.0,🟢
+dbs_fy2024_npl,DBS,Non-Performing Loan Ratio,asset_quality,easy,contextual_extraction,0.5,10,1.0,1.0,0.0,0.0,1.1,1.1,1.0,🟢
+dbs_fy2024_npl,DBS,Non-Performing Loan Ratio,asset_quality,easy,contextual_extraction,0.7,10,1.0,1.0,0.0,0.0,1.1,1.1,1.0,🟢
+dbs_fy2024_npl,DBS,Non-Performing Loan Ratio,asset_quality,easy,contextual_extraction,1.0,10,1.0,1.0,0.0,0.0,1.1,1.1,1.0,🟢
+dbs_fy2024_npl,DBS,Non-Performing Loan Ratio,asset_quality,easy,direct_extraction,0.0,10,1.0,1.0,1.0,0.0,1.3,1.1,0.7,🟡
+dbs_fy2024_npl,DBS,Non-Performing Loan Ratio,asset_quality,easy,direct_extraction,0.3,10,0.9341671466827393,0.3,0.9,0.0,1.0,1.1,0.43025014400482176,🔴
+dbs_fy2024_npl,DBS,Non-Performing Loan Ratio,asset_quality,easy,direct_extraction,0.5,10,0.9059682488441467,0.4,1.0,0.0,1.3,1.1,0.43179047465324405,🔴
+dbs_fy2024_npl,DBS,Non-Performing Loan Ratio,asset_quality,easy,direct_extraction,0.7,10,0.8439768552780151,0.2,0.9,0.0,1.4,1.1,0.3631930565834045,🔴
+dbs_fy2024_npl,DBS,Non-Performing Loan Ratio,asset_quality,easy,direct_extraction,1.0,10,0.8241299986839294,0.2,0.9,0.0,1.6,1.1,0.3572389996051788,🔴
+dbs_fy2024_npl,DBS,Non-Performing Loan Ratio,asset_quality,easy,qualitative,0.0,10,0.9628452658653259,0.0,1.0,1.0,,1.1,0.28885357975959775,🔴
+dbs_fy2024_npl,DBS,Non-Performing Loan Ratio,asset_quality,easy,qualitative,0.3,10,0.8553417921066284,1.0,1.0,0.9,1200000000.0,1.1,0.6566025376319886,🟡
+dbs_fy2024_npl,DBS,Non-Performing Loan Ratio,asset_quality,easy,qualitative,0.5,10,0.7324315309524536,0.3333333333333333,0.8,0.4,1.1,1.1,0.4130627926190694,🔴
+dbs_fy2024_npl,DBS,Non-Performing Loan Ratio,asset_quality,easy,qualitative,0.7,10,0.7790818810462952,0.25,1.0,0.6,1.0,1.1,0.3337245643138885,🔴
+dbs_fy2024_npl,DBS,Non-Performing Loan Ratio,asset_quality,easy,qualitative,1.0,10,0.764746367931366,0.16666666666666666,0.9,0.4,1.4,1.1,0.3260905770460764,🔴
+dbs_fy2024_roe,DBS,Return on Equity,profitability,easy,comparative,0.0,10,0.9958835244178772,0.0,1.0,1.0,,18.0,0.2987650573253631,🔴
+dbs_fy2024_roe,DBS,Return on Equity,profitability,easy,comparative,0.3,10,0.9088113307952881,0.0,1.0,1.0,,18.0,0.27264339923858644,🔴
+dbs_fy2024_roe,DBS,Return on Equity,profitability,easy,comparative,0.5,10,0.8889293074607849,0.5,1.0,0.8,14.0,18.0,0.4666787922382355,🔴
+dbs_fy2024_roe,DBS,Return on Equity,profitability,easy,comparative,0.7,10,0.8544304966926575,1.0,1.0,0.9,15.8,18.0,0.6563291490077973,🟡
+dbs_fy2024_roe,DBS,Return on Equity,profitability,easy,comparative,1.0,10,0.8282384276390076,0.3333333333333333,1.0,0.7,16.4,18.0,0.3818048616250356,🔴
+dbs_fy2024_roe,DBS,Return on Equity,profitability,easy,contextual_extraction,0.0,10,1.0,1.0,0.0,0.0,18.0,18.0,1.0,🟢
+dbs_fy2024_roe,DBS,Return on Equity,profitability,easy,contextual_extraction,0.3,10,1.0,1.0,0.0,0.0,18.0,18.0,1.0,🟢
+dbs_fy2024_roe,DBS,Return on Equity,profitability,easy,contextual_extraction,0.5,10,1.0,1.0,0.0,0.0,18.0,18.0,1.0,🟢
+dbs_fy2024_roe,DBS,Return on Equity,profitability,easy,contextual_extraction,0.7,10,1.0,1.0,0.0,0.0,18.0,18.0,1.0,🟢
+dbs_fy2024_roe,DBS,Return on Equity,profitability,easy,contextual_extraction,1.0,10,1.0,1.0,0.0,0.0,18.0,18.0,1.0,🟢
+dbs_fy2024_roe,DBS,Return on Equity,profitability,easy,direct_extraction,0.0,10,0.9767399430274963,0.9,1.0,0.0,12.6,18.0,0.6530219829082489,🟡
+dbs_fy2024_roe,DBS,Return on Equity,profitability,easy,direct_extraction,0.3,10,0.9001715183258057,0.2,1.0,0.0,14.2,18.0,0.3500514554977417,🔴
+dbs_fy2024_roe,DBS,Return on Equity,profitability,easy,direct_extraction,0.5,10,0.8743945360183716,0.1,1.0,0.0,14.1,18.0,0.30231836080551144,🔴
+dbs_fy2024_roe,DBS,Return on Equity,profitability,easy,direct_extraction,0.7,10,0.8888159990310669,0.2,1.0,0.0,12.3,18.0,0.34664479970932005,🔴
+dbs_fy2024_roe,DBS,Return on Equity,profitability,easy,direct_extraction,1.0,10,0.6428762078285217,0.14285714285714285,1.0,0.3,9.3,18.0,0.25000571949141365,🔴
+dbs_fy2024_roe,DBS,Return on Equity,profitability,easy,qualitative,0.0,10,0.9611356854438782,0.0,1.0,1.0,,18.0,0.28834070563316344,🔴
+dbs_fy2024_roe,DBS,Return on Equity,profitability,easy,qualitative,0.3,10,0.883834183216095,0.0,1.0,1.0,,18.0,0.26515025496482847,🔴
+dbs_fy2024_roe,DBS,Return on Equity,profitability,easy,qualitative,0.5,10,0.8565416932106018,0.3333333333333333,0.8,0.7,17.7,18.0,0.45029584129651384,🔴
+dbs_fy2024_roe,DBS,Return on Equity,profitability,easy,qualitative,0.7,10,0.8541014194488525,0.3333333333333333,1.0,0.7,15.9,18.0,0.38956375916798913,🔴
+dbs_fy2024_roe,DBS,Return on Equity,profitability,easy,qualitative,1.0,10,0.8241367936134338,0.3333333333333333,1.0,0.7,14.2,18.0,0.3805743714173635,🔴
+dbs_fy2024_total_income,DBS,Total Income,income,easy,comparative,0.0,10,0.960786759853363,0.0,1.0,1.0,,22297.0,0.2882360279560089,🔴
+dbs_fy2024_total_income,DBS,Total Income,income,easy,comparative,0.3,10,0.9014056921005249,1.0,1.0,0.7,1e-06,22297.0,0.6704217076301575,🟡
+dbs_fy2024_total_income,DBS,Total Income,income,easy,comparative,0.5,10,0.8696437478065491,0.6666666666666666,1.0,0.7,1e-06,22297.0,0.5275597910086314,🟡
+dbs_fy2024_total_income,DBS,Total Income,income,easy,comparative,0.7,10,0.8698867559432983,0.5,1.0,0.8,3.1e-05,22297.0,0.4609660267829895,🔴
+dbs_fy2024_total_income,DBS,Total Income,income,easy,comparative,1.0,10,0.88666832447052,0.5,1.0,0.8,0.002024,22297.0,0.466000497341156,🔴
+dbs_fy2024_total_income,DBS,Total Income,income,easy,contextual_extraction,0.0,10,1.0,1.0,0.0,0.0,22297.0,22297.0,1.0,🟢
+dbs_fy2024_total_income,DBS,Total Income,income,easy,contextual_extraction,0.3,10,1.0,1.0,0.0,0.0,22297.0,22297.0,1.0,🟢
+dbs_fy2024_total_income,DBS,Total Income,income,easy,contextual_extraction,0.5,10,1.0,1.0,0.0,0.0,22297.0,22297.0,1.0,🟢
+dbs_fy2024_total_income,DBS,Total Income,income,easy,contextual_extraction,0.7,10,1.0,1.0,0.0,0.0,22297.0,22297.0,1.0,🟢
+dbs_fy2024_total_income,DBS,Total Income,income,easy,contextual_extraction,1.0,10,1.0,1.0,0.0,0.0,22297.0,22297.0,1.0,🟢
+dbs_fy2024_total_income,DBS,Total Income,income,easy,direct_extraction,0.0,10,0.9623250961303711,0.9,1.0,0.0,7000.0,22297.0,0.6486975288391114,🟡
+dbs_fy2024_total_income,DBS,Total Income,income,easy,direct_extraction,0.3,10,0.83949214220047,0.3,1.0,0.0,10000.0,22297.0,0.371847642660141,🔴
+dbs_fy2024_total_income,DBS,Total Income,income,easy,direct_extraction,0.5,10,0.7245914936065674,0.2,1.0,0.0,10000.0,22297.0,0.2973774480819702,🔴
+dbs_fy2024_total_income,DBS,Total Income,income,easy,direct_extraction,0.7,10,0.6137067675590515,0.2,1.0,0.0,15000.0,22297.0,0.26411203026771546,🔴
+dbs_fy2024_total_income,DBS,Total Income,income,easy,direct_extraction,1.0,10,0.5729109048843384,0.125,1.0,0.2,48000.0,22297.0,0.2218732714653015,🔴
+ocbc_fy2024_cet1,OCBC,Common Equity Tier 1 Ratio,capital,easy,comparative,0.0,10,0.9970859289169312,0.8,1.0,0.0,14.9,17.1,0.6191257786750795,🟡
+ocbc_fy2024_cet1,OCBC,Common Equity Tier 1 Ratio,capital,easy,comparative,0.3,10,0.9877495765686035,0.2,1.0,0.0,1.0,17.1,0.37632487297058104,🔴
+ocbc_fy2024_cet1,OCBC,Common Equity Tier 1 Ratio,capital,easy,comparative,0.5,10,0.9840065240859985,0.2,1.0,0.0,14.5,17.1,0.3752019572257996,🔴
+ocbc_fy2024_cet1,OCBC,Common Equity Tier 1 Ratio,capital,easy,comparative,0.7,10,0.9750182032585144,0.2,1.0,0.0,1.0,17.1,0.3725054609775543,🔴
+ocbc_fy2024_cet1,OCBC,Common Equity Tier 1 Ratio,capital,easy,comparative,1.0,10,0.9793772101402283,0.2,1.0,0.0,14.4,17.1,0.37381316304206846,🔴
+ocbc_fy2024_cet1,OCBC,Common Equity Tier 1 Ratio,capital,easy,contextual_extraction,0.0,10,1.0,1.0,0.0,0.0,17.1,17.1,1.0,🟢
+ocbc_fy2024_cet1,OCBC,Common Equity Tier 1 Ratio,capital,easy,contextual_extraction,0.3,10,1.0,1.0,0.0,0.0,17.1,17.1,1.0,🟢
+ocbc_fy2024_cet1,OCBC,Common Equity Tier 1 Ratio,capital,easy,contextual_extraction,0.5,10,1.0,1.0,0.0,0.0,17.1,17.1,1.0,🟢
+ocbc_fy2024_cet1,OCBC,Common Equity Tier 1 Ratio,capital,easy,contextual_extraction,0.7,10,1.0,1.0,0.0,0.0,17.1,17.1,1.0,🟢
+ocbc_fy2024_cet1,OCBC,Common Equity Tier 1 Ratio,capital,easy,contextual_extraction,1.0,10,1.0,1.0,0.0,0.0,17.1,17.1,1.0,🟢
+ocbc_fy2024_cet1,OCBC,Common Equity Tier 1 Ratio,capital,easy,direct_extraction,0.0,10,0.9999999403953552,1.0,1.0,0.0,15.6,17.1,0.6999999821186066,🟡
+ocbc_fy2024_cet1,OCBC,Common Equity Tier 1 Ratio,capital,easy,direct_extraction,0.3,10,0.9767634868621826,0.3,1.0,0.0,15.6,17.1,0.41302904605865476,🔴
+ocbc_fy2024_cet1,OCBC,Common Equity Tier 1 Ratio,capital,easy,direct_extraction,0.5,10,0.9586265683174133,0.2,0.9,0.0,15.6,17.1,0.397587970495224,🔴
+ocbc_fy2024_cet1,OCBC,Common Equity Tier 1 Ratio,capital,easy,direct_extraction,0.7,10,0.7950297594070435,0.2,0.7,0.0,15.8,17.1,0.40850892782211307,🔴
+ocbc_fy2024_cet1,OCBC,Common Equity Tier 1 Ratio,capital,easy,direct_extraction,1.0,10,0.8059529662132263,0.3,0.8,0.0,15.1,17.1,0.42178588986396787,🔴
+ocbc_fy2024_cet1,OCBC,Common Equity Tier 1 Ratio,capital,easy,qualitative,0.0,10,0.9877126216888428,0.9,1.0,0.0,1.0,17.1,0.6563137865066528,🟡
+ocbc_fy2024_cet1,OCBC,Common Equity Tier 1 Ratio,capital,easy,qualitative,0.3,10,0.9685251116752625,0.5,1.0,0.0,1.0,17.1,0.49055753350257875,🔴
+ocbc_fy2024_cet1,OCBC,Common Equity Tier 1 Ratio,capital,easy,qualitative,0.5,10,0.9152361750602722,0.6,1.0,0.0,1.0,17.1,0.5145708525180817,🟡
+ocbc_fy2024_cet1,OCBC,Common Equity Tier 1 Ratio,capital,easy,qualitative,0.7,10,0.9531883001327515,0.5,1.0,0.0,1.0,17.1,0.48595649003982544,🔴
+ocbc_fy2024_cet1,OCBC,Common Equity Tier 1 Ratio,capital,easy,qualitative,1.0,10,0.932083785533905,0.6,1.0,0.0,1.0,17.1,0.5196251356601715,🟡
+ocbc_fy2024_ldr,OCBC,Loan-to-Deposit Ratio,liquidity,medium,comparative,0.0,10,0.9873604774475098,0.0,1.0,1.0,,80.7,0.29620814323425293,🔴
+ocbc_fy2024_ldr,OCBC,Loan-to-Deposit Ratio,liquidity,medium,comparative,0.3,10,0.9338400959968567,0.16666666666666666,0.5,0.4,82.0,80.7,0.49681869546572366,🔴
+ocbc_fy2024_ldr,OCBC,Loan-to-Deposit Ratio,liquidity,medium,comparative,0.5,10,0.9007264971733093,0.4,0.5,0.5,78.0,80.7,0.5802179491519928,🟡
+ocbc_fy2024_ldr,OCBC,Loan-to-Deposit Ratio,liquidity,medium,comparative,0.7,10,0.8932217359542847,0.25,0.8,0.6,72.0,80.7,0.42796652078628544,🔴
+ocbc_fy2024_ldr,OCBC,Loan-to-Deposit Ratio,liquidity,medium,comparative,1.0,10,0.8950036764144897,0.25,0.7,0.6,67.8,80.7,0.4585011029243469,🔴
+ocbc_fy2024_ldr,OCBC,Loan-to-Deposit Ratio,liquidity,medium,contextual_extraction,0.0,10,0.9999999403953552,1.0,0.0,0.0,80.7,80.7,0.9999999821186065,🟢
+ocbc_fy2024_ldr,OCBC,Loan-to-Deposit Ratio,liquidity,medium,contextual_extraction,0.3,10,0.9999999403953552,1.0,0.0,0.0,80.7,80.7,0.9999999821186065,🟢
+ocbc_fy2024_ldr,OCBC,Loan-to-Deposit Ratio,liquidity,medium,contextual_extraction,0.5,10,0.9999999403953552,1.0,0.0,0.0,80.7,80.7,0.9999999821186065,🟢
+ocbc_fy2024_ldr,OCBC,Loan-to-Deposit Ratio,liquidity,medium,contextual_extraction,0.7,10,0.9999999403953552,1.0,0.0,0.0,80.7,80.7,0.9999999821186065,🟢
+ocbc_fy2024_ldr,OCBC,Loan-to-Deposit Ratio,liquidity,medium,contextual_extraction,1.0,10,0.9999999403953552,1.0,0.0,0.0,80.7,80.7,0.9999999821186065,🟢
+ocbc_fy2024_ldr,OCBC,Loan-to-Deposit Ratio,liquidity,medium,direct_extraction,0.0,10,1.0,1.0,1.0,0.0,0.78,80.7,0.7,🟡
+ocbc_fy2024_ldr,OCBC,Loan-to-Deposit Ratio,liquidity,medium,direct_extraction,0.3,10,0.6720448732376099,0.1111111111111111,1.0,0.1,1.0,80.7,0.24605790641572742,🔴
+ocbc_fy2024_ldr,OCBC,Loan-to-Deposit Ratio,liquidity,medium,direct_extraction,0.5,10,0.4661082923412323,0.125,1.0,0.2,1.12,80.7,0.1898324877023697,🔴
+ocbc_fy2024_ldr,OCBC,Loan-to-Deposit Ratio,liquidity,medium,direct_extraction,0.7,10,0.7493224143981934,0.1,0.9,0.0,73.3,80.7,0.29479672431945797,🔴
+ocbc_fy2024_ldr,OCBC,Loan-to-Deposit Ratio,liquidity,medium,direct_extraction,1.0,10,0.4899599254131317,0.125,0.9,0.2,141.9,80.7,0.2269879776239395,🔴
+ocbc_fy2024_ldr,OCBC,Loan-to-Deposit Ratio,liquidity,medium,qualitative,0.0,10,0.9999998211860657,1.0,0.0,0.0,78.0,80.7,0.9999999463558198,🟢
+ocbc_fy2024_ldr,OCBC,Loan-to-Deposit Ratio,liquidity,medium,qualitative,0.3,10,0.997843325138092,0.5555555555555556,0.5,0.1,78.0,80.7,0.6715752197636499,🟡
+ocbc_fy2024_ldr,OCBC,Loan-to-Deposit Ratio,liquidity,medium,qualitative,0.5,10,0.8911223411560059,0.2,0.8,0.5,82.0,80.7,0.40733670234680175,🔴
+ocbc_fy2024_ldr,OCBC,Loan-to-Deposit Ratio,liquidity,medium,qualitative,0.7,10,0.9130473732948303,0.16666666666666666,0.7,0.4,77.6,80.7,0.43058087865511574,🔴
+ocbc_fy2024_ldr,OCBC,Loan-to-Deposit Ratio,liquidity,medium,qualitative,1.0,10,0.8837230205535889,0.2,0.8,0.5,74.0,80.7,0.40511690616607665,🔴
+ocbc_fy2024_net_profit,OCBC,Net Profit,income,easy,comparative,0.0,10,0.9999998211860657,1.0,1.0,0.0,4000.0,7587.0,0.6999999463558197,🟡
+ocbc_fy2024_net_profit,OCBC,Net Profit,income,easy,comparative,0.3,10,0.985396146774292,0.3,1.0,0.0,5000.0,7587.0,0.4156188440322876,🔴
+ocbc_fy2024_net_profit,OCBC,Net Profit,income,easy,comparative,0.5,10,0.8977721929550171,0.125,1.0,0.2,4952.0,7587.0,0.3193316578865051,🔴
+ocbc_fy2024_net_profit,OCBC,Net Profit,income,easy,comparative,0.7,10,0.9117307662963867,0.14285714285714285,0.9,0.3,4500.0,7587.0,0.36066208703177316,🔴
+ocbc_fy2024_net_profit,OCBC,Net Profit,income,easy,comparative,1.0,10,0.8516008853912354,0.2,1.0,0.5,4900.0,7587.0,0.3354802656173706,🔴
+ocbc_fy2024_net_profit,OCBC,Net Profit,income,easy,contextual_extraction,0.0,10,1.0,1.0,0.0,0.0,7587.0,7587.0,1.0,🟢
+ocbc_fy2024_net_profit,OCBC,Net Profit,income,easy,contextual_extraction,0.3,10,1.0,1.0,0.0,0.0,7587.0,7587.0,1.0,🟢
+ocbc_fy2024_net_profit,OCBC,Net Profit,income,easy,contextual_extraction,0.5,10,1.0,1.0,0.0,0.0,7587.0,7587.0,1.0,🟢
+ocbc_fy2024_net_profit,OCBC,Net Profit,income,easy,contextual_extraction,0.7,10,1.0,1.0,0.0,0.0,7587.0,7587.0,1.0,🟢
+ocbc_fy2024_net_profit,OCBC,Net Profit,income,easy,contextual_extraction,1.0,10,1.0,1.0,0.0,0.0,7587.0,7587.0,1.0,🟢
+ocbc_fy2024_net_profit,OCBC,Net Profit,income,easy,direct_extraction,0.0,10,1.0,1.0,1.0,0.0,4000.0,7587.0,0.7,🟡
+ocbc_fy2024_net_profit,OCBC,Net Profit,income,easy,direct_extraction,0.3,10,0.8774121403694153,0.4,1.0,0.0,4000.0,7587.0,0.4232236421108246,🔴
+ocbc_fy2024_net_profit,OCBC,Net Profit,income,easy,direct_extraction,0.5,10,0.7977842688560486,0.1,1.0,0.0,5200.0,7587.0,0.27933528065681457,🔴
+ocbc_fy2024_net_profit,OCBC,Net Profit,income,easy,direct_extraction,0.7,10,0.7855633497238159,0.1,0.9,0.0,3196.0,7587.0,0.3056690049171447,🔴
+ocbc_fy2024_net_profit,OCBC,Net Profit,income,easy,direct_extraction,1.0,10,0.6421930193901062,0.1,1.0,0.0,8603.0,7587.0,0.23265790581703186,🔴
+ocbc_fy2024_nim,OCBC,Net Interest Margin,profitability,easy,comparative,0.0,10,0.996712327003479,0.9,0.9,0.0,2.02,2.2,0.6890136981010437,🟡
+ocbc_fy2024_nim,OCBC,Net Interest Margin,profitability,easy,comparative,0.3,10,0.9437456130981445,0.5,0.8,0.2,2.0,2.2,0.5431236839294433,🟡
+ocbc_fy2024_nim,OCBC,Net Interest Margin,profitability,easy,comparative,0.5,10,0.8907079100608826,0.2857142857142857,0.8,0.3,2.04,2.2,0.44149808730397905,🔴
+ocbc_fy2024_nim,OCBC,Net Interest Margin,profitability,easy,comparative,0.7,10,0.9109175801277161,0.6666666666666666,0.8,0.7,2.15,2.2,0.5999419407049814,🟡
+ocbc_fy2024_nim,OCBC,Net Interest Margin,profitability,easy,comparative,1.0,10,0.9094363451004028,0.4,0.8,0.5,2.0,2.2,0.4928309035301209,🔴
+ocbc_fy2024_nim,OCBC,Net Interest Margin,profitability,easy,contextual_extraction,0.0,10,0.9999997615814209,1.0,0.0,0.0,2.2,2.2,0.9999999284744263,🟢
+ocbc_fy2024_nim,OCBC,Net Interest Margin,profitability,easy,contextual_extraction,0.3,10,0.9999997615814209,1.0,0.0,0.0,2.2,2.2,0.9999999284744263,🟢
+ocbc_fy2024_nim,OCBC,Net Interest Margin,profitability,easy,contextual_extraction,0.5,10,0.9999997615814209,1.0,0.0,0.0,2.2,2.2,0.9999999284744263,🟢
+ocbc_fy2024_nim,OCBC,Net Interest Margin,profitability,easy,contextual_extraction,0.7,10,0.9999997615814209,1.0,0.0,0.0,2.2,2.2,0.9999999284744263,🟢
+ocbc_fy2024_nim,OCBC,Net Interest Margin,profitability,easy,contextual_extraction,1.0,10,0.9999997615814209,1.0,0.0,0.0,2.2,2.2,0.9999999284744263,🟢
+ocbc_fy2024_nim,OCBC,Net Interest Margin,profitability,easy,direct_extraction,0.0,10,1.0,1.0,0.0,0.0,2.1,2.2,1.0,🟢
+ocbc_fy2024_nim,OCBC,Net Interest Margin,profitability,easy,direct_extraction,0.3,10,0.9384978413581848,0.4,0.4,0.0,2.1,2.2,0.6215493524074555,🟡
+ocbc_fy2024_nim,OCBC,Net Interest Margin,profitability,easy,direct_extraction,0.5,10,0.9591332077980042,0.4,0.4,0.0,2.1,2.2,0.6277399623394013,🟡
+ocbc_fy2024_nim,OCBC,Net Interest Margin,profitability,easy,direct_extraction,0.7,10,0.9355760216712952,0.3,0.1,0.0,2.2,2.2,0.6706728065013885,🟡
+ocbc_fy2024_nim,OCBC,Net Interest Margin,profitability,easy,direct_extraction,1.0,10,0.9135915040969849,0.3,0.5,0.0,2.3,2.2,0.5440774512290955,🟡
+ocbc_fy2024_nim,OCBC,Net Interest Margin,profitability,easy,qualitative,0.0,10,0.9950141906738281,1.0,1.0,0.0,2.02,2.2,0.6985042572021485,🟡
+ocbc_fy2024_nim,OCBC,Net Interest Margin,profitability,easy,qualitative,0.3,10,0.9903877377510071,0.5555555555555556,1.0,0.1,2.02,2.2,0.5193385435475244,🟡
+ocbc_fy2024_nim,OCBC,Net Interest Margin,profitability,easy,qualitative,0.5,10,0.972288966178894,0.375,1.0,0.2,2.03,2.2,0.4416866898536682,🔴
+ocbc_fy2024_nim,OCBC,Net Interest Margin,profitability,easy,qualitative,0.7,10,0.93226557970047,0.16666666666666666,1.0,0.4,2.01,2.2,0.34634634057680763,🔴
+ocbc_fy2024_nim,OCBC,Net Interest Margin,profitability,easy,qualitative,1.0,10,0.9396841526031494,0.3333333333333333,1.0,0.7,2.04,2.2,0.4152385791142782,🔴
+ocbc_fy2024_npl,OCBC,Non-Performing Loan Ratio,asset_quality,easy,comparative,0.0,10,0.9991804957389832,1.0,1.0,0.0,1.3,0.9,0.699754148721695,🟡
+ocbc_fy2024_npl,OCBC,Non-Performing Loan Ratio,asset_quality,easy,comparative,0.3,10,0.9942206740379333,0.3,1.0,0.0,1.1,0.9,0.41826620221138,🔴
+ocbc_fy2024_npl,OCBC,Non-Performing Loan Ratio,asset_quality,easy,comparative,0.5,10,0.9862452745437622,0.375,1.0,0.2,1.2,0.9,0.4458735823631287,🔴
+ocbc_fy2024_npl,OCBC,Non-Performing Loan Ratio,asset_quality,easy,comparative,0.7,10,0.985571026802063,0.2222222222222222,1.0,0.1,1.4,0.9,0.38456019692950777,🔴
+ocbc_fy2024_npl,OCBC,Non-Performing Loan Ratio,asset_quality,easy,comparative,1.0,10,0.9271500706672668,0.2857142857142857,1.0,0.3,1.1,0.9,0.3924307354858943,🔴
+ocbc_fy2024_npl,OCBC,Non-Performing Loan Ratio,asset_quality,easy,contextual_extraction,0.0,10,1.0,1.0,0.0,0.0,0.9,0.9,1.0,🟢
+ocbc_fy2024_npl,OCBC,Non-Performing Loan Ratio,asset_quality,easy,contextual_extraction,0.3,10,1.0,1.0,0.0,0.0,0.9,0.9,1.0,🟢
+ocbc_fy2024_npl,OCBC,Non-Performing Loan Ratio,asset_quality,easy,contextual_extraction,0.5,10,1.0,1.0,0.0,0.0,0.9,0.9,1.0,🟢
+ocbc_fy2024_npl,OCBC,Non-Performing Loan Ratio,asset_quality,easy,contextual_extraction,0.7,10,1.0,1.0,0.0,0.0,0.9,0.9,1.0,🟢
+ocbc_fy2024_npl,OCBC,Non-Performing Loan Ratio,asset_quality,easy,contextual_extraction,1.0,10,1.0,1.0,0.0,0.0,0.9,0.9,1.0,🟢
+ocbc_fy2024_npl,OCBC,Non-Performing Loan Ratio,asset_quality,easy,direct_extraction,0.0,10,0.9574450850486755,0.8,0.9,0.0,1.0,0.9,0.6372335255146027,🟡
+ocbc_fy2024_npl,OCBC,Non-Performing Loan Ratio,asset_quality,easy,direct_extraction,0.3,10,0.9105173945426941,0.3,0.9,0.0,1.0,0.9,0.42315521836280817,🔴
+ocbc_fy2024_npl,OCBC,Non-Performing Loan Ratio,asset_quality,easy,direct_extraction,0.5,10,0.895399808883667,0.3,0.8,0.0,1.0,0.9,0.4486199426651001,🔴
+ocbc_fy2024_npl,OCBC,Non-Performing Loan Ratio,asset_quality,easy,direct_extraction,0.7,10,0.8782075047492981,0.2,0.9,0.0,0.8,0.9,0.3734622514247894,🔴
+ocbc_fy2024_npl,OCBC,Non-Performing Loan Ratio,asset_quality,easy,direct_extraction,1.0,10,0.8223831057548523,0.2,0.8,0.0,0.7,0.9,0.3867149317264557,🔴
+ocbc_fy2024_npl,OCBC,Non-Performing Loan Ratio,asset_quality,easy,qualitative,0.0,10,1.0,1.0,1.0,0.0,1000000000.0,0.9,0.7,🟡
+ocbc_fy2024_npl,OCBC,Non-Performing Loan Ratio,asset_quality,easy,qualitative,0.3,10,0.9526760578155518,0.4,1.0,0.0,1000000000.0,0.9,0.44580281734466554,🔴
+ocbc_fy2024_npl,OCBC,Non-Performing Loan Ratio,asset_quality,easy,qualitative,0.5,10,0.8932009935379028,0.2,1.0,0.0,1000000000.0,0.9,0.34796029806137085,🔴
+ocbc_fy2024_npl,OCBC,Non-Performing Loan Ratio,asset_quality,easy,qualitative,0.7,10,0.8886865377426147,0.2222222222222222,1.0,0.1,1.1,0.9,0.3554948502116733,🔴
+ocbc_fy2024_npl,OCBC,Non-Performing Loan Ratio,asset_quality,easy,qualitative,1.0,10,0.8764110803604126,0.125,1.0,0.2,1.2,0.9,0.31292332410812373,🔴
+ocbc_fy2024_roe,OCBC,Return on Equity,profitability,easy,comparative,0.0,10,1.0,1.0,0.0,0.0,14.0,13.7,1.0,🟢
+ocbc_fy2024_roe,OCBC,Return on Equity,profitability,easy,comparative,0.3,10,0.9930807948112488,0.4,0.4,0.0,14.0,13.7,0.6379242384433746,🟡
+ocbc_fy2024_roe,OCBC,Return on Equity,profitability,easy,comparative,0.5,10,0.9840734004974365,0.2,0.7,0.0,14.5,13.7,0.465222020149231,🔴
+ocbc_fy2024_roe,OCBC,Return on Equity,profitability,easy,comparative,0.7,10,0.9515379071235657,0.125,0.8,0.2,13.7,13.7,0.39546137213706967,🔴
+ocbc_fy2024_roe,OCBC,Return on Equity,profitability,easy,comparative,1.0,10,0.9478746056556702,0.3333333333333333,0.6,0.4,14.1,13.7,0.5376957150300343,🟡
+ocbc_fy2024_roe,OCBC,Return on Equity,profitability,easy,contextual_extraction,0.0,10,0.9999999403953552,1.0,0.0,0.0,13.7,13.7,0.9999999821186065,🟢
+ocbc_fy2024_roe,OCBC,Return on Equity,profitability,easy,contextual_extraction,0.3,10,0.9999999403953552,1.0,0.0,0.0,13.7,13.7,0.9999999821186065,🟢
+ocbc_fy2024_roe,OCBC,Return on Equity,profitability,easy,contextual_extraction,0.5,10,0.9999999403953552,1.0,0.0,0.0,13.7,13.7,0.9999999821186065,🟢
+ocbc_fy2024_roe,OCBC,Return on Equity,profitability,easy,contextual_extraction,0.7,10,0.9999999403953552,1.0,0.0,0.0,13.7,13.7,0.9999999821186065,🟢
+ocbc_fy2024_roe,OCBC,Return on Equity,profitability,easy,contextual_extraction,1.0,10,0.9999999403953552,1.0,0.0,0.0,13.7,13.7,0.9999999821186065,🟢
+ocbc_fy2024_roe,OCBC,Return on Equity,profitability,easy,direct_extraction,0.0,10,0.9999999403953552,1.0,1.0,0.0,14.6,13.7,0.6999999821186066,🟡
+ocbc_fy2024_roe,OCBC,Return on Equity,profitability,easy,direct_extraction,0.3,10,0.9124792218208313,0.4,0.9,0.0,12.6,13.7,0.4637437665462494,🔴
+ocbc_fy2024_roe,OCBC,Return on Equity,profitability,easy,direct_extraction,0.5,10,0.8888310790061951,0.3,0.4,0.0,13.1,13.7,0.5666493237018585,🟡
+ocbc_fy2024_roe,OCBC,Return on Equity,profitability,easy,direct_extraction,0.7,10,0.8410919904708862,0.1,0.7,0.0,10.6,13.7,0.3823275971412659,🔴
+ocbc_fy2024_roe,OCBC,Return on Equity,profitability,easy,direct_extraction,1.0,10,0.6827991604804993,0.1111111111111111,0.7,0.1,13.2,13.7,0.3392841925885942,🔴
+ocbc_fy2024_roe,OCBC,Return on Equity,profitability,easy,qualitative,0.0,10,0.9991011619567871,0.9,0.0,0.0,14.0,13.7,0.9597303485870361,🟢
+ocbc_fy2024_roe,OCBC,Return on Equity,profitability,easy,qualitative,0.3,10,0.915510892868042,0.2222222222222222,0.6,0.1,14.7,13.7,0.4835421567493015,🔴
+ocbc_fy2024_roe,OCBC,Return on Equity,profitability,easy,qualitative,0.5,10,0.9151657223701477,0.1111111111111111,0.6,0.1,12.4,13.7,0.4389941611554887,🔴
+ocbc_fy2024_roe,OCBC,Return on Equity,profitability,easy,qualitative,0.7,10,0.9095776677131653,0.14285714285714285,0.8,0.3,12.5,13.7,0.39001615745680673,🔴
+ocbc_fy2024_roe,OCBC,Return on Equity,profitability,easy,qualitative,1.0,10,0.9074698686599731,0.14285714285714285,0.8,0.3,13.2,13.7,0.38938381774084907,🔴
+ocbc_fy2024_total_income,OCBC,Total Income,income,easy,comparative,0.0,10,0.9317196607589722,1.0,1.0,0.3,1e-06,14473.0,0.6795158982276917,🟡
+ocbc_fy2024_total_income,OCBC,Total Income,income,easy,comparative,0.3,10,0.8889437317848206,0.5,1.0,0.8,11000.0,14473.0,0.46668311953544617,🔴
+ocbc_fy2024_total_income,OCBC,Total Income,income,easy,comparative,0.5,10,0.8980543613433838,0.2,1.0,0.5,12339.0,14473.0,0.34941630840301513,🔴
+ocbc_fy2024_total_income,OCBC,Total Income,income,easy,comparative,0.7,10,0.8460506200790405,0.25,1.0,0.6,11740.0,14473.0,0.3538151860237122,🔴
+ocbc_fy2024_total_income,OCBC,Total Income,income,easy,comparative,1.0,10,0.8517220616340637,0.3333333333333333,1.0,0.7,11965.0,14473.0,0.3888499518235524,🔴
+ocbc_fy2024_total_income,OCBC,Total Income,income,easy,contextual_extraction,0.0,10,1.0,1.0,0.0,0.0,14473.0,14473.0,1.0,🟢
+ocbc_fy2024_total_income,OCBC,Total Income,income,easy,contextual_extraction,0.3,10,1.0,1.0,0.0,0.0,14473.0,14473.0,1.0,🟢
+ocbc_fy2024_total_income,OCBC,Total Income,income,easy,contextual_extraction,0.5,10,0.9930895566940308,1.0,0.0,0.0,14473.0,14473.0,0.9979268670082093,🟢
+ocbc_fy2024_total_income,OCBC,Total Income,income,easy,contextual_extraction,0.7,10,0.9877148270606995,1.0,0.0,0.0,14473.0,14473.0,0.9963144481182098,🟢
+ocbc_fy2024_total_income,OCBC,Total Income,income,easy,contextual_extraction,1.0,10,0.9815722703933716,1.0,0.0,0.0,14473.0,14473.0,0.9944716811180114,🟢
+ocbc_fy2024_total_income,OCBC,Total Income,income,easy,direct_extraction,0.0,10,1.0,1.0,1.0,0.0,6000.0,14473.0,0.7,🟡
+ocbc_fy2024_total_income,OCBC,Total Income,income,easy,direct_extraction,0.3,10,0.9258561134338379,0.7,1.0,0.0,6000.0,14473.0,0.5577568340301513,🟡
+ocbc_fy2024_total_income,OCBC,Total Income,income,easy,direct_extraction,0.5,10,0.8062928318977356,0.2,1.0,0.0,6000.0,14473.0,0.3218878495693207,🔴
+ocbc_fy2024_total_income,OCBC,Total Income,income,easy,direct_extraction,0.7,10,0.7987357974052429,0.1,1.0,0.0,6317.0,14473.0,0.2796207392215729,🔴
+ocbc_fy2024_total_income,OCBC,Total Income,income,easy,direct_extraction,1.0,10,0.7715300917625427,0.1,1.0,0.0,6144.0,14473.0,0.27145902752876283,🔴
+singtel_fy2024_dps,Singtel,Dividend Per Share,shareholder,medium,comparative,0.0,10,0.9846729636192322,0.5,0.9,0.0,0.1,0.15,0.5254018890857697,🟡
+singtel_fy2024_dps,Singtel,Dividend Per Share,shareholder,medium,comparative,0.3,10,0.9506623148918152,0.2,1.0,0.0,0.07,0.15,0.36519869446754455,🔴
+singtel_fy2024_dps,Singtel,Dividend Per Share,shareholder,medium,comparative,0.5,10,0.8847833275794983,0.14285714285714285,1.0,0.3,0.16,0.15,0.32257785541670664,🔴
+singtel_fy2024_dps,Singtel,Dividend Per Share,shareholder,medium,comparative,0.7,10,0.8868378400802612,0.25,0.9,0.2,0.27,0.15,0.3960513520240783,🔴
+singtel_fy2024_dps,Singtel,Dividend Per Share,shareholder,medium,comparative,1.0,10,0.8676747679710388,0.125,0.9,0.2,0.155,0.15,0.3403024303913116,🔴
+singtel_fy2024_dps,Singtel,Dividend Per Share,shareholder,medium,contextual_extraction,0.0,10,1.0,1.0,1.0,0.0,15.0,0.15,0.7,🟡
+singtel_fy2024_dps,Singtel,Dividend Per Share,shareholder,medium,contextual_extraction,0.3,10,1.0,1.0,1.0,0.0,15.0,0.15,0.7,🟡
+singtel_fy2024_dps,Singtel,Dividend Per Share,shareholder,medium,contextual_extraction,0.5,10,1.0,1.0,1.0,0.0,15.0,0.15,0.7,🟡
+singtel_fy2024_dps,Singtel,Dividend Per Share,shareholder,medium,contextual_extraction,0.7,10,1.0,1.0,1.0,0.0,15.0,0.15,0.7,🟡
+singtel_fy2024_dps,Singtel,Dividend Per Share,shareholder,medium,contextual_extraction,1.0,10,1.0,1.0,1.0,0.0,15.0,0.15,0.7,🟡
+singtel_fy2024_dps,Singtel,Dividend Per Share,shareholder,medium,direct_extraction,0.0,10,1.0,1.0,1.0,0.0,0.3,0.15,0.7,🟡
+singtel_fy2024_dps,Singtel,Dividend Per Share,shareholder,medium,direct_extraction,0.3,10,0.9208163022994995,0.1,1.0,0.0,0.2,0.15,0.31624489068984984,🔴
+singtel_fy2024_dps,Singtel,Dividend Per Share,shareholder,medium,direct_extraction,0.5,10,0.8939212560653687,0.2,1.0,0.0,0.2,0.15,0.3481763768196106,🔴
+singtel_fy2024_dps,Singtel,Dividend Per Share,shareholder,medium,direct_extraction,0.7,10,0.8018947243690491,0.2,1.0,0.0,0.27,0.15,0.3205684173107147,🔴
+singtel_fy2024_dps,Singtel,Dividend Per Share,shareholder,medium,direct_extraction,1.0,10,0.7702293992042542,0.2222222222222222,1.0,0.1,0.3,0.15,0.31995770865016515,🔴
+singtel_fy2024_dps,Singtel,Dividend Per Share,shareholder,medium,qualitative,0.0,10,1.0,1.0,1.0,0.0,10.0,0.15,0.7,🟡
+singtel_fy2024_dps,Singtel,Dividend Per Share,shareholder,medium,qualitative,0.3,10,0.9009160995483398,0.2,1.0,0.0,14.0,0.15,0.350274829864502,🔴
+singtel_fy2024_dps,Singtel,Dividend Per Share,shareholder,medium,qualitative,0.5,10,0.9590069055557251,0.2,1.0,0.0,12.0,0.15,0.36770207166671753,🔴
+singtel_fy2024_dps,Singtel,Dividend Per Share,shareholder,medium,qualitative,0.7,10,0.8679323196411133,0.3,1.0,0.0,10.5,0.15,0.38037969589233395,🔴
+singtel_fy2024_dps,Singtel,Dividend Per Share,shareholder,medium,qualitative,1.0,10,0.7845593094825745,0.1111111111111111,1.0,0.1,0.223,0.15,0.2798122372892168,🔴
+singtel_fy2024_ebitda,Singtel,EBITDA,profitability,medium,comparative,0.0,10,0.9549516439437866,0.0,1.0,1.0,,3597.0,0.286485493183136,🔴
+singtel_fy2024_ebitda,Singtel,EBITDA,profitability,medium,comparative,0.3,10,0.8855024576187134,1.0,1.0,0.9,1.6e-05,3597.0,0.665650737285614,🟡
+singtel_fy2024_ebitda,Singtel,EBITDA,profitability,medium,comparative,0.5,10,0.814389705657959,0.5,1.0,0.8,6500.0,3597.0,0.4443169116973877,🔴
+singtel_fy2024_ebitda,Singtel,EBITDA,profitability,medium,comparative,0.7,10,0.8326839804649353,0.5,1.0,0.8,6500.0,3597.0,0.4498051941394806,🔴
+singtel_fy2024_ebitda,Singtel,EBITDA,profitability,medium,comparative,1.0,10,0.8291501998901367,0.25,1.0,0.6,7624.0,3597.0,0.34874505996704097,🔴
+singtel_fy2024_ebitda,Singtel,EBITDA,profitability,medium,contextual_extraction,0.0,10,1.0,1.0,0.0,0.0,3596.9,3597.0,1.0,🟢
+singtel_fy2024_ebitda,Singtel,EBITDA,profitability,medium,contextual_extraction,0.3,10,1.0,1.0,0.0,0.0,3596.9,3597.0,1.0,🟢
+singtel_fy2024_ebitda,Singtel,EBITDA,profitability,medium,contextual_extraction,0.5,10,1.0,1.0,0.0,0.0,3596.9,3597.0,1.0,🟢
+singtel_fy2024_ebitda,Singtel,EBITDA,profitability,medium,contextual_extraction,0.7,10,1.0,1.0,0.0,0.0,3596.9,3597.0,1.0,🟢
+singtel_fy2024_ebitda,Singtel,EBITDA,profitability,medium,contextual_extraction,1.0,10,0.9939886331558228,1.0,0.0,0.0,3596.9,3597.0,0.9981965899467469,🟢
+singtel_fy2024_ebitda,Singtel,EBITDA,profitability,medium,direct_extraction,0.0,10,1.0,1.0,1.0,0.0,6000.0,3597.0,0.7,🟡
+singtel_fy2024_ebitda,Singtel,EBITDA,profitability,medium,direct_extraction,0.3,10,0.9847036004066467,0.2,1.0,0.0,7000.0,3597.0,0.37541108012199403,🔴
+singtel_fy2024_ebitda,Singtel,EBITDA,profitability,medium,direct_extraction,0.5,10,0.9758679866790771,0.1,1.0,0.0,6400.0,3597.0,0.3327603960037231,🔴
+singtel_fy2024_ebitda,Singtel,EBITDA,profitability,medium,direct_extraction,0.7,10,0.8002268671989441,0.1,1.0,0.0,10397.0,3597.0,0.2800680601596832,🔴
+singtel_fy2024_ebitda,Singtel,EBITDA,profitability,medium,direct_extraction,1.0,10,0.7727645635604858,0.1,1.0,0.0,6500.0,3597.0,0.27182936906814575,🔴
+singtel_fy2024_ebitda,Singtel,EBITDA,profitability,medium,qualitative,0.0,10,0.9817019104957581,0.9,1.0,0.0,6700.0,3597.0,0.6545105731487275,🟡
+singtel_fy2024_ebitda,Singtel,EBITDA,profitability,medium,qualitative,0.3,10,0.9473502039909363,0.2,1.0,0.0,6000.0,3597.0,0.3642050611972809,🔴
+singtel_fy2024_ebitda,Singtel,EBITDA,profitability,medium,qualitative,0.5,10,0.9436714053153992,0.3,1.0,0.0,7000.0,3597.0,0.40310142159461976,🔴
+singtel_fy2024_ebitda,Singtel,EBITDA,profitability,medium,qualitative,0.7,10,0.9250556230545044,0.2,1.0,0.0,5700.0,3597.0,0.3575166869163513,🔴
+singtel_fy2024_ebitda,Singtel,EBITDA,profitability,medium,qualitative,1.0,10,0.9392401576042175,0.1,1.0,0.0,5800.0,3597.0,0.3217720472812653,🔴
+singtel_fy2024_net_profit,Singtel,Net Profit,income,easy,comparative,0.0,10,1.0,1.0,1.0,0.0,2900.0,795.0,0.7,🟡
+singtel_fy2024_net_profit,Singtel,Net Profit,income,easy,comparative,0.3,10,0.8783210515975952,0.14285714285714285,1.0,0.3,3200.0,795.0,0.3206391726221357,🔴
+singtel_fy2024_net_profit,Singtel,Net Profit,income,easy,comparative,0.5,10,0.8563646078109741,0.3333333333333333,1.0,0.4,2900.0,795.0,0.3902427156766256,🔴
+singtel_fy2024_net_profit,Singtel,Net Profit,income,easy,comparative,0.7,10,0.8467963337898254,0.16666666666666666,1.0,0.4,2300.0,795.0,0.3207055668036143,🔴
+singtel_fy2024_net_profit,Singtel,Net Profit,income,easy,comparative,1.0,10,0.877069354057312,0.25,1.0,0.2,3600.0,795.0,0.36312080621719356,🔴
+singtel_fy2024_net_profit,Singtel,Net Profit,income,easy,contextual_extraction,0.0,10,0.9999998211860657,1.0,0.0,0.0,795.0,795.0,0.9999999463558198,🟢
+singtel_fy2024_net_profit,Singtel,Net Profit,income,easy,contextual_extraction,0.3,10,0.9999998211860657,1.0,0.0,0.0,795.0,795.0,0.9999999463558198,🟢
+singtel_fy2024_net_profit,Singtel,Net Profit,income,easy,contextual_extraction,0.5,10,0.9999998211860657,1.0,0.0,0.0,795.0,795.0,0.9999999463558198,🟢
+singtel_fy2024_net_profit,Singtel,Net Profit,income,easy,contextual_extraction,0.7,10,0.9946762323379517,1.0,0.0,0.0,795.0,795.0,0.9984028697013856,🟢
+singtel_fy2024_net_profit,Singtel,Net Profit,income,easy,contextual_extraction,1.0,10,0.9905356764793396,1.0,0.0,0.0,795.0,795.0,0.9971607029438019,🟢
+singtel_fy2024_net_profit,Singtel,Net Profit,income,easy,direct_extraction,0.0,10,1.0,1.0,1.0,0.0,4000.0,795.0,0.7,🟡
+singtel_fy2024_net_profit,Singtel,Net Profit,income,easy,direct_extraction,0.3,10,0.8547883033752441,0.3,1.0,0.0,4000.0,795.0,0.3764364910125732,🔴
+singtel_fy2024_net_profit,Singtel,Net Profit,income,easy,direct_extraction,0.5,10,0.7692205905914307,0.1,1.0,0.0,6177.0,795.0,0.27076617717742923,🔴
+singtel_fy2024_net_profit,Singtel,Net Profit,income,easy,direct_extraction,0.7,10,0.796040952205658,0.1,1.0,0.0,4690.0,795.0,0.27881228566169736,🔴
+singtel_fy2024_net_profit,Singtel,Net Profit,income,easy,direct_extraction,1.0,10,0.6024665236473083,0.1,1.0,0.0,3290.0,795.0,0.2207399570941925,🔴
+singtel_fy2024_revenue,Singtel,Operating Revenue,revenue,easy,comparative,0.0,10,1.0,1.0,1.0,0.0,18000.0,14128.0,0.7,🟡
+singtel_fy2024_revenue,Singtel,Operating Revenue,revenue,easy,comparative,0.3,10,0.9566141963005066,0.1,0.8,0.0,19668.0,14128.0,0.3869842588901519,🔴
+singtel_fy2024_revenue,Singtel,Operating Revenue,revenue,easy,comparative,0.5,10,0.9074004888534546,0.1111111111111111,1.0,0.1,20446.0,14128.0,0.31666459110048084,🔴
+singtel_fy2024_revenue,Singtel,Operating Revenue,revenue,easy,comparative,0.7,10,0.9420477151870728,0.1,0.9,0.0,16765.0,14128.0,0.35261431455612174,🔴
+singtel_fy2024_revenue,Singtel,Operating Revenue,revenue,easy,comparative,1.0,10,0.9160819053649902,0.1111111111111111,1.0,0.1,19848.0,14128.0,0.31926901605394153,🔴
+singtel_fy2024_revenue,Singtel,Operating Revenue,revenue,easy,contextual_extraction,0.0,10,1.0,1.0,0.0,0.0,14128.0,14128.0,1.0,🟢
+singtel_fy2024_revenue,Singtel,Operating Revenue,revenue,easy,contextual_extraction,0.3,10,1.0,1.0,0.0,0.0,14128.0,14128.0,1.0,🟢
+singtel_fy2024_revenue,Singtel,Operating Revenue,revenue,easy,contextual_extraction,0.5,10,0.9875080585479736,1.0,0.0,0.0,14128.0,14128.0,0.9962524175643921,🟢
+singtel_fy2024_revenue,Singtel,Operating Revenue,revenue,easy,contextual_extraction,0.7,10,0.9875081181526184,1.0,0.0,0.0,14128.0,14128.0,0.9962524354457856,🟢
+singtel_fy2024_revenue,Singtel,Operating Revenue,revenue,easy,contextual_extraction,1.0,10,0.9836042523384094,1.0,0.0,0.0,14128.0,14128.0,0.9950812757015228,🟢
+singtel_fy2024_revenue,Singtel,Operating Revenue,revenue,easy,direct_extraction,0.0,10,1.0,1.0,1.0,0.0,24000.0,14128.0,0.7,🟡
+singtel_fy2024_revenue,Singtel,Operating Revenue,revenue,easy,direct_extraction,0.3,10,0.8878981471061707,0.2,1.0,0.0,26000.0,14128.0,0.3463694441318512,🔴
+singtel_fy2024_revenue,Singtel,Operating Revenue,revenue,easy,direct_extraction,0.5,10,0.8371614813804626,0.2,0.9,0.0,20000.0,14128.0,0.3611484444141388,🔴
+singtel_fy2024_revenue,Singtel,Operating Revenue,revenue,easy,direct_extraction,0.7,10,0.8288502097129822,0.1,1.0,0.0,25000.0,14128.0,0.28865506291389464,🔴
+singtel_fy2024_revenue,Singtel,Operating Revenue,revenue,easy,direct_extraction,1.0,10,0.693080723285675,0.1,1.0,0.0,19231.0,14128.0,0.24792421698570252,🔴
+uob_fy2024_cet1,UOB,Common Equity Tier 1 Ratio,capital,easy,comparative,0.0,10,0.998430609703064,0.8,0.0,0.0,14.9,15.5,0.9195291829109193,🟢
+uob_fy2024_cet1,UOB,Common Equity Tier 1 Ratio,capital,easy,comparative,0.3,10,0.9840954542160034,0.4,0.1,0.0,14.9,15.5,0.725228636264801,🟡
+uob_fy2024_cet1,UOB,Common Equity Tier 1 Ratio,capital,easy,comparative,0.5,10,0.9453627467155457,0.3,0.5,0.0,1.0,15.5,0.5536088240146637,🟡
+uob_fy2024_cet1,UOB,Common Equity Tier 1 Ratio,capital,easy,comparative,0.7,10,0.8778176307678223,0.6666666666666666,0.7,0.1,1.0,15.5,0.6200119558970133,🟡
+uob_fy2024_cet1,UOB,Common Equity Tier 1 Ratio,capital,easy,comparative,1.0,10,0.917867124080658,0.2222222222222222,0.7,0.1,1.0,15.5,0.4542490261130863,🔴
+uob_fy2024_cet1,UOB,Common Equity Tier 1 Ratio,capital,easy,contextual_extraction,0.0,10,1.0,1.0,0.0,0.0,15.5,15.5,1.0,🟢
+uob_fy2024_cet1,UOB,Common Equity Tier 1 Ratio,capital,easy,contextual_extraction,0.3,10,1.0,1.0,0.0,0.0,15.5,15.5,1.0,🟢
+uob_fy2024_cet1,UOB,Common Equity Tier 1 Ratio,capital,easy,contextual_extraction,0.5,10,1.0,1.0,0.0,0.0,15.5,15.5,1.0,🟢
+uob_fy2024_cet1,UOB,Common Equity Tier 1 Ratio,capital,easy,contextual_extraction,0.7,10,1.0,1.0,0.0,0.0,15.5,15.5,1.0,🟢
+uob_fy2024_cet1,UOB,Common Equity Tier 1 Ratio,capital,easy,contextual_extraction,1.0,10,1.0,1.0,0.0,0.0,15.5,15.5,1.0,🟢
+uob_fy2024_cet1,UOB,Common Equity Tier 1 Ratio,capital,easy,direct_extraction,0.0,10,0.9618350267410278,0.8,0.2,0.0,15.6,15.5,0.8485505080223084,🟢
+uob_fy2024_cet1,UOB,Common Equity Tier 1 Ratio,capital,easy,direct_extraction,0.3,10,0.8988705277442932,0.2,0.5,0.0,16.9,15.5,0.49966115832328795,🔴
+uob_fy2024_cet1,UOB,Common Equity Tier 1 Ratio,capital,easy,direct_extraction,0.5,10,0.8089268207550049,0.2,0.4,0.0,16.9,15.5,0.5026780462265015,🟡
+uob_fy2024_cet1,UOB,Common Equity Tier 1 Ratio,capital,easy,direct_extraction,0.7,10,0.8533234596252441,0.2,0.7,0.0,17.7,15.5,0.42599703788757326,🔴
+uob_fy2024_cet1,UOB,Common Equity Tier 1 Ratio,capital,easy,direct_extraction,1.0,10,0.66044020652771,0.1,0.7,0.0,18.0,15.5,0.328132061958313,🔴
+uob_fy2024_cet1,UOB,Common Equity Tier 1 Ratio,capital,easy,qualitative,0.0,10,0.9999998211860657,1.0,1.0,0.0,14.0,15.5,0.6999999463558197,🟡
+uob_fy2024_cet1,UOB,Common Equity Tier 1 Ratio,capital,easy,qualitative,0.3,10,0.953216552734375,0.3,0.6,0.0,14.0,15.5,0.5259649658203125,🟡
+uob_fy2024_cet1,UOB,Common Equity Tier 1 Ratio,capital,easy,qualitative,0.5,10,0.9569175839424133,0.5,0.5,0.0,14.9,15.5,0.637075275182724,🟡
+uob_fy2024_cet1,UOB,Common Equity Tier 1 Ratio,capital,easy,qualitative,0.7,10,0.9190843105316162,0.2,0.4,0.0,15.0,15.5,0.5357252931594849,🟡
+uob_fy2024_cet1,UOB,Common Equity Tier 1 Ratio,capital,easy,qualitative,1.0,10,0.9538903832435608,0.2,0.6,0.0,14.4,15.5,0.48616711497306825,🔴
+uob_fy2024_net_profit,UOB,Net Profit,income,easy,comparative,0.0,10,0.9051047563552856,0.0,1.0,1.0,,6045.0,0.27153142690658566,🔴
+uob_fy2024_net_profit,UOB,Net Profit,income,easy,comparative,0.3,10,0.8444672226905823,0.0,1.0,1.0,,6045.0,0.2533401668071747,🔴
+uob_fy2024_net_profit,UOB,Net Profit,income,easy,comparative,0.5,10,0.8453144431114197,1.0,1.0,0.9,3.1e-05,6045.0,0.653594332933426,🟡
+uob_fy2024_net_profit,UOB,Net Profit,income,easy,comparative,0.7,10,0.8488621115684509,1.0,1.0,0.9,3.1e-05,6045.0,0.6546586334705353,🟡
+uob_fy2024_net_profit,UOB,Net Profit,income,easy,comparative,1.0,10,0.84328293800354,0.3333333333333333,1.0,0.7,0.002024,6045.0,0.3863182147343953,🔴
+uob_fy2024_net_profit,UOB,Net Profit,income,easy,contextual_extraction,0.0,10,0.9999999403953552,1.0,0.0,0.0,6045.0,6045.0,0.9999999821186065,🟢
+uob_fy2024_net_profit,UOB,Net Profit,income,easy,contextual_extraction,0.3,10,0.9999999403953552,1.0,0.0,0.0,6045.0,6045.0,0.9999999821186065,🟢
+uob_fy2024_net_profit,UOB,Net Profit,income,easy,contextual_extraction,0.5,10,0.9999999403953552,1.0,0.0,0.0,6045.0,6045.0,0.9999999821186065,🟢
+uob_fy2024_net_profit,UOB,Net Profit,income,easy,contextual_extraction,0.7,10,0.9999999403953552,1.0,0.0,0.0,6045.0,6045.0,0.9999999821186065,🟢
+uob_fy2024_net_profit,UOB,Net Profit,income,easy,contextual_extraction,1.0,10,0.9999999403953552,1.0,0.0,0.0,6045.0,6045.0,0.9999999821186065,🟢
+uob_fy2024_net_profit,UOB,Net Profit,income,easy,direct_extraction,0.0,10,1.0,1.0,0.0,0.0,6000.0,6045.0,1.0,🟢
+uob_fy2024_net_profit,UOB,Net Profit,income,easy,direct_extraction,0.3,10,0.7103880047798157,0.7,0.3,0.0,6000.0,6045.0,0.7031164014339446,🟡
+uob_fy2024_net_profit,UOB,Net Profit,income,easy,direct_extraction,0.5,10,0.7012255191802979,0.1,0.9,0.0,6700.0,6045.0,0.28036765575408934,🔴
+uob_fy2024_net_profit,UOB,Net Profit,income,easy,direct_extraction,0.7,10,0.7465461492538452,0.1,0.9,0.0,5698.0,6045.0,0.2939638447761535,🔴
+uob_fy2024_net_profit,UOB,Net Profit,income,easy,direct_extraction,1.0,10,0.8759084939956665,0.1,1.0,0.0,8068.0,6045.0,0.3027725481986999,🔴
+uob_fy2024_nim,UOB,Net Interest Margin,profitability,easy,comparative,0.0,10,0.9786292910575867,0.0,1.0,1.0,,2.03,0.293588787317276,🔴
+uob_fy2024_nim,UOB,Net Interest Margin,profitability,easy,comparative,0.3,10,0.8871861696243286,0.0,1.0,1.0,,2.03,0.2661558508872986,🔴
+uob_fy2024_nim,UOB,Net Interest Margin,profitability,easy,comparative,0.5,10,0.8141222596168518,1.0,1.0,0.9,2.18,2.03,0.6442366778850556,🟡
+uob_fy2024_nim,UOB,Net Interest Margin,profitability,easy,comparative,0.7,10,0.8955561518669128,0.0,1.0,1.0,,2.03,0.26866684556007386,🔴
+uob_fy2024_nim,UOB,Net Interest Margin,profitability,easy,comparative,1.0,10,0.8683122992515564,0.0,1.0,1.0,,2.03,0.2604936897754669,🔴
+uob_fy2024_nim,UOB,Net Interest Margin,profitability,easy,contextual_extraction,0.0,10,0.9999998211860657,1.0,0.0,0.0,2.03,2.03,0.9999999463558198,🟢
+uob_fy2024_nim,UOB,Net Interest Margin,profitability,easy,contextual_extraction,0.3,10,0.9999998211860657,1.0,0.0,0.0,2.03,2.03,0.9999999463558198,🟢
+uob_fy2024_nim,UOB,Net Interest Margin,profitability,easy,contextual_extraction,0.5,10,0.9999998211860657,1.0,0.0,0.0,2.03,2.03,0.9999999463558198,🟢
+uob_fy2024_nim,UOB,Net Interest Margin,profitability,easy,contextual_extraction,0.7,10,0.9999998211860657,1.0,0.0,0.0,2.03,2.03,0.9999999463558198,🟢
+uob_fy2024_nim,UOB,Net Interest Margin,profitability,easy,contextual_extraction,1.0,10,0.9999998211860657,1.0,0.0,0.0,2.03,2.03,0.9999999463558198,🟢
+uob_fy2024_nim,UOB,Net Interest Margin,profitability,easy,direct_extraction,0.0,10,0.9923049807548523,0.9,0.1,0.0,2.1,2.03,0.9276914942264558,🟢
+uob_fy2024_nim,UOB,Net Interest Margin,profitability,easy,direct_extraction,0.3,10,0.9483746290206909,0.5,0.3,0.0,2.1,2.03,0.6945123887062072,🟡
+uob_fy2024_nim,UOB,Net Interest Margin,profitability,easy,direct_extraction,0.5,10,0.9371557235717773,0.4,0.8,0.0,2.3,2.03,0.5011467170715332,🟡
+uob_fy2024_nim,UOB,Net Interest Margin,profitability,easy,direct_extraction,0.7,10,0.9043651223182678,0.2,0.8,0.0,2.3,2.03,0.41130953669548037,🔴
+uob_fy2024_nim,UOB,Net Interest Margin,profitability,easy,direct_extraction,1.0,10,0.91562819480896,0.2,0.8,0.0,2.33,2.03,0.414688458442688,🔴
+uob_fy2024_nim,UOB,Net Interest Margin,profitability,easy,qualitative,0.0,10,0.9929054379463196,0.9,0.0,0.0,2.02,2.03,0.957871631383896,🟢
+uob_fy2024_nim,UOB,Net Interest Margin,profitability,easy,qualitative,0.3,10,0.9796363115310669,0.2,0.0,0.0,2.02,2.03,0.6738908934593201,🟡
+uob_fy2024_nim,UOB,Net Interest Margin,profitability,easy,qualitative,0.5,10,0.9725326299667358,0.25,0.3,0.2,2.0,2.03,0.6017597889900207,🟡
+uob_fy2024_nim,UOB,Net Interest Margin,profitability,easy,qualitative,0.7,10,0.9769287705421448,0.3333333333333333,0.2,0.1,2.01,2.03,0.6664119644959767,🟡
+uob_fy2024_nim,UOB,Net Interest Margin,profitability,easy,qualitative,1.0,10,0.9586769342422485,0.25,0.5,0.2,2.0,2.03,0.5376030802726746,🟡
+uob_fy2024_npl,UOB,Non-Performing Loan Ratio,asset_quality,easy,comparative,0.0,10,0.9669930338859558,0.0,1.0,1.0,,1.5,0.29009791016578673,🔴
+uob_fy2024_npl,UOB,Non-Performing Loan Ratio,asset_quality,easy,comparative,0.3,10,0.8665779232978821,0.0,1.0,1.0,,1.5,0.2599733769893646,🔴
+uob_fy2024_npl,UOB,Non-Performing Loan Ratio,asset_quality,easy,comparative,0.5,10,0.7967240810394287,0.5,1.0,0.8,1.3,1.5,0.4390172243118286,🔴
+uob_fy2024_npl,UOB,Non-Performing Loan Ratio,asset_quality,easy,comparative,0.7,10,0.8242871761322021,1.0,1.0,0.9,1.3,1.5,0.6472861528396606,🟡
+uob_fy2024_npl,UOB,Non-Performing Loan Ratio,asset_quality,easy,comparative,1.0,10,0.798940896987915,0.25,1.0,0.6,1.1,1.5,0.3396822690963745,🔴
+uob_fy2024_npl,UOB,Non-Performing Loan Ratio,asset_quality,easy,contextual_extraction,0.0,10,1.0,1.0,0.0,0.0,1.5,1.5,1.0,🟢
+uob_fy2024_npl,UOB,Non-Performing Loan Ratio,asset_quality,easy,contextual_extraction,0.3,10,1.0,1.0,0.0,0.0,1.5,1.5,1.0,🟢
+uob_fy2024_npl,UOB,Non-Performing Loan Ratio,asset_quality,easy,contextual_extraction,0.5,10,1.0,1.0,0.0,0.0,1.5,1.5,1.0,🟢
+uob_fy2024_npl,UOB,Non-Performing Loan Ratio,asset_quality,easy,contextual_extraction,0.7,10,1.0,1.0,0.0,0.0,1.5,1.5,1.0,🟢
+uob_fy2024_npl,UOB,Non-Performing Loan Ratio,asset_quality,easy,contextual_extraction,1.0,10,1.0,1.0,0.0,0.0,1.5,1.5,1.0,🟢
+uob_fy2024_npl,UOB,Non-Performing Loan Ratio,asset_quality,easy,direct_extraction,0.0,10,0.9515302777290344,0.6,1.0,0.0,1.3,1.5,0.5254590833187103,🟡
+uob_fy2024_npl,UOB,Non-Performing Loan Ratio,asset_quality,easy,direct_extraction,0.3,10,0.8677276372909546,0.3,1.0,0.0,1.0,1.5,0.3803182911872864,🔴
+uob_fy2024_npl,UOB,Non-Performing Loan Ratio,asset_quality,easy,direct_extraction,0.5,10,0.7401784062385559,0.3,0.9,0.0,1.4,1.5,0.37205352187156676,🔴
+uob_fy2024_npl,UOB,Non-Performing Loan Ratio,asset_quality,easy,direct_extraction,0.7,10,0.8136883974075317,0.2,0.9,0.0,0.9,1.5,0.3541065192222595,🔴
+uob_fy2024_npl,UOB,Non-Performing Loan Ratio,asset_quality,easy,direct_extraction,1.0,10,0.7423804998397827,0.2,0.8,0.0,1.5,1.5,0.3627141499519348,🔴
+uob_fy2024_npl,UOB,Non-Performing Loan Ratio,asset_quality,easy,qualitative,0.0,10,0.995823323726654,1.0,1.0,0.0,1000000000.0,1.5,0.6987469971179963,🟡
+uob_fy2024_npl,UOB,Non-Performing Loan Ratio,asset_quality,easy,qualitative,0.3,10,0.894146203994751,0.4,1.0,0.0,1000000000.0,1.5,0.42824386119842534,🔴
+uob_fy2024_npl,UOB,Non-Performing Loan Ratio,asset_quality,easy,qualitative,0.5,10,0.8795210719108582,0.2222222222222222,0.9,0.1,1000000000.0,1.5,0.3827452104621463,🔴
+uob_fy2024_npl,UOB,Non-Performing Loan Ratio,asset_quality,easy,qualitative,0.7,10,0.8608390688896179,0.2,1.0,0.0,1.4,1.5,0.33825172066688536,🔴
+uob_fy2024_npl,UOB,Non-Performing Loan Ratio,asset_quality,easy,qualitative,1.0,10,0.902619481086731,0.2222222222222222,1.0,0.1,1.3,1.5,0.35967473321490817,🔴
+uob_fy2024_roe,UOB,Return on Equity,profitability,easy,comparative,0.0,10,0.9464617371559143,0.0,1.0,1.0,,13.3,0.28393852114677426,🔴
+uob_fy2024_roe,UOB,Return on Equity,profitability,easy,comparative,0.3,10,0.8388336300849915,0.0,1.0,1.0,,13.3,0.2516500890254974,🔴
+uob_fy2024_roe,UOB,Return on Equity,profitability,easy,comparative,0.5,10,0.8297659754753113,1.0,1.0,0.9,1.0,13.3,0.6489297926425934,🟡
+uob_fy2024_roe,UOB,Return on Equity,profitability,easy,comparative,0.7,10,0.8618068099021912,0.0,1.0,1.0,,13.3,0.25854204297065736,🔴
+uob_fy2024_roe,UOB,Return on Equity,profitability,easy,comparative,1.0,10,0.8151748776435852,0.0,1.0,1.0,,13.3,0.24455246329307556,🔴
+uob_fy2024_roe,UOB,Return on Equity,profitability,easy,contextual_extraction,0.0,10,0.9999999403953552,1.0,0.0,0.0,13.3,13.3,0.9999999821186065,🟢
+uob_fy2024_roe,UOB,Return on Equity,profitability,easy,contextual_extraction,0.3,10,0.9999999403953552,1.0,0.0,0.0,13.3,13.3,0.9999999821186065,🟢
+uob_fy2024_roe,UOB,Return on Equity,profitability,easy,contextual_extraction,0.5,10,0.9999999403953552,1.0,0.0,0.0,13.3,13.3,0.9999999821186065,🟢
+uob_fy2024_roe,UOB,Return on Equity,profitability,easy,contextual_extraction,0.7,10,0.9999999403953552,1.0,0.0,0.0,13.3,13.3,0.9999999821186065,🟢
+uob_fy2024_roe,UOB,Return on Equity,profitability,easy,contextual_extraction,1.0,10,0.9999999403953552,1.0,0.0,0.0,13.3,13.3,0.9999999821186065,🟢
+uob_fy2024_roe,UOB,Return on Equity,profitability,easy,direct_extraction,0.0,10,0.9999999403953552,1.0,1.0,0.0,14.6,13.3,0.6999999821186066,🟡
+uob_fy2024_roe,UOB,Return on Equity,profitability,easy,direct_extraction,0.3,10,0.8758729696273804,0.1,0.7,0.0,13.8,13.3,0.39276189088821417,🔴
+uob_fy2024_roe,UOB,Return on Equity,profitability,easy,direct_extraction,0.5,10,0.8868024349212646,0.2,0.7,0.0,13.6,13.3,0.4360407304763794,🔴
+uob_fy2024_roe,UOB,Return on Equity,profitability,easy,direct_extraction,0.7,10,0.8693241477012634,0.1,0.8,0.0,13.6,13.3,0.360797244310379,🔴
+uob_fy2024_roe,UOB,Return on Equity,profitability,easy,direct_extraction,1.0,10,0.8534250259399414,0.2,0.8,0.0,13.4,13.3,0.3960275077819824,🔴
+uob_fy2024_roe,UOB,Return on Equity,profitability,easy,qualitative,0.0,10,0.9983711838722229,1.0,1.0,0.2,15.0,13.3,0.699511355161667,🟡
+uob_fy2024_roe,UOB,Return on Equity,profitability,easy,qualitative,0.3,10,0.9128125309944153,0.2222222222222222,0.9,0.1,15.1,13.3,0.39273264818721343,🔴
+uob_fy2024_roe,UOB,Return on Equity,profitability,easy,qualitative,0.5,10,0.8936830163002014,0.14285714285714285,0.7,0.3,14.7,13.3,0.4152477620329176,🔴
+uob_fy2024_roe,UOB,Return on Equity,profitability,easy,qualitative,0.7,10,0.928865373134613,0.125,0.9,0.2,13.4,13.3,0.35865961194038387,🔴
+uob_fy2024_roe,UOB,Return on Equity,profitability,easy,qualitative,1.0,10,0.8875055909156799,0.2222222222222222,1.0,0.1,16.1,13.3,0.35514056616359285,🔴
+uob_fy2024_total_assets,UOB,Total Assets,balance_sheet,easy,comparative,0.0,10,0.965859055519104,0.0,1.0,1.0,,538.0,0.2897577166557312,🔴
+uob_fy2024_total_assets,UOB,Total Assets,balance_sheet,easy,comparative,0.3,10,0.8671848773956299,1.0,1.0,0.9,3.1e-08,538.0,0.660155463218689,🟡
+uob_fy2024_total_assets,UOB,Total Assets,balance_sheet,easy,comparative,0.5,10,0.8640371561050415,1.0,1.0,0.9,2.024e-06,538.0,0.6592111468315125,🟡
+uob_fy2024_total_assets,UOB,Total Assets,balance_sheet,easy,comparative,0.7,10,0.8826652765274048,1.0,1.0,0.8,3.1e-08,538.0,0.6647995829582214,🟡
+uob_fy2024_total_assets,UOB,Total Assets,balance_sheet,easy,comparative,1.0,10,0.8571581244468689,0.6666666666666666,1.0,0.7,1e-09,538.0,0.5238141040007274,🟡
+uob_fy2024_total_assets,UOB,Total Assets,balance_sheet,easy,contextual_extraction,0.0,10,1.0,1.0,0.0,0.0,538.0,538.0,1.0,🟢
+uob_fy2024_total_assets,UOB,Total Assets,balance_sheet,easy,contextual_extraction,0.3,10,1.0,1.0,0.0,0.0,538.0,538.0,1.0,🟢
+uob_fy2024_total_assets,UOB,Total Assets,balance_sheet,easy,contextual_extraction,0.5,10,0.9871951341629028,1.0,0.0,0.0,538.0,538.0,0.9961585402488708,🟢
+uob_fy2024_total_assets,UOB,Total Assets,balance_sheet,easy,contextual_extraction,0.7,10,0.9866616129875183,1.0,0.0,0.0,538.0,538.0,0.9959984838962554,🟢
+uob_fy2024_total_assets,UOB,Total Assets,balance_sheet,easy,contextual_extraction,1.0,10,0.9951982498168945,1.0,0.0,0.0,538.0,538.0,0.9985594749450684,🟢
+uob_fy2024_total_assets,UOB,Total Assets,balance_sheet,easy,direct_extraction,0.0,10,1.0,1.0,1.0,0.0,247.0,538.0,0.7,🟡
+uob_fy2024_total_assets,UOB,Total Assets,balance_sheet,easy,direct_extraction,0.3,10,0.8190197348594666,0.3,1.0,0.0,279.0,538.0,0.36570592045783995,🔴
+uob_fy2024_total_assets,UOB,Total Assets,balance_sheet,easy,direct_extraction,0.5,10,0.6927362680435181,0.1,1.0,0.0,148.0,538.0,0.24782088041305542,🔴
+uob_fy2024_total_assets,UOB,Total Assets,balance_sheet,easy,direct_extraction,0.7,10,0.6717439889907837,0.1,0.9,0.0,257.0,538.0,0.27152319669723507,🔴
+uob_fy2024_total_assets,UOB,Total Assets,balance_sheet,easy,direct_extraction,1.0,10,0.5694031715393066,0.1111111111111111,0.9,0.1,350.0,538.0,0.24526539590623644,🔴
+uob_fy2024_total_income,UOB,Total Income,income,easy,comparative,0.0,10,0.9340433478355408,0.0,1.0,1.0,,14294.0,0.2802130043506622,🔴
+uob_fy2024_total_income,UOB,Total Income,income,easy,comparative,0.3,10,0.8951849341392517,0.0,1.0,1.0,,14294.0,0.2685554802417755,🔴
+uob_fy2024_total_income,UOB,Total Income,income,easy,comparative,0.5,10,0.8603011965751648,0.0,1.0,1.0,,14294.0,0.25809035897254945,🔴
+uob_fy2024_total_income,UOB,Total Income,income,easy,comparative,0.7,10,0.9083611965179443,0.0,1.0,1.0,,14294.0,0.2725083589553833,🔴
+uob_fy2024_total_income,UOB,Total Income,income,easy,comparative,1.0,10,0.8477545976638794,0.0,1.0,1.0,,14294.0,0.2543263792991638,🔴
+uob_fy2024_total_income,UOB,Total Income,income,easy,contextual_extraction,0.0,10,1.0,1.0,0.0,0.0,14294.0,14294.0,1.0,🟢
+uob_fy2024_total_income,UOB,Total Income,income,easy,contextual_extraction,0.3,10,1.0,1.0,0.0,0.0,14294.0,14294.0,1.0,🟢
+uob_fy2024_total_income,UOB,Total Income,income,easy,contextual_extraction,0.5,10,0.9776386022567749,1.0,0.0,0.0,14294.0,14294.0,0.9932915806770326,🟢
+uob_fy2024_total_income,UOB,Total Income,income,easy,contextual_extraction,0.7,10,0.9850925207138062,1.0,0.0,0.0,14294.0,14294.0,0.9955277562141418,🟢
+uob_fy2024_total_income,UOB,Total Income,income,easy,contextual_extraction,1.0,10,0.9850925207138062,1.0,0.0,0.0,14294.0,14294.0,0.9955277562141418,🟢
+uob_fy2024_total_income,UOB,Total Income,income,easy,direct_extraction,0.0,10,1.0,1.0,1.0,0.0,10000.0,14294.0,0.7,🟡
+uob_fy2024_total_income,UOB,Total Income,income,easy,direct_extraction,0.3,10,0.8840304613113403,0.5,1.0,0.0,10000.0,14294.0,0.4652091383934021,🔴
+uob_fy2024_total_income,UOB,Total Income,income,easy,direct_extraction,0.5,10,0.845180094242096,0.3,1.0,0.0,10000.0,14294.0,0.3735540282726288,🔴
+uob_fy2024_total_income,UOB,Total Income,income,easy,direct_extraction,0.7,10,0.6694462895393372,0.1,1.0,0.0,46273.0,14294.0,0.24083388686180116,🔴
+uob_fy2024_total_income,UOB,Total Income,income,easy,direct_extraction,1.0,10,0.6082149744033813,0.1111111111111111,1.0,0.1,9831.0,14294.0,0.22690893676545884,🔴

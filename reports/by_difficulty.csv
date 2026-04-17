@@ -1,0 +1,23 @@
+# Aggregated by Difficulty — Run: 20260401_040014_891022
+# Generated: 2026-04-01 07:33:56 UTC
+# 
+# Aggregated by: difficulty
+# Each row is the mean of all per-fact scores within that group.
+# 
+# Column Descriptions:
+#   difficulty              — Grouping key
+#   semantic_score         — Mean semantic consistency across group
+#   factual_score          — Mean factual consistency across group
+#   hallucination_rate     — Mean hallucination rate across group
+#   extraction_failure_rate — Mean extraction failure rate across group
+#   composite_stability    — Mean composite stability across group
+#   n_facts                — Number of per-fact rows in this group
+# 
+# Flagging Thresholds (applied to mean composite_stability):
+#   🟢 Green  — >= 0.75
+#   🟡 Yellow — >= 0.5
+#   🔴 Red    — <  0.5
+#
+difficulty,semantic_score,factual_score,hallucination_rate,extraction_failure_rate,composite_stability,n_facts,flag
+easy,0.9168171430456227,0.545995256340084,0.6340229885057471,0.18068965517241378,0.6032363488979963,435,🟡
+medium,0.9172381979227066,0.48256746031746034,0.738,0.11800000000000001,0.5467984435037961,100,🟡

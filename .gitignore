@@ -1,0 +1,73 @@
+# Environment / secrets
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+env/
+.streamlit/secrets.toml
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Results (raw API responses, can be large)
+results/*.json
+results/*.jsonl
+!results/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Results (raw checkpoint JSON — large)
+results/*/raw_results.json
+results/*/checkpoints/
+results/*/results.json
+results/*/checkpoint.json
+
+# Reports — commit the aggregated CSVs so the Streamlit dashboard works
+!reports/by_template.csv
+!reports/by_company.csv
+!reports/by_temperature.csv
+!reports/by_metric_type.csv
+!reports/by_difficulty.csv
+!reports/per_fact_report.csv
+!reports/summary.txt
+reports/*.json
+!reports/.gitkeep
+
+# API keys and secrets
+.env
+*.key
+*.pem
+credentials.json
+
+# Large model files
+*.bin
+*.onnx
+*.pt
+*.safetensors
+
+# Logs
+*.log
+
+# Testing / linting
+.pytest_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# Private notes — excluded from public
+*.private.md
+.private-notes/
+.claude/

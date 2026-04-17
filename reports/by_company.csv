@@ -1,0 +1,26 @@
+# Aggregated by Company — Run: 20260401_040014_891022
+# Generated: 2026-04-01 07:33:56 UTC
+# 
+# Aggregated by: company
+# Each row is the mean of all per-fact scores within that group.
+# 
+# Column Descriptions:
+#   company              — Grouping key
+#   semantic_score         — Mean semantic consistency across group
+#   factual_score          — Mean factual consistency across group
+#   hallucination_rate     — Mean hallucination rate across group
+#   extraction_failure_rate — Mean extraction failure rate across group
+#   composite_stability    — Mean composite stability across group
+#   n_facts                — Number of per-fact rows in this group
+# 
+# Flagging Thresholds (applied to mean composite_stability):
+#   🟢 Green  — >= 0.75
+#   🟡 Yellow — >= 0.5
+#   🔴 Red    — <  0.5
+#
+company,semantic_score,factual_score,hallucination_rate,extraction_failure_rate,composite_stability,n_facts,flag
+CapitaLand,0.9199094951152802,0.4540972222222222,0.7150000000000001,0.04875,0.5431117374234729,80,🟡
+DBS,0.901843760563777,0.5535897435897436,0.666923076923077,0.27384615384615385,0.5919121025281074,130,🟡
+OCBC,0.9335712327406956,0.5630982905982906,0.6084615384615384,0.11153846153846154,0.6227722245230635,130,🟡
+Singtel,0.9207027265003749,0.5245181405895691,0.7757142857142857,0.09285714285714286,0.5533037884716544,70,🟡
+UOB,0.9111470193862915,0.5404095238095238,0.5784,0.2392,0.615987915339697,125,🟡
